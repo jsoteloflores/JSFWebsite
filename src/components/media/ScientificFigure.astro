@@ -1,0 +1,69 @@
+---
+/**
+ * ScientificFigure — renders one public image with optional caption.
+ * Preserves intrinsic width and height. No cropping by default.
+ * No client-side JavaScript.
+ */
+import type { PublicImage } from '../../types/media';
+import MediaCaption from './MediaCaption.astro';
+
+interface Props {
+  image: PublicImage;
+  /** Use eager when the image is above the fold (e.g., hero). */
+  loading?: 'lazy' | 'eager';
+  /** Optional override label shown above the image. */
+  label?: string;
+  class?: string;
+}
+
+const { image, loading = 'lazy', label, class: className } = Astro.props;
+---
+
+<figure class={`scientific-figure ${className ?? ''}`}>
+  {
+    label && (
+      <p class="scientific-figure__label" aria-hidden="true">
+        {label}
+      </p>
+    )
+  }
+  <img
+    src={image.src}
+    alt={image.alt}
+    width={image.width}
+    height={image.height}
+    loading={loading}
+    decoding="async"
+    class="scientific-figure__img"
+  />
+  {
+    (image.caption ?? image.credit) && (
+      <MediaCaption caption={image.caption ?? ''} credit={image.credit} />
+    )
+  }
+</figure>
+
+<style>
+  .scientific-figure {
+    margin: 0;
+  }
+
+  .scientific-figure__label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-sandstone);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-2);
+  }
+
+  .scientific-figure__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Scientific images must not be cropped. */
+    object-fit: contain;
+    background-color: var(--color-charcoal);
+    border-radius: var(--radius-sm);
+  }
+</style>

@@ -1,0 +1,114 @@
+{
+  "generated": "2026-07-18T06:17:10.399Z",
+  "processed": [
+    {
+      "file": "public/media/projects/kilauea/daytime-fountain-rgb.webp",
+      "width": 800,
+      "height": 1067,
+      "sizeKb": 180,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/projects/kilauea/daytime-fountain-mask.png",
+      "width": 800,
+      "height": 1067,
+      "sizeKb": 26,
+      "format": "png"
+    },
+    {
+      "file": "public/media/projects/kilauea/night-fountain-rgb.webp",
+      "width": 800,
+      "height": 1600,
+      "sizeKb": 70,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/projects/kilauea/night-fountain-mask.png",
+      "width": 800,
+      "height": 1600,
+      "sizeKb": 20,
+      "format": "png"
+    },
+    {
+      "file": "public/media/projects/kilauea/fountainlabeller-interface.webp",
+      "width": 1400,
+      "height": 911,
+      "sizeKb": 98,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/projects/kilauea/kilauea-fountain-field-photo.webp",
+      "width": 675,
+      "height": 1200,
+      "sizeKb": 69,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/projects/kilauea/kilauea-sunset.webp",
+      "width": 1200,
+      "height": 675,
+      "sizeKb": 45,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/projects/kilauea/joel-at-kilauea.webp",
+      "width": 450,
+      "height": 800,
+      "sizeKb": 61,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/projects/kilauea/joel-kilauea-selfie.webp",
+      "width": 1200,
+      "height": 675,
+      "sizeKb": 147,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/projects/kilauea/fieldwork-group.webp",
+      "width": 1400,
+      "height": 1050,
+      "sizeKb": 302,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/projects/ijen/sem-bubble-connectivity-original.webp",
+      "width": 900,
+      "height": 631,
+      "sizeKb": 76,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/projects/ijen/sem-bubble-connectivity-mask.png",
+      "width": 900,
+      "height": 631,
+      "sizeKb": 78,
+      "format": "png"
+    },
+    {
+      "file": "public/media/projects/ijen/pyro-foams-interface.webp",
+      "width": 1400,
+      "height": 810,
+      "sizeKb": 81,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/about/joel-mauna-loa.webp",
+      "width": 1200,
+      "height": 675,
+      "sizeKb": 143,
+      "format": "webp"
+    },
+    {
+      "file": "public/media/about/joel-delicate-arch.webp",
+      "width": 1200,
+      "height": 675,
+      "sizeKb": 92,
+      "format": "webp"
+    }
+  ],
+  "skipped": [
+    "VIDEO PROCESSING SKIPPED — ffmpeg not found.\nInstall ffmpeg and rerun npm run media:process.\nRequired commands when ffmpeg is available:\n  ffmpeg -i \"/Users/joelsotelo/Documents/JSFWebsite/docs/media/binarymask5.mov\" -vf scale=800:-2 -c:v libx264 -crf 22 -preset slow -an -movflags +faststart \"/Users/joelsotelo/Documents/JSFWebsite/public/media/projects/kilauea/fountain-binary-mask.mp4\"\n  ffmpeg -i \"/Users/joelsotelo/Documents/JSFWebsite/docs/media/Greenoutline5.mov\" -vf scale=800:-2 -c:v libx264 -crf 22 -preset slow -an -movflags +faststart \"/Users/joelsotelo/Documents/JSFWebsite/public/media/projects/kilauea/fountain-outline-overlay.mp4\"\n  Poster frames (extract from timestamp 0.1s):\n    ffmpeg -i \"/Users/joelsotelo/Documents/JSFWebsite/public/media/projects/kilauea/fountain-binary-mask.mp4\" -ss 0.1 -frames:v 1 \"/Users/joelsotelo/Documents/JSFWebsite/public/media/projects/kilauea/fountain-binary-mask-poster.webp\"\n    ffmpeg -i \"/Users/joelsotelo/Documents/JSFWebsite/public/media/projects/kilauea/fountain-outline-overlay.mp4\" -ss 0.1 -frames:v 1 \"/Users/joelsotelo/Documents/JSFWebsite/public/media/projects/kilauea/fountain-outline-overlay-poster.webp\""
+  ],
+  "errors": []
+}

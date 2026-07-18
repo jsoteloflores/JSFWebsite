@@ -15,8 +15,10 @@
     "typecheck": "astro check",
     "test": "vitest run",
     "content:validate": "tsx scripts/validate-content.ts",
+    "media:process": "tsx scripts/process-media.ts",
+    "media:validate": "tsx scripts/validate-media.ts",
     "site:verify": "tsx scripts/verify-site.ts",
-    "validate": "npm run format:check && npm run lint && npm run typecheck && npm run content:validate && npm run test && npm run build && npm run site:verify"
+    "validate": "npm run format:check && npm run lint && npm run typecheck && npm run content:validate && npm run media:validate && npm run test && npm run build && npm run site:verify"
   },
   "dependencies": {
     "astro": "^7.1.1",
@@ -31,6 +33,7 @@
     "gray-matter": "^4.0.3",
     "prettier": "^3.6.0",
     "prettier-plugin-astro": "^0.14.0",
+    "sharp": "^0.35.3",
     "tsx": "^4.23.1",
     "typescript": "^5.8.0",
     "typescript-eslint": "^8.35.0",

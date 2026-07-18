@@ -191,7 +191,7 @@ a:hover {
 .site-footer {
   padding-block: var(--space-12);
   border-top: 1px solid var(--color-charcoal);
-  color: var(--color-stone);
+  color: var(--color-muted-text);
   font-size: 0.8125rem;
   margin-top: var(--space-16);
 }
@@ -218,7 +218,7 @@ a:hover {
 
 .site-footer__tagline {
   font-size: 0.8125rem;
-  color: var(--color-stone);
+  color: var(--color-muted-text);
   margin: 0;
 }
 
@@ -239,7 +239,7 @@ a:hover {
 }
 
 .site-footer__link {
-  color: var(--color-stone);
+  color: var(--color-muted-text);
   text-decoration: none;
   font-size: 0.8125rem;
 }
@@ -252,7 +252,7 @@ a:hover {
   grid-column: 1 / -1;
   margin: var(--space-4) 0 0;
   font-size: 0.75rem;
-  color: var(--color-charcoal);
+  color: var(--color-muted-text);
   border-top: 1px solid var(--color-charcoal);
   padding-top: var(--space-4);
 }

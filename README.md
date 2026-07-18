@@ -39,8 +39,10 @@ npm run format          # Format all files
 npm run format:check    # Check formatting without writing
 npm run lint            # Lint TypeScript, JavaScript, and Astro files
 npm run typecheck       # Run Astro type checking
+npm run media:process   # Generate optimized public derivatives from docs/media/
+npm run media:validate  # Validate media registry and derivative files
 npm run content:validate # Validate content relationships and integrity
-npm run test            # Run Vitest smoke and schema tests
+npm run test            # Run Vitest tests
 npm run build           # Production build
 npm run site:verify     # Verify build output (run after build)
 ```
@@ -51,7 +53,7 @@ Run the full validation sequence:
 npm run validate
 ```
 
-This runs `format:check → lint → typecheck → content:validate → test → build → site:verify` and stops on first failure.
+This runs `format:check → lint → typecheck → content:validate → media:validate → test → build → site:verify` and stops on first failure.
 
 ---
 

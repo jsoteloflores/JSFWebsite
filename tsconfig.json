@@ -1,7 +1,7 @@
 {
   "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "joelsoteloflores.rocks",
     "strictNullChecks": true,
     "noImplicitAny": true,
     "types": ["astro/client", "node"]

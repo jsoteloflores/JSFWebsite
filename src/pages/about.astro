@@ -2,9 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/core/PageHeader.astro';
 import ContactLinks from '../components/core/ContactLinks.astro';
+import ScientificFigure from '../components/media/ScientificFigure.astro';
 import { profile } from '../data/profile';
 import { getFeaturedProjects } from '../utils/content-queries';
 import { projectUrl } from '../utils/site';
+import { joel_mauna_loa } from '../data/media';
 
 const activeProjects = (await getFeaturedProjects()).filter(
   (p) => p.data.status === 'active',
@@ -76,6 +78,9 @@ const activeProjects = (await getFeaturedProjects()).filter(
     </main>
 
     <aside class="about-aside">
+      <div class="about-portrait">
+        <ScientificFigure image={joel_mauna_loa} loading="lazy" />
+      </div>
       <div class="education-card">
         <h2 class="education-card__heading">Education</h2>
         <dl class="education-card__body">
@@ -138,7 +143,7 @@ const activeProjects = (await getFeaturedProjects()).filter(
 
   .about-location {
     font-size: 0.875rem;
-    color: var(--color-stone);
+    color: var(--color-muted-text);
     margin: 0 0 var(--space-4);
   }
 
@@ -194,11 +199,18 @@ const activeProjects = (await getFeaturedProjects()).filter(
 
   .current-projects__subtitle {
     font-size: 0.8125rem;
-    color: var(--color-stone);
+    color: var(--color-muted-text);
   }
 
   .current-projects__link:hover .current-projects__title {
     color: var(--color-sandstone);
+  }
+
+  /* Portrait */
+  .about-portrait {
+    margin-bottom: var(--space-6);
+    border-radius: var(--radius-md);
+    overflow: hidden;
   }
 
   /* Education card */
@@ -237,7 +249,7 @@ const activeProjects = (await getFeaturedProjects()).filter(
   }
 
   .education-card__row dt {
-    color: var(--color-stone);
+    color: var(--color-muted-text);
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     text-transform: uppercase;
@@ -267,7 +279,7 @@ const activeProjects = (await getFeaturedProjects()).filter(
   .education-card__thesis-note {
     display: block;
     font-size: 0.75rem;
-    color: var(--color-stone);
+    color: var(--color-muted-text);
     font-style: normal;
     margin-top: 2px;
   }

@@ -14,6 +14,13 @@
   --color-sulfur: #d6b85e;
 
   /* ----------------------------- */
+  /* Readable muted text           */
+  /* ----------------------------- */
+  /* Meets WCAG AA (4.5:1) on both obsidian and basalt surfaces.            */
+  /* --color-stone is reserved for borders, dividers, and decorative rules. */
+  --color-muted-text: #85827a;
+
+  /* ----------------------------- */
   /* Typography                    */
   /* ----------------------------- */
   --font-display: system-ui, 'Helvetica Neue', Arial, sans-serif;
@@ -37,6 +44,7 @@
   --space-4: 1rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
+  --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
 

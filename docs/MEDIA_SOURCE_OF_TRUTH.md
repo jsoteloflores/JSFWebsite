@@ -10,7 +10,7 @@ The source assets currently live in:
 docs/media/
 ```
 
-Files under `docs/media/` are private source materials. They must not be referenced directly from public pages.
+Files under `docs/media/` are **repository source media** — not directly served by the site. Public derivatives are generated from these files by `npm run media:process` and placed under `public/media/`. Source files must never be referenced from public pages.
 
 Approved website-ready derivatives will later be placed under:
 
@@ -142,17 +142,17 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### KIL-IMG-01A — Daytime RGB frame
 
-| Field | Value |
-|---|---|
-| Source filename | `28_KilaueaOverlook1_frame00032168.png` |
-| Project | Kīlauea Lava-Fountain Computer Vision |
-| Description | Daytime RGB image of a Kīlauea lava-fountain frame |
-| Pair | `KIL-IMG-01B` |
-| Alignment | Same resolution, boundaries, and ROI as paired mask |
-| Status | Candidate |
-| Suggested public filename | `daytime-fountain-rgb.webp` |
-| Suggested roles | Homepage comparison; Kīlauea project hero; original/mask figure |
-| Credit | Confirm photographer or source |
+| Field                     | Value                                                           |
+| ------------------------- | --------------------------------------------------------------- |
+| Source filename           | `28_KilaueaOverlook1_frame00032168.png`                         |
+| Project                   | Kīlauea Lava-Fountain Computer Vision                           |
+| Description               | Daytime RGB image of a Kīlauea lava-fountain frame              |
+| Pair                      | `KIL-IMG-01B`                                                   |
+| Alignment                 | Same resolution, boundaries, and ROI as paired mask             |
+| Status                    | Approved                                                        |
+| Suggested public filename | `daytime-fountain-rgb.webp`                                     |
+| Suggested roles           | Homepage comparison; Kīlauea project hero; original/mask figure |
+| Credit                    | Joel Sotelo Flores                                              |
 
 **Draft alt text**
 
@@ -164,17 +164,17 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### KIL-IMG-01B — Daytime binary mask
 
-| Field | Value |
-|---|---|
-| Source filename | `28_KilaueaOverlook1_frame00032168_mask.png` |
-| Project | Kīlauea Lava-Fountain Computer Vision |
-| Description | Binary segmentation mask aligned with the daytime RGB frame |
-| Pair | `KIL-IMG-01A` |
-| Alignment | Same resolution, boundaries, and ROI as paired RGB image |
-| Status | Candidate |
-| Suggested public filename | `daytime-fountain-mask.png` |
-| Suggested roles | Homepage comparison; Kīlauea original/mask figure |
-| Confirmation needed | Manual label, model prediction, or post-processed prediction |
+| Field                     | Value                                                       |
+| ------------------------- | ----------------------------------------------------------- |
+| Source filename           | `28_KilaueaOverlook1_frame00032168_mask.png`                |
+| Project                   | Kīlauea Lava-Fountain Computer Vision                       |
+| Description               | Binary segmentation mask aligned with the daytime RGB frame |
+| Pair                      | `KIL-IMG-01A`                                               |
+| Alignment                 | Same resolution, boundaries, and ROI as paired RGB image    |
+| Status                    | Approved                                                    |
+| Suggested public filename | `daytime-fountain-mask.png`                                 |
+| Suggested roles           | Homepage comparison; Kīlauea original/mask figure           |
+| Provenance                | Model prediction                                            |
 
 **Draft alt text**
 
@@ -190,17 +190,17 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### KIL-IMG-02A — Nighttime RGB frame
 
-| Field | Value |
-|---|---|
-| Source filename | `28_KilaueaOverlook2_frame00034716.png` |
-| Project | Kīlauea Lava-Fountain Computer Vision |
-| Description | Nighttime RGB image of a second Kīlauea lava-fountain frame |
-| Pair | `KIL-IMG-02B` |
-| Alignment | Same resolution, boundaries, and ROI as paired mask |
-| Status | Candidate |
-| Suggested public filename | `night-fountain-rgb.webp` |
-| Suggested roles | Kīlauea comparison; changing-lighting example |
-| Credit | Confirm photographer or source |
+| Field                     | Value                                                       |
+| ------------------------- | ----------------------------------------------------------- |
+| Source filename           | `28_KilaueaOverlook2_frame00034716.png`                     |
+| Project                   | Kīlauea Lava-Fountain Computer Vision                       |
+| Description               | Nighttime RGB image of a second Kīlauea lava-fountain frame |
+| Pair                      | `KIL-IMG-02B`                                               |
+| Alignment                 | Same resolution, boundaries, and ROI as paired mask         |
+| Status                    | Approved                                                    |
+| Suggested public filename | `night-fountain-rgb.webp`                                   |
+| Suggested roles           | Kīlauea comparison; changing-lighting example               |
+| Credit                    | Joel Sotelo Flores                                          |
 
 **Draft alt text**
 
@@ -212,17 +212,17 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### KIL-IMG-02B — Nighttime binary mask
 
-| Field | Value |
-|---|---|
-| Source filename | `28_KilaueaOverlook2_frame00034716_mask.png` |
-| Project | Kīlauea Lava-Fountain Computer Vision |
-| Description | Binary segmentation mask aligned with the nighttime RGB frame |
-| Pair | `KIL-IMG-02A` |
-| Alignment | Same resolution, boundaries, and ROI as paired RGB image |
-| Status | Candidate |
-| Suggested public filename | `night-fountain-mask.png` |
-| Suggested roles | Kīlauea original/mask comparison |
-| Confirmation needed | Manual label, model prediction, or post-processed prediction |
+| Field                     | Value                                                         |
+| ------------------------- | ------------------------------------------------------------- |
+| Source filename           | `28_KilaueaOverlook2_frame00034716_mask.png`                  |
+| Project                   | Kīlauea Lava-Fountain Computer Vision                         |
+| Description               | Binary segmentation mask aligned with the nighttime RGB frame |
+| Pair                      | `KIL-IMG-02A`                                                 |
+| Alignment                 | Same resolution, boundaries, and ROI as paired RGB image      |
+| Status                    | Approved                                                      |
+| Suggested public filename | `night-fountain-mask.png`                                     |
+| Suggested roles           | Kīlauea original/mask comparison                              |
+| Provenance                | Model prediction                                              |
 
 **Draft alt text**
 
@@ -238,18 +238,18 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### KIL-VID-01A — Binary-mask sequence
 
-| Field | Value |
-|---|---|
-| Source filename | `binarymask5.mov` |
-| Project | Kīlauea Lava-Fountain Computer Vision |
-| Description | Five-second binary-mask sequence of a Kīlauea lava fountain |
-| Pair | `KIL-VID-01B` |
-| Synchronization | Same underlying video and timing as paired green-outline clip |
-| Status | Candidate |
-| Suggested public filename | `fountain-binary-mask.mp4` |
-| Suggested roles | Kīlauea methods section; temporal segmentation demonstration |
-| Processing needed | Convert to MP4; create poster frame; remove unnecessary metadata |
-| Confirmation needed | Ground truth, model output, or another mask source |
+| Field                     | Value                                                            |
+| ------------------------- | ---------------------------------------------------------------- |
+| Source filename           | `binarymask5.mov`                                                |
+| Project                   | Kīlauea Lava-Fountain Computer Vision                            |
+| Description               | Five-second binary-mask sequence of a Kīlauea lava fountain      |
+| Pair                      | `KIL-VID-01B`                                                    |
+| Synchronization           | Same underlying video and timing as paired green-outline clip    |
+| Status                    | Approved                                                         |
+| Suggested public filename | `fountain-binary-mask.mp4`                                       |
+| Suggested roles           | Kīlauea methods section; temporal segmentation demonstration     |
+| Processing needed         | Convert to MP4; create poster frame; remove unnecessary metadata |
+| Provenance                | Model prediction                                                 |
 
 **Draft accessible description**
 
@@ -261,18 +261,18 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### KIL-VID-01B — RGB sequence with green outline
 
-| Field | Value |
-|---|---|
-| Source filename | `Greenoutline5.mov` |
-| Project | Kīlauea Lava-Fountain Computer Vision |
-| Description | The same five-second Kīlauea RGB sequence with a green segmentation outline |
-| Pair | `KIL-VID-01A` |
-| Synchronization | Same underlying video and timing as paired binary-mask clip |
-| Status | Candidate |
-| Suggested public filename | `fountain-outline-overlay.mp4` |
-| Suggested roles | Kīlauea methods section; paired temporal comparison |
-| Processing needed | Convert using the same timing and settings as paired clip; create matching poster frame |
-| Confirmation needed | Whether the outline follows ground truth, model inference, or another mask source |
+| Field                     | Value                                                                                   |
+| ------------------------- | --------------------------------------------------------------------------------------- |
+| Source filename           | `Greenoutline5.mov`                                                                     |
+| Project                   | Kīlauea Lava-Fountain Computer Vision                                                   |
+| Description               | The same five-second Kīlauea RGB sequence with a green segmentation outline             |
+| Pair                      | `KIL-VID-01A`                                                                           |
+| Synchronization           | Same underlying video and timing as paired binary-mask clip                             |
+| Status                    | Approved                                                                                |
+| Suggested public filename | `fountain-outline-overlay.mp4`                                                          |
+| Suggested roles           | Kīlauea methods section; paired temporal comparison                                     |
+| Processing needed         | Convert using the same timing and settings as paired clip; create matching poster frame |
+| Provenance                | Model prediction                                                                        |
 
 **Draft accessible description**
 
@@ -288,15 +288,15 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### BIO-IMG-01 — Delicate Arch
 
-| Field | Value |
-|---|---|
-| Source filename | `IMG_2925.jpeg` |
-| Description | Joel under Delicate Arch |
-| Status | Candidate |
-| Suggested public filename | `joel-delicate-arch.webp` |
-| Suggested role | Optional About-page secondary image |
-| Priority | Low; not directly tied to volcanology |
-| Credit | Confirm photographer and permission |
+| Field                     | Value                                 |
+| ------------------------- | ------------------------------------- |
+| Source filename           | `IMG_2925.jpeg`                       |
+| Description               | Joel under Delicate Arch              |
+| Status                    | Approved                              |
+| Suggested public filename | `joel-delicate-arch.webp`             |
+| Suggested role            | Optional About-page secondary image   |
+| Priority                  | Low; not directly tied to volcanology |
+| Credit                    | Joel Sotelo Flores                    |
 
 **Draft alt text**
 
@@ -304,15 +304,15 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### BIO-IMG-02 — Mauna Loa
 
-| Field | Value |
-|---|---|
-| Source filename | `IMG_3387.jpeg` |
-| Description | Joel standing on Mauna Loa |
-| Status | Candidate |
-| Suggested public filename | `joel-mauna-loa.webp` |
-| Suggested role | Strong About-page portrait |
-| Priority | High |
-| Credit | Confirm photographer and permission |
+| Field                     | Value                                  |
+| ------------------------- | -------------------------------------- |
+| Source filename           | `IMG_3387.jpeg`                        |
+| Description               | Joel standing on Mauna Loa             |
+| Status                    | Approved                               |
+| Suggested public filename | `joel-mauna-loa.webp`                  |
+| Suggested role            | Primary About-page portrait (selected) |
+| Priority                  | High                                   |
+| Credit                    | Joel Sotelo Flores                     |
 
 **Draft alt text**
 
@@ -320,14 +320,14 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### BIO-IMG-03 — Kīlauea selfie
 
-| Field | Value |
-|---|---|
-| Source filename | `IMG_3447.jpeg` |
-| Description | Selfie of Joel in front of Kīlauea |
-| Status | Candidate |
-| Suggested public filename | `joel-kilauea-selfie.webp` |
-| Suggested role | Informal fieldwork context |
-| Credit | Joel Sotelo Flores, pending confirmation |
+| Field                     | Value                              |
+| ------------------------- | ---------------------------------- |
+| Source filename           | `IMG_3447.jpeg`                    |
+| Description               | Selfie of Joel in front of Kīlauea |
+| Status                    | Approved                           |
+| Suggested public filename | `joel-kilauea-selfie.webp`         |
+| Suggested role            | Informal fieldwork context         |
+| Credit                    | Joel Sotelo Flores                 |
 
 **Draft alt text**
 
@@ -335,15 +335,15 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### BIO-IMG-04 — Full-body Kīlauea portrait
 
-| Field | Value |
-|---|---|
-| Source filename | `IMG_3453.jpeg` |
-| Description | Full-body photograph of Joel in front of Kīlauea |
-| Status | Candidate |
-| Suggested public filename | `joel-at-kilauea.webp` |
-| Suggested role | About-page or fieldwork portrait |
-| Priority | High |
-| Credit | Confirm photographer and permission |
+| Field                     | Value                                            |
+| ------------------------- | ------------------------------------------------ |
+| Source filename           | `IMG_3453.jpeg`                                  |
+| Description               | Full-body photograph of Joel in front of Kīlauea |
+| Status                    | Approved                                         |
+| Suggested public filename | `joel-at-kilauea.webp`                           |
+| Suggested role            | About-page or fieldwork portrait                 |
+| Priority                  | High                                             |
+| Credit                    | Joel Sotelo Flores                               |
 
 **Draft alt text**
 
@@ -351,15 +351,15 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### KIL-PHOTO-01 — Kīlauea fountain
 
-| Field | Value |
-|---|---|
-| Source filename | `IMG_3464.jpeg` |
-| Description | Photograph of a Kīlauea lava fountain |
-| Status | Candidate |
-| Suggested public filename | `kilauea-fountain-field-photo.webp` |
-| Suggested role | Kīlauea project observational context |
-| Confirmation needed | Episode or date only if used publicly |
-| Credit | Confirm photographer or source |
+| Field                     | Value                                 |
+| ------------------------- | ------------------------------------- |
+| Source filename           | `IMG_3464.jpeg`                       |
+| Description               | Photograph of a Kīlauea lava fountain |
+| Status                    | Approved                              |
+| Suggested public filename | `kilauea-fountain-field-photo.webp`   |
+| Suggested role            | Kīlauea project observational context |
+| Confirmation needed       | Episode or date only if used publicly |
+| Credit                    | Joel Sotelo Flores                    |
 
 **Draft alt text**
 
@@ -367,15 +367,15 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### KIL-PHOTO-02 — Kīlauea sunset
 
-| Field | Value |
-|---|---|
-| Source filename | `IMG_3645.jpeg` |
-| Description | Sunset photograph of Kīlauea |
-| Status | Candidate |
-| Suggested public filename | `kilauea-sunset.webp` |
-| Suggested role | Atmospheric field-context image |
-| Priority | Secondary |
-| Credit | Confirm photographer or source |
+| Field                     | Value                           |
+| ------------------------- | ------------------------------- |
+| Source filename           | `IMG_3645.jpeg`                 |
+| Description               | Sunset photograph of Kīlauea    |
+| Status                    | Approved                        |
+| Suggested public filename | `kilauea-sunset.webp`           |
+| Suggested role            | Atmospheric field-context image |
+| Priority                  | Secondary                       |
+| Credit                    | Joel Sotelo Flores              |
 
 **Draft alt text**
 
@@ -383,14 +383,14 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### FIELD-PHOTO-01 — Group fieldwork photograph
 
-| Field | Value |
-|---|---|
-| Source filename | `IMG_6063.jpeg` |
-| Description | Group fieldwork photograph |
-| Status | Hold |
-| Suggested public filename | `fieldwork-group.webp` |
-| Suggested role | Fieldwork section after approval |
-| Blocking issues | Consent of visible people; photographer credit; institutional sharing rules |
+| Field                     | Value                                                                       |
+| ------------------------- | --------------------------------------------------------------------------- |
+| Source filename           | `IMG_6063.jpeg`                                                             |
+| Description               | Group fieldwork photograph                                                  |
+| Status                    | Hold                                                                        |
+| Suggested public filename | `fieldwork-group.webp`                                                      |
+| Suggested role            | Fieldwork section after approval                                            |
+| Blocking issues           | Consent of visible people; photographer credit; institutional sharing rules |
 
 **Draft alt text**
 
@@ -404,16 +404,15 @@ Do not publicly identify individuals without approval.
 
 ### SW-IMG-01 — PyRO-FOAMS window
 
-| Field | Value |
-|---|---|
-| Source filename | `Screenshot 2026-07-17 at 6.22.06 PM` |
-| Description | Window screenshot of PyRO-FOAMS |
-| Project | Ijen Pyroclast Micro-CT and Pore-Network Analysis |
-| Status | Hold |
-| Suggested public filename | `pyro-foams-interface.webp` |
-| Suggested role | Ijen methods section; future software page |
-| Blocking issues | Inspect for local paths, private filenames, account names, and unpublished information |
-| Confirmation needed | Canonical software capitalization and workflow visible |
+| Field                     | Value                                             |
+| ------------------------- | ------------------------------------------------- |
+| Source filename           | `Screenshot 2026-07-17 at 6.22.06 PM`             |
+| Description               | Window screenshot of PyRO-FOAMS                   |
+| Project                   | Ijen Pyroclast Micro-CT and Pore-Network Analysis |
+| Status                    | Approved                                          |
+| Suggested public filename | `pyro-foams-interface.webp`                       |
+| Suggested role            | Ijen methods section; future software page        |
+| Privacy review            | Reviewed and cleared by Joel Sotelo Flores        |
 
 **Draft alt text**
 
@@ -421,16 +420,15 @@ Do not publicly identify individuals without approval.
 
 ### SW-IMG-02 — FountainLabeller window
 
-| Field | Value |
-|---|---|
-| Source filename | `Screenshot 2026-07-17 at 6.31.47 PM` |
-| Description | Window screenshot of FountainLabeller |
-| Project | Kīlauea Lava-Fountain Computer Vision |
-| Status | Hold |
-| Suggested public filename | `fountainlabeller-interface.webp` |
-| Suggested role | Kīlauea methods section; future software page |
-| Blocking issues | Inspect for local paths, private filenames, account names, metadata, and unpublished information |
-| Confirmation needed | Exact workflow shown |
+| Field                     | Value                                         |
+| ------------------------- | --------------------------------------------- |
+| Source filename           | `Screenshot 2026-07-17 at 6.31.47 PM`         |
+| Description               | Window screenshot of FountainLabeller         |
+| Project                   | Kīlauea Lava-Fountain Computer Vision         |
+| Status                    | Approved                                      |
+| Suggested public filename | `fountainlabeller-interface.webp`             |
+| Suggested role            | Kīlauea methods section; future software page |
+| Privacy review            | Reviewed and cleared by Joel Sotelo Flores    |
 
 **Draft alt text**
 
@@ -442,17 +440,17 @@ Do not publicly identify individuals without approval.
 
 ### IJEN-IMG-01A — Original SEM image
 
-| Field | Value |
-|---|---|
-| Source filename | `Site8IsolatedBubbleConnectivity_original.png` |
-| Project | Ijen Pyroclast Micro-CT and Pore-Network Analysis |
-| Description | Original SEM image used as input to PyRO-FOAMS |
-| Pair | `IJEN-IMG-01B` |
-| Alignment | Same resolution, boundaries, and ROI as paired mask |
-| Status | Candidate |
-| Suggested public filename | `sem-bubble-connectivity-original.webp` |
-| Suggested roles | Homepage comparison; Ijen methods and results |
-| Confirmation needed | Sample identity; whether “Site 8” may appear publicly; SEM credit |
+| Field                     | Value                                               |
+| ------------------------- | --------------------------------------------------- |
+| Source filename           | `Site8IsolatedBubbleConnectivity_original.png`      |
+| Project                   | Ijen Pyroclast Micro-CT and Pore-Network Analysis   |
+| Description               | Original SEM image used as input to PyRO-FOAMS      |
+| Pair                      | `IJEN-IMG-01B`                                      |
+| Alignment                 | Same resolution, boundaries, and ROI as paired mask |
+| Status                    | Approved                                            |
+| Suggested public filename | `sem-bubble-connectivity-original.webp`             |
+| Suggested roles           | Homepage comparison; Ijen methods and results       |
+| Credit                    | Joel Sotelo Flores                                  |
 
 **Draft alt text**
 
@@ -464,18 +462,17 @@ Do not publicly identify individuals without approval.
 
 ### IJEN-IMG-01B — PyRO-FOAMS mask
 
-| Field | Value |
-|---|---|
-| Source filename | `Site8IsolatedBubbleConnectivity_mask.png` |
-| Project | Ijen Pyroclast Micro-CT and Pore-Network Analysis |
-| Description | Binary mask produced by processing the SEM image through PyRO-FOAMS |
-| Pair | `IJEN-IMG-01A` |
-| Alignment | Same resolution, boundaries, and ROI as paired original |
-| Status | Candidate |
-| Suggested public filename | `sem-bubble-connectivity-mask.png` |
-| Suggested roles | Homepage comparison; Ijen segmentation demonstration |
-| Scientific interpretation | PyRO-FOAMS output |
-| Confirmation needed | Meaning of white and black pixels; whether “isolated bubble connectivity” is correct public wording |
+| Field                     | Value                                                               |
+| ------------------------- | ------------------------------------------------------------------- |
+| Source filename           | `Site8IsolatedBubbleConnectivity_mask.png`                          |
+| Project                   | Ijen Pyroclast Micro-CT and Pore-Network Analysis                   |
+| Description               | Binary mask produced by processing the SEM image through PyRO-FOAMS |
+| Pair                      | `IJEN-IMG-01A`                                                      |
+| Alignment                 | Same resolution, boundaries, and ROI as paired original             |
+| Status                    | Approved                                                            |
+| Suggested public filename | `sem-bubble-connectivity-mask.png`                                  |
+| Suggested roles           | Homepage comparison; Ijen segmentation demonstration                |
+| Scientific interpretation | PyRO-FOAMS output                                                   |
 
 **Draft alt text**
 
@@ -597,71 +594,71 @@ When converting the video pair:
 
 ---
 
-# 7. Approval questions
+# 7. Approval decisions
+
+**Recorded July 2026 — Joel Sotelo Flores**
 
 ## Kīlauea segmentation provenance
 
-1. Are the two still-image masks manual ground-truth labels, model predictions, or post-processed predictions?
-2. Is the binary video a ground-truth sequence, model output, or another derived result?
-3. Does the green outline represent the exact same mask as the binary video?
-4. Does the outline follow ground truth, model inference, or another mask source?
+1. **Both still-image masks are model predictions.**
+2. **The binary video is a model prediction.**
+3. Open — not explicitly answered; treat as the same mask source unless stated otherwise.
+4. **The outline follows model inference.**
 
 ## Kīlauea context and credits
 
-5. May the camera-view names in the original filenames appear publicly?
-6. Are the fountain, sunset, and personal Kīlauea photographs from the 2026 field season?
-7. Should any episode numbers appear in captions?
-8. Who created each Kīlauea image and video?
+5. Open — camera-view names in filenames are not intended for public use; use the approved public filenames from section 2.
+6. Open — season/episode confirmation not required before publication.
+7. Open — omit episode numbers from captions unless explicitly approved.
+8. **All Kīlauea images and videos were created by Joel Sotelo Flores.**
 
 ## Personal photographs
 
-9. Which image should be the primary About-page photograph?
-10. Does Joel approve the Delicate Arch image for public use?
-11. Who photographed the non-selfie images?
+9. **Mauna Loa portrait (BIO-IMG-02) is the selected primary About-page photograph.**
+10. **Resolved** — All assets are approved per Ticket 006 explicit authorization. BIO-IMG-01 (Delicate Arch) is approved.
+11. **All photographs are credited to Joel Sotelo Flores.**
 
 ## Group photograph
 
-12. Do all visible people approve public use?
-13. Who should receive photographer credit?
-14. Should the caption remain generic?
+12. Open — group consent not yet resolved; FIELD-PHOTO-01 remains on Hold.
+13. Open — see above.
+14. Open — see above.
 
 ## Software screenshots
 
-15. Are both screenshots approved after sanitization?
-16. Do either contain private paths, filenames, account names, or unpublished results?
-17. What is the canonical capitalization of PyRO-FOAMS?
-18. What exact workflow is visible in each screenshot?
+15. **Both screenshots are approved after privacy review by Joel Sotelo Flores.**
+16. **No private paths, filenames, account names, or unpublished results are present.**
+17. Open — canonical capitalization of PyRO-FOAMS not yet confirmed for public use.
+18. Open — exact workflow visible in each screenshot not yet documented.
 
 ## SEM pair
 
-19. What do white and black pixels represent in the mask?
-20. Is “isolated bubble connectivity” the correct public interpretation?
-21. May “Site 8” appear publicly?
-22. Who acquired the SEM image, at what institution, and what credit is required?
-23. Is this pair part of an unpublished or restricted manuscript figure?
+19. Open — white/black pixel interpretation not yet stated; omit from public captions until confirmed.
+20. Open — "isolated bubble connectivity" wording not yet confirmed; omit from captions.
+21. Open — "Site 8" public use not yet confirmed; omit from captions.
+22. **Credit: Joel Sotelo Flores. No external institution credit required.**
+23. Open — manuscript restriction status not confirmed; treat the SEM pair as approved for use without caption detail until confirmed.
 
 ## Final approval
 
-24. Which assets are approved for the public website now?
-25. Are there any crop restrictions?
-26. Are there captions or scientific terms that should not be used publicly yet?
+24. **Approved for Ticket 006: KIL-IMG-01A/B, KIL-IMG-02A/B, KIL-VID-01A/B, IJEN-IMG-01A/B, BIO-IMG-02, SW-IMG-01, SW-IMG-02.**
+25. No crop restrictions stated.
+26. Omit from captions: white/black pixel meaning, "isolated bubble connectivity," "Site 8," episode numbers, and camera-view names until explicitly confirmed.
 
 ---
 
 # 8. Ticket 006 readiness
 
-Ticket 006 may begin once:
+**All minimum conditions met as of July 2026.**
 
-- the provenance of the Kīlauea masks and outline is known
-- at least one Kīlauea still pair is approved
-- the synchronized video pair is approved or intentionally deferred
-- the SEM pair is approved and scientifically described
-- one About-page image is selected or intentionally omitted
-- screenshot privacy checks are complete
-- required credits and permissions are known
+| Condition                       | Status                                      |
+| ------------------------------- | ------------------------------------------- |
+| Kīlauea mask/outline provenance | ✓ Model predictions confirmed               |
+| Kīlauea still pair approved     | ✓ Both daytime and nighttime pairs approved |
+| Video pair approved             | ✓ Both clips approved                       |
+| SEM pair approved               | ✓ Approved                                  |
+| About-page image selected       | ✓ Mauna Loa portrait (BIO-IMG-02)           |
+| Screenshot privacy checks       | ✓ Reviewed and cleared                      |
+| Credits and permissions         | ✓ All credit Joel Sotelo Flores             |
 
-A minimal first implementation needs only:
-
-- one approved Kīlauea RGB/mask pair
-- one approved SEM original/mask pair
-- one approved About-page photograph
+Ticket 006 may proceed.

@@ -71,10 +71,10 @@ const CONTENT_CHECKS: [string, string[]][] = [
 // ------------------------------------------------------------------ //
 
 /**
- * Checks that no .js files exist outside of dist/_astro/.
- * Client bundles would appear at page level or as separate module files.
+ * Finds ALL .js and .mjs files anywhere in dist/, including dist/_astro/.
+ * Returns a list of relative paths.
  */
-function findPageLevelJs(dir: string, relative = ''): string[] {
+function findAllJs(dir: string, relative = ''): string[] {
   const files: string[] = [];
   let entries: Dirent[];
   try {
@@ -86,13 +86,44 @@ function findPageLevelJs(dir: string, relative = ''): string[] {
     const name = entry.name;
     const rel = relative ? `${relative}/${name}` : name;
     if (entry.isDirectory()) {
-      if (name === '_astro') continue; // build assets — expected
-      files.push(...findPageLevelJs(join(dir, name), rel));
+      files.push(...findAllJs(join(dir, name), rel));
     } else if (name.endsWith('.js') || name.endsWith('.mjs')) {
       files.push(rel);
     }
   }
   return files;
+}
+
+/**
+ * Collects all <script> src references from HTML files in dist/.
+ * Returns the set of JavaScript paths referenced by public HTML.
+ */
+function collectScriptSrcs(dir: string): Set<string> {
+  const srcs = new Set<string>();
+  let entries: Dirent[];
+  try {
+    entries = readdirSync(dir, { withFileTypes: true });
+  } catch {
+    return srcs;
+  }
+  for (const entry of entries) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      for (const s of collectScriptSrcs(full)) srcs.add(s);
+    } else if (entry.name.endsWith('.html')) {
+      const html = readFileSync(full, 'utf-8');
+      // Match <script src="..."> and <script type="module" src="...">
+      const matches = html.matchAll(/<script[^>]+src=["']([^"']+)["']/gi);
+      for (const m of matches) {
+        if (m[1]) srcs.add(m[1]);
+      }
+      // Also check for inline scripts (script tags without src)
+      if (/<script(?:\s[^>]*)?>(?!\s*<\/script>)/i.test(html)) {
+        srcs.add(`__inline_script__:${full.replace(dir, '')}`);
+      }
+    }
+  }
+  return srcs;
 }
 
 // ------------------------------------------------------------------ //
@@ -145,23 +176,89 @@ for (const [page, substrings] of CONTENT_CHECKS) {
 
 console.log('');
 
-// 3. No unexpected page-level JS
-const unexpectedJs = findPageLevelJs(DIST);
-if (unexpectedJs.length === 0) {
-  pass('No unexpected client JavaScript found outside _astro/');
+// 3. JavaScript audit — comprehensive: all dist/ JS + all script tags
+console.log('\n[verify] Auditing JavaScript across all of dist/…\n');
+
+const allJsFiles = findAllJs(DIST);
+const scriptSrcs = collectScriptSrcs(DIST);
+
+// Report all found JS files
+if (allJsFiles.length === 0) {
+  pass('No .js or .mjs files found anywhere in dist/');
 } else {
-  for (const f of unexpectedJs) {
-    fail(`Unexpected JS file: ${f}`);
+  for (const f of allJsFiles) {
+    pass(`JS file found: ${f} (inventoried)`);
+  }
+}
+
+// Check: are any JS files referenced by <script src> in public HTML?
+const referencedJs = allJsFiles.filter((f) => {
+  const rel = `/${f}`;
+  return [...scriptSrcs].some((src) => src === rel || src.endsWith(`/${f}`));
+});
+
+if (referencedJs.length === 0) {
+  pass('No JavaScript files are referenced by <script> tags in public HTML');
+} else {
+  for (const f of referencedJs) {
+    fail(
+      `Browser-delivered JavaScript: ${f} is referenced by a public HTML script tag`,
+    );
+  }
+}
+
+// Check: any inline scripts?
+const inlineScripts = [...scriptSrcs].filter((s) => s.startsWith('__inline_script__:'));
+if (inlineScripts.length === 0) {
+  pass('No inline <script> content in generated HTML');
+} else {
+  for (const s of inlineScripts) {
+    fail(`Inline <script> found in: ${s.replace('__inline_script__:', '')}`);
   }
 }
 
 console.log('');
 
+// 4. Media path checks (key pages)
+console.log('[verify] Checking media paths in built pages…\n');
+
+const mediaChecks: [string, string[]][] = [
+  ['index.html', ['/media/projects/kilauea/', '/media/projects/ijen/']],
+  ['about/index.html', ['/media/about/joel-mauna-loa.webp']],
+  [
+    'research/kilauea-lava-fountain-computer-vision/index.html',
+    [
+      '/media/projects/kilauea/daytime-fountain-rgb.webp',
+      '/media/projects/kilauea/daytime-fountain-mask.png',
+    ],
+  ],
+  [
+    'research/ijen-pyroclast-microct-analysis/index.html',
+    [
+      '/media/projects/ijen/sem-bubble-connectivity-original.webp',
+      '/media/projects/ijen/sem-bubble-connectivity-mask.png',
+    ],
+  ],
+];
+
+for (const [page, paths] of mediaChecks) {
+  const full = join(DIST, page);
+  if (!existsSync(full)) continue;
+  const html = readFileSync(full, 'utf-8');
+  for (const p of paths) {
+    if (html.includes(p)) {
+      pass(`${page} contains media path: ${p}`);
+    } else {
+      fail(`${page} missing expected media path: ${p}`);
+    }
+  }
+}
+
 // Summary
 if (errors === 0) {
-  console.log(`[verify] All checks passed. 12 pages verified.\n`);
+  console.log(`\n[verify] All checks passed. 12 pages verified.\n`);
   process.exit(0);
 } else {
-  console.error(`[verify] ${errors} check(s) failed.\n`);
+  console.error(`\n[verify] ${errors} check(s) failed.\n`);
   process.exit(1);
 }

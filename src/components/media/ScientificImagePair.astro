@@ -1,0 +1,90 @@
+---
+/**
+ * ScientificImagePair — renders two aligned panels with explicit labels.
+ * Both panels use identical aspect ratios.
+ * Side by side on wide screens; stacked on narrow.
+ * No interactive comparison slider. No client-side JavaScript.
+ */
+import type { ImagePair } from '../../types/media';
+import MediaCaption from './MediaCaption.astro';
+
+interface Props {
+  pair: ImagePair;
+  /** Use eager when above the fold. */
+  loading?: 'lazy' | 'eager';
+}
+
+const { pair, loading = 'lazy' } = Astro.props;
+---
+
+<figure class="sci-image-pair">
+  <div class="sci-image-pair__panels">
+    <div class="sci-image-pair__panel">
+      <p class="sci-image-pair__label" aria-hidden="true">{pair.leftLabel}</p>
+      <img
+        src={pair.left.src}
+        alt={pair.left.alt}
+        width={pair.left.width}
+        height={pair.left.height}
+        loading={loading}
+        decoding="async"
+        class="sci-image-pair__img"
+      />
+    </div>
+    <div class="sci-image-pair__panel">
+      <p class="sci-image-pair__label" aria-hidden="true">{pair.rightLabel}</p>
+      <img
+        src={pair.right.src}
+        alt={pair.right.alt}
+        width={pair.right.width}
+        height={pair.right.height}
+        loading={loading}
+        decoding="async"
+        class="sci-image-pair__img"
+      />
+    </div>
+  </div>
+  <MediaCaption caption={pair.caption} />
+</figure>
+
+<style>
+  .sci-image-pair {
+    margin: 0;
+  }
+
+  .sci-image-pair__panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    align-items: start;
+  }
+
+  @media (max-width: 600px) {
+    .sci-image-pair__panels {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sci-image-pair__panel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sci-image-pair__label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-sandstone);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-2);
+  }
+
+  .sci-image-pair__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    background-color: var(--color-charcoal);
+    border-radius: var(--radius-sm);
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+/**
+ * ProjectHeroMedia — renders a project's primary image pair in an editorial region.
+ * Supports Kīlauea and Ijen media via the project-media map.
+ * Does not contain hard-coded project IDs.
+ * No client-side JavaScript.
+ */
+import type { ImagePair } from '../../types/media';
+import ScientificImagePair from './ScientificImagePair.astro';
+
+interface Props {
+  pair: ImagePair;
+  /** Use eager for the hero (above the fold). */
+  loading?: 'lazy' | 'eager';
+}
+
+const { pair, loading = 'eager' } = Astro.props;
+---
+
+<div class="project-hero-media">
+  <ScientificImagePair {pair} {loading} />
+</div>
+
+<style>
+  .project-hero-media {
+    margin-bottom: var(--space-10);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-charcoal);
+  }
+</style>

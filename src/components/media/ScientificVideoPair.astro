@@ -1,0 +1,148 @@
+---
+/**
+ * ScientificVideoPair — renders the synchronized five-second Kīlauea video pair.
+ * Both clips use visible browser controls, muted, playsinline.
+ * No autoplay. No custom JavaScript. No linked playback controls.
+ * Falls back to a notice when video files have not yet been transcoded.
+ */
+import type { VideoPair } from '../../types/media';
+import MediaCaption from './MediaCaption.astro';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+interface Props {
+  pair: VideoPair;
+}
+
+const { pair } = Astro.props;
+
+// Check whether MP4 files exist at build time
+const leftExists = existsSync(join(process.cwd(), 'public', pair.left.src));
+const rightExists = existsSync(join(process.cwd(), 'public', pair.right.src));
+const videosReady = leftExists && rightExists;
+---
+
+{
+  videosReady ? (
+    <figure class="sci-video-pair">
+      <div class="sci-video-pair__panels">
+        <div class="sci-video-pair__panel">
+          <p class="sci-video-pair__label" aria-hidden="true">
+            {pair.leftLabel}
+          </p>
+          <video
+            src={pair.left.src}
+            poster={pair.left.poster}
+            controls
+            muted
+            playsinline
+            preload="metadata"
+            width={pair.left.width}
+            height={pair.left.height}
+            class="sci-video-pair__video"
+            aria-label={pair.left.description}
+          >
+            <p>{pair.left.description}</p>
+          </video>
+          <p class="sci-video-pair__desc">{pair.left.description}</p>
+        </div>
+        <div class="sci-video-pair__panel">
+          <p class="sci-video-pair__label" aria-hidden="true">
+            {pair.rightLabel}
+          </p>
+          <video
+            src={pair.right.src}
+            poster={pair.right.poster}
+            controls
+            muted
+            playsinline
+            preload="metadata"
+            width={pair.right.width}
+            height={pair.right.height}
+            class="sci-video-pair__video"
+            aria-label={pair.right.description}
+          >
+            <p>{pair.right.description}</p>
+          </video>
+          <p class="sci-video-pair__desc">{pair.right.description}</p>
+        </div>
+      </div>
+      <MediaCaption caption={pair.caption} />
+    </figure>
+  ) : (
+    <div class="sci-video-pair sci-video-pair--pending" role="note">
+      <p class="sci-video-pair__pending-msg">
+        Video derivatives require <code>ffmpeg</code>. Run{' '}
+        <code>npm run media:process</code> after installing ffmpeg to generate the MP4
+        files.
+      </p>
+    </div>
+  )
+}
+
+<style>
+  .sci-video-pair {
+    margin: 0;
+  }
+
+  .sci-video-pair__panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .sci-video-pair__panels {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sci-video-pair__panel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sci-video-pair__label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-sandstone);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-2);
+  }
+
+  .sci-video-pair__video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-charcoal);
+    max-height: 60vh;
+  }
+
+  .sci-video-pair__desc {
+    font-size: 0.75rem;
+    color: var(--color-muted-text);
+    margin: var(--space-2) 0 0;
+    line-height: 1.5;
+  }
+
+  .sci-video-pair--pending {
+    padding: var(--space-6);
+    border: 1px solid var(--color-charcoal);
+    border-radius: var(--radius-md);
+  }
+
+  .sci-video-pair__pending-msg {
+    font-size: 0.875rem;
+    color: var(--color-muted-text);
+    margin: 0;
+  }
+
+  .sci-video-pair__pending-msg code {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-sandstone);
+  }
+</style>

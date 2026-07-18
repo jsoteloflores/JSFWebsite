@@ -1,0 +1,35 @@
+---
+/**
+ * MediaCaption — semantic caption with optional credit line.
+ * Used as <figcaption> within scientific figures and pairs.
+ * No client-side JavaScript.
+ */
+interface Props {
+  caption: string;
+  credit?: string | undefined;
+}
+
+const { caption, credit } = Astro.props;
+---
+
+<figcaption class="media-caption">
+  <span class="media-caption__text">{caption}</span>
+  {credit && <span class="media-caption__credit">{credit}</span>}
+</figcaption>
+
+<style>
+  .media-caption {
+    display: block;
+    margin-top: var(--space-3);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-ash);
+  }
+
+  .media-caption__credit {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-muted-text);
+    margin-top: 2px;
+  }
+</style>
