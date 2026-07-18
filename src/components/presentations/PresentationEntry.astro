@@ -1,0 +1,196 @@
+---
+/**
+ * PresentationEntry — renders a single presentation record.
+ * Not every presentation has downloadable material — missing fields are silently omitted.
+ * No client-side JavaScript.
+ */
+import type { PresentationFrontmatter } from '../../types/content-schemas';
+import AuthorList from '../core/AuthorList.astro';
+import StatusLabel from '../core/StatusLabel.astro';
+
+interface Props {
+  data: PresentationFrontmatter;
+  href?: string;
+}
+
+const { data, href } = Astro.props;
+
+// Format date as human-readable (YYYY-MM-DD → Month YYYY)
+function formatDate(iso: string): string {
+  const [year, month] = iso.split('-');
+  if (!month) return year ?? iso;
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  return `${months[parseInt(month, 10) - 1] ?? month} ${year}`;
+}
+
+const displayDate = formatDate(data.date);
+const hasDownloads = data.poster ?? data.slides ?? data.recording ?? data.externalUrl;
+---
+
+<article class="presentation-entry">
+  <header class="presentation-entry__header">
+    {
+      href ? (
+        <h3 class="presentation-entry__title">
+          <a href={href} class="presentation-entry__title-link">
+            {data.title}
+          </a>
+        </h3>
+      ) : (
+        <h3 class="presentation-entry__title">{data.title}</h3>
+      )
+    }
+  </header>
+
+  <p class="presentation-entry__authors">
+    <AuthorList authors={data.authors} />
+  </p>
+
+  <div class="presentation-entry__meta">
+    <span class="presentation-entry__event">{data.event}</span>
+    {
+      data.location && (
+        <>
+          <span class="presentation-entry__separator" aria-hidden="true">
+            ·
+          </span>
+          <span class="presentation-entry__location">{data.location}</span>
+        </>
+      )
+    }
+    <span class="presentation-entry__separator" aria-hidden="true">·</span>
+    <time class="presentation-entry__date" datetime={data.date}>{displayDate}</time>
+    <span class="presentation-entry__separator" aria-hidden="true">·</span>
+    <StatusLabel status={data.type} />
+  </div>
+
+  {
+    data.contribution && (
+      <p class="presentation-entry__contribution">{data.contribution}</p>
+    )
+  }
+
+  {
+    hasDownloads && (
+      <nav class="presentation-entry__links" aria-label="Presentation materials">
+        {data.poster && (
+          <a href={data.poster} class="presentation-entry__link">
+            Poster
+          </a>
+        )}
+        {data.slides && (
+          <a href={data.slides} class="presentation-entry__link">
+            Slides
+          </a>
+        )}
+        {data.recording && (
+          <a
+            href={data.recording}
+            class="presentation-entry__link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Recording
+          </a>
+        )}
+        {data.externalUrl && (
+          <a
+            href={data.externalUrl}
+            class="presentation-entry__link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            View
+          </a>
+        )}
+      </nav>
+    )
+  }
+</article>
+
+<style>
+  .presentation-entry {
+    border-top: 1px solid var(--color-charcoal);
+    padding-block: var(--space-6);
+  }
+
+  .presentation-entry__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-ivory);
+    margin: 0 0 var(--space-2);
+    line-height: 1.4;
+  }
+
+  .presentation-entry__title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .presentation-entry__title-link:hover {
+    color: var(--color-sandstone);
+  }
+
+  .presentation-entry__authors {
+    font-size: 0.9375rem;
+    color: var(--color-ash);
+    margin: 0 0 var(--space-2);
+  }
+
+  .presentation-entry__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-stone);
+    margin-bottom: var(--space-2);
+  }
+
+  .presentation-entry__separator {
+    color: var(--color-charcoal);
+  }
+
+  .presentation-entry__contribution {
+    font-size: 0.875rem;
+    color: var(--color-stone);
+    font-style: italic;
+    margin: 0 0 var(--space-2);
+  }
+
+  .presentation-entry__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .presentation-entry__link {
+    font-size: 0.8125rem;
+    font-family: var(--font-mono);
+    color: var(--color-sandstone);
+    text-decoration: none;
+    border: 1px solid var(--color-charcoal);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-duration) var(--transition-easing);
+  }
+
+  .presentation-entry__link:hover {
+    border-color: var(--color-sandstone);
+    color: var(--color-ivory);
+  }
+</style>

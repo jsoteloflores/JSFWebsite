@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Astro build output
+dist/
+.astro/
+
+# Environment secrets — never commit
+.env
+.env.*
+!.env.example
+
+# macOS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows metadata
+Thumbs.db
+ehthumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test coverage output
+coverage/
+
+# Vercel
+.vercel/
+
+# npm debug logs
+npm-debug.log*

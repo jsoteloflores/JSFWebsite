@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/core/PageHeader.astro';
+import ProjectSummary from '../components/projects/ProjectSummary.astro';
+import { getPublicProjects } from '../utils/content-queries';
+import { projectUrl } from '../utils/site';
+
+const allProjects = await getPublicProjects();
+const activeProjects = allProjects.filter((p) => p.data.status === 'active');
+const completedProjects = allProjects.filter((p) => p.data.status !== 'active');
+---
+
+<BaseLayout
+  title="Research"
+  description="Research projects spanning computational volcanology, observational astronomy, experimental physics, and computational mathematics."
+>
+  <PageHeader
+    eyebrow="Research"
+    title="Research projects"
+    description="Current primary direction: computational and physical volcanology. Earlier work spans observational astronomy, experimental physics, and computational mathematics."
+  />
+
+  {
+    activeProjects.length > 0 && (
+      <section class="page-section">
+        <h2 class="section-heading">Current volcanology research</h2>
+        {activeProjects.map((project) => (
+          <ProjectSummary data={project.data} href={projectUrl(project.id)} />
+        ))}
+      </section>
+    )
+  }
+
+  {
+    completedProjects.length > 0 && (
+      <section class="page-section">
+        <h2 class="section-heading">Earlier quantitative research</h2>
+        {completedProjects.map((project) => (
+          <ProjectSummary data={project.data} href={projectUrl(project.id)} />
+        ))}
+      </section>
+    )
+  }
+</BaseLayout>

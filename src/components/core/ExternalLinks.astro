@@ -1,0 +1,60 @@
+---
+/**
+ * ExternalLinks — renders a list of labeled external links.
+ * Renders nothing when the list is empty.
+ * Adds rel="noopener noreferrer" to links that open a new tab.
+ * No client-side JavaScript.
+ */
+import type { ExternalLink } from '../../types/content-schemas';
+
+interface Props {
+  links: ExternalLink[];
+  /** Open all links in a new tab. Defaults to false. */
+  openInNewTab?: boolean;
+}
+
+const { links, openInNewTab = false } = Astro.props;
+---
+
+{
+  links.length > 0 && (
+    <ul class="external-links">
+      {links.map((link) => (
+        <li class="external-links__item">
+          <a
+            href={link.url}
+            class="external-links__link"
+            target={openInNewTab ? '_blank' : undefined}
+            rel={openInNewTab ? 'noopener noreferrer' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .external-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .external-links__item {
+    display: inline;
+  }
+
+  .external-links__link {
+    font-size: 0.875rem;
+    color: var(--color-sandstone);
+  }
+
+  .external-links__link:hover {
+    color: var(--color-ivory);
+  }
+</style>

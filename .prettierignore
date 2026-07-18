@@ -1,0 +1,19 @@
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Lockfile (Prettier doesn't handle it)
+package-lock.json
+
+# Generated / binary
+*.min.js
+*.min.css
+
+# Large media directories
+public/media/
+public/images/
+public/cv/
+public/social/

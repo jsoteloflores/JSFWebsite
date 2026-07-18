@@ -1,0 +1,274 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/core/PageHeader.astro';
+import ContactLinks from '../components/core/ContactLinks.astro';
+import { profile } from '../data/profile';
+import { getFeaturedProjects } from '../utils/content-queries';
+import { projectUrl } from '../utils/site';
+
+const activeProjects = (await getFeaturedProjects()).filter(
+  (p) => p.data.status === 'active',
+);
+---
+
+<BaseLayout
+  title="About"
+  description={`About ${profile.displayName} — undergraduate researcher in computational and physical volcanology at Washington and Lee University.`}
+>
+  <PageHeader
+    eyebrow="About"
+    title={profile.displayName}
+    description="Undergraduate researcher in computational and physical volcanology at Washington and Lee University."
+  />
+
+  <div class="about-layout">
+    <main class="about-main">
+      <section class="page-section">
+        <h2 class="section-heading">Research focus</h2>
+        <ul class="theme-list">
+          {
+            profile.researchInterests.map((interest) => (
+              <li class="theme-list__item">{interest}</li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="page-section">
+        <h2 class="section-heading">Methodological approach</h2>
+        <p class="about-prose">
+          Joel combines physics and Earth science with scientific imaging, machine
+          learning, quantitative analysis, and software development to study volcanic
+          systems. His work connects field observation and laboratory data to
+          reproducible computational methods that extract physical measurements from
+          imagery and micro-CT volumes.
+        </p>
+        <p class="about-prose">
+          Current projects span lava-fountain computer vision and pyroclast micro-CT
+          analysis, applying similar end-to-end workflows — collect data, segment
+          structures, quantify physical properties — to different volcanic systems.
+        </p>
+      </section>
+
+      {
+        activeProjects.length > 0 && (
+          <section class="page-section">
+            <h2 class="section-heading">Current work</h2>
+            <ul class="current-projects">
+              {activeProjects.map((p) => (
+                <li class="current-projects__item">
+                  <a href={projectUrl(p.id)} class="current-projects__link">
+                    <span class="current-projects__title">{p.data.title}</span>
+                    <span class="current-projects__subtitle">{p.data.subtitle}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <section class="page-section">
+        <h2 class="section-heading">Contact</h2>
+        <p class="about-location">{profile.location}</p>
+        <ContactLinks showEmail />
+      </section>
+    </main>
+
+    <aside class="about-aside">
+      <div class="education-card">
+        <h2 class="education-card__heading">Education</h2>
+        <dl class="education-card__body">
+          <div class="education-card__row">
+            <dt>Institution</dt>
+            <dd>{profile.institution}</dd>
+          </div>
+          <div class="education-card__row">
+            <dt>Degrees</dt>
+            <dd>
+              <ul class="education-card__list">
+                {profile.degrees.map((d) => <li>{d}</li>)}
+              </ul>
+            </dd>
+          </div>
+          <div class="education-card__row">
+            <dt>Expected</dt>
+            <dd>{profile.expectedGraduation}</dd>
+          </div>
+          <div class="education-card__row">
+            <dt>Thesis</dt>
+            <dd class="education-card__thesis">
+              <em
+                >Deep Learning Segmentation of Pyroclastic Micro-CT Volumes for Vesicle,
+                Porosity, and Pore-Network Analysis</em
+              >
+              <span class="education-card__thesis-note">(working title)</span>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 20rem;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .about-layout {
+      grid-template-columns: 1fr;
+    }
+    .about-aside {
+      order: -1;
+    }
+  }
+
+  .about-prose {
+    font-size: 0.9375rem;
+    color: var(--color-ash);
+    line-height: 1.8;
+    max-width: 65ch;
+    margin: 0 0 var(--space-4);
+  }
+
+  .about-location {
+    font-size: 0.875rem;
+    color: var(--color-stone);
+    margin: 0 0 var(--space-4);
+  }
+
+  /* Theme list */
+  .theme-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .theme-list__item {
+    font-size: 0.9375rem;
+    color: var(--color-ash);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-charcoal);
+  }
+
+  .theme-list__item:first-child {
+    border-top: 1px solid var(--color-charcoal);
+  }
+
+  /* Current projects */
+  .current-projects {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .current-projects__item {
+    border-top: 1px solid var(--color-charcoal);
+  }
+
+  .current-projects__item:last-child {
+    border-bottom: 1px solid var(--color-charcoal);
+  }
+
+  .current-projects__link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4) 0;
+    text-decoration: none;
+  }
+
+  .current-projects__title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-ivory);
+  }
+
+  .current-projects__subtitle {
+    font-size: 0.8125rem;
+    color: var(--color-stone);
+  }
+
+  .current-projects__link:hover .current-projects__title {
+    color: var(--color-sandstone);
+  }
+
+  /* Education card */
+  .education-card {
+    background-color: var(--color-basalt);
+    border: 1px solid var(--color-charcoal);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    position: sticky;
+    top: var(--space-8);
+  }
+
+  .education-card__heading {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-ivory);
+    margin: 0 0 var(--space-6);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-charcoal);
+  }
+
+  .education-card__body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .education-card__row {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: var(--space-2);
+    align-items: baseline;
+    font-size: 0.8125rem;
+  }
+
+  .education-card__row dt {
+    color: var(--color-stone);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .education-card__row dd {
+    color: var(--color-ash);
+    margin: 0;
+  }
+
+  .education-card__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .education-card__thesis {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-ash);
+  }
+
+  .education-card__thesis-note {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-stone);
+    font-style: normal;
+    margin-top: 2px;
+  }
+</style>

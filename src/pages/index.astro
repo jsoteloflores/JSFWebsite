@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectSummary from '../components/projects/ProjectSummary.astro';
+import PublicationEntry from '../components/publications/PublicationEntry.astro';
+import ContactLinks from '../components/core/ContactLinks.astro';
+import { profile } from '../data/profile';
+import { getFeaturedProjects, getPublicPublications } from '../utils/content-queries';
+import { projectUrl } from '../utils/site';
+
+const featuredProjects = await getFeaturedProjects();
+const publications = await getPublicPublications();
+const selectedPublication = publications[0];
+---
+
+<BaseLayout
+  title="Computational Volcanology"
+  description=`${profile.displayName} — computational and physical volcanology researcher developing computer-vision and scientific-software workflows at Washington and Lee University.`
+>
+  <section class="hero">
+    <p class="hero__eyebrow">Computational &amp; Physical Volcanology</p>
+    <h1 class="hero__heading">{profile.displayName}</h1>
+    <p class="hero__statement">
+      I develop computer-vision and scientific-software workflows that turn volcanic
+      imagery and micro-CT data into quantitative measurements of eruptive processes and
+      pyroclast structure.
+    </p>
+    <ul class="hero__meta" aria-label="Academic details">
+      <li>{profile.institution}</li>
+      <li>B.S. Physics</li>
+      <li>B.S. Earth and Environmental Geoscience</li>
+      <li>Expected June 2027</li>
+      <li>{profile.location}</li>
+    </ul>
+    <div class="hero__ctas">
+      <a href="/research" class="hero__cta hero__cta--primary">Explore research</a>
+      <a href="/about" class="hero__cta">About Joel</a>
+      <a href={`mailto:${profile.academicEmail}`} class="hero__cta hero__cta--contact">
+        Get in touch
+      </a>
+    </div>
+  </section>
+
+  {
+    featuredProjects.length > 0 && (
+      <section class="page-section">
+        <h2 class="section-heading">Current research</h2>
+        {featuredProjects.map((project) => (
+          <ProjectSummary data={project.data} href={projectUrl(project.id)} />
+        ))}
+      </section>
+    )
+  }
+
+  <section class="page-section">
+    <h2 class="section-heading">Research approach</h2>
+    <div class="approach-grid">
+      <div class="approach-stage">
+        <p class="approach-stage__number" aria-hidden="true">01</p>
+        <h3 class="approach-stage__title">Observe</h3>
+        <p class="approach-stage__body">
+          Field footage, scientific imagery, micro-CT volumes, and laboratory
+          measurements provide the raw record of physical systems.
+        </p>
+      </div>
+      <div class="approach-stage">
+        <p class="approach-stage__number" aria-hidden="true">02</p>
+        <h3 class="approach-stage__title">Segment</h3>
+        <p class="approach-stage__body">
+          Computer vision and machine-learning workflows identify structures of interest
+          consistently across complex, variable-condition imagery.
+        </p>
+      </div>
+      <div class="approach-stage">
+        <p class="approach-stage__number" aria-hidden="true">03</p>
+        <h3 class="approach-stage__title">Quantify</h3>
+        <p class="approach-stage__body">
+          Scientific software converts segmented imagery into reproducible measurements
+          of geometry, texture, pore structure, and physical behavior.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {
+    selectedPublication && (
+      <section class="page-section">
+        <h2 class="section-heading">Selected publication</h2>
+        <p class="section-context">
+          Joel's published research spans multiple quantitative scientific domains.
+        </p>
+        <PublicationEntry data={selectedPublication.data} />
+        <p class="section-more">
+          <a href="/publications">All publications →</a>
+        </p>
+      </section>
+    )
+  }
+
+  <section class="page-section">
+    <h2 class="section-heading">Get in touch</h2>
+    <p class="contact-statement">
+      Questions about computational volcanology, scientific image analysis, or research
+      software are welcome.
+    </p>
+    <ContactLinks showEmail />
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-16) var(--space-12);
+    border-bottom: 1px solid var(--color-charcoal);
+    margin-bottom: var(--space-16);
+  }
+  .hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-sandstone);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-4);
+  }
+  .hero__heading {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    font-weight: 600;
+    color: var(--color-ivory);
+    line-height: 1.1;
+    margin: 0 0 var(--space-6);
+    letter-spacing: -0.01em;
+  }
+  .hero__statement {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    color: var(--color-ash);
+    line-height: 1.7;
+    max-width: 60ch;
+    margin: 0 0 var(--space-6);
+  }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    list-style: none;
+    margin: 0 0 var(--space-8);
+    padding: 0;
+    font-size: 0.875rem;
+    color: var(--color-stone);
+  }
+  .hero__meta li + li::before {
+    content: '·';
+    margin-right: var(--space-4);
+  }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .hero__cta {
+    display: inline-block;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    padding: var(--space-3) var(--space-6);
+    border: 1px solid var(--color-stone);
+    border-radius: var(--radius-sm);
+    color: var(--color-ash);
+    transition:
+      border-color var(--transition-duration),
+      color var(--transition-duration);
+  }
+  .hero__cta:hover {
+    border-color: var(--color-sandstone);
+    color: var(--color-ivory);
+    text-decoration: none;
+  }
+  .hero__cta--primary {
+    background-color: var(--color-wine);
+    border-color: var(--color-wine);
+    color: var(--color-ivory);
+  }
+  .hero__cta--primary:hover {
+    background-color: var(--color-oxidized-red);
+    border-color: var(--color-oxidized-red);
+  }
+  .hero__cta--contact {
+    font-size: 0.875rem;
+    color: var(--color-stone);
+  }
+  .approach-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+  }
+  @media (max-width: 700px) {
+    .approach-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+  .approach-stage {
+    border-top: 2px solid var(--color-charcoal);
+    padding-top: var(--space-4);
+  }
+  .approach-stage__number {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-stone);
+    margin: 0 0 var(--space-3);
+  }
+  .approach-stage__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-ivory);
+    margin: 0 0 var(--space-3);
+  }
+  .approach-stage__body {
+    font-size: 0.875rem;
+    color: var(--color-ash);
+    line-height: 1.7;
+    margin: 0;
+  }
+  .section-context {
+    font-size: 0.875rem;
+    color: var(--color-stone);
+    margin: calc(-1 * var(--space-4)) 0 var(--space-6);
+  }
+  .section-more {
+    margin-top: var(--space-6);
+    font-size: 0.875rem;
+  }
+  .contact-statement {
+    font-size: 0.9375rem;
+    color: var(--color-ash);
+    max-width: 55ch;
+    margin: 0 0 var(--space-6);
+  }
+</style>

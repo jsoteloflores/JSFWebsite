@@ -1,0 +1,188 @@
+---
+/**
+ * ProjectMeta — renders structured metadata for a project detail page.
+ * Uses a definition list (dl). Omits labels for absent optional fields.
+ * No client-side JavaScript.
+ */
+import type { ProjectFrontmatter } from '../../types/content-schemas';
+import StatusLabel from '../core/StatusLabel.astro';
+
+interface Props {
+  data: ProjectFrontmatter;
+}
+
+const { data } = Astro.props;
+
+const MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+function formatDate(d: string): string {
+  const parts = d.split('-');
+  if (parts.length >= 2) {
+    const monthIdx = parseInt(parts[1] ?? '1', 10) - 1;
+    const month = MONTHS[monthIdx] ?? '';
+    return month ? `${month} ${parts[0]}` : (parts[0] ?? d);
+  }
+  return d;
+}
+
+const period = data.startDate
+  ? `${formatDate(data.startDate)} – ${data.endDate ? formatDate(data.endDate) : 'present'}`
+  : null;
+---
+
+<dl class="project-meta">
+  <div class="project-meta__row">
+    <dt class="project-meta__term">Status</dt>
+    <dd class="project-meta__def">
+      <StatusLabel status={data.status} />
+    </dd>
+  </div>
+
+  {
+    period && (
+      <div class="project-meta__row">
+        <dt class="project-meta__term">Period</dt>
+        <dd class="project-meta__def">{period}</dd>
+      </div>
+    )
+  }
+
+  {
+    data.institutions && data.institutions.length > 0 && (
+      <div class="project-meta__row">
+        <dt class="project-meta__term">Institution</dt>
+        <dd class="project-meta__def">{data.institutions.join('; ')}</dd>
+      </div>
+    )
+  }
+
+  {
+    data.advisor && (
+      <div class="project-meta__row">
+        <dt class="project-meta__term">Advisor</dt>
+        <dd class="project-meta__def">{data.advisor}</dd>
+      </div>
+    )
+  }
+
+  {
+    data.researchThemes.length > 0 && (
+      <div class="project-meta__row">
+        <dt class="project-meta__term">Themes</dt>
+        <dd class="project-meta__def">
+          <ul class="project-meta__tag-list">
+            {data.researchThemes.map((t) => (
+              <li class="project-meta__tag">{t}</li>
+            ))}
+          </ul>
+        </dd>
+      </div>
+    )
+  }
+
+  {
+    data.methods && data.methods.length > 0 && (
+      <div class="project-meta__row">
+        <dt class="project-meta__term">Methods</dt>
+        <dd class="project-meta__def">
+          <ul class="project-meta__list">
+            {data.methods.map((m) => (
+              <li>{m}</li>
+            ))}
+          </ul>
+        </dd>
+      </div>
+    )
+  }
+
+  {
+    data.tools && data.tools.length > 0 && (
+      <div class="project-meta__row">
+        <dt class="project-meta__term">Tools</dt>
+        <dd class="project-meta__def">{data.tools.join(', ')}</dd>
+      </div>
+    )
+  }
+</dl>
+
+<style>
+  .project-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin: 0;
+    padding: var(--space-6);
+    background-color: var(--color-basalt);
+    border: 1px solid var(--color-charcoal);
+    border-radius: var(--radius-md);
+  }
+
+  .project-meta__row {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: var(--space-3);
+    align-items: baseline;
+  }
+
+  @media (max-width: 500px) {
+    .project-meta__row {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+  }
+
+  .project-meta__term {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--color-stone);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .project-meta__def {
+    font-size: 0.875rem;
+    color: var(--color-ash);
+    margin: 0;
+  }
+
+  .project-meta__tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .project-meta__tag {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--color-stone);
+    border: 1px solid var(--color-charcoal);
+    padding: 1px var(--space-2);
+    border-radius: var(--radius-sm);
+  }
+
+  .project-meta__list {
+    list-style: disc;
+    margin: 0;
+    padding-left: var(--space-4);
+  }
+
+  .project-meta__list li {
+    margin-bottom: 2px;
+  }
+</style>

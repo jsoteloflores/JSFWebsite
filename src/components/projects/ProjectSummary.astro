@@ -1,0 +1,157 @@
+---
+/**
+ * ProjectSummary — renders a project card summary.
+ * Accepts typed ProjectFrontmatter data; does not query the collection.
+ * No client-side JavaScript.
+ */
+import type { ProjectFrontmatter } from '../../types/content-schemas';
+import StatusLabel from '../core/StatusLabel.astro';
+
+interface Props {
+  data: ProjectFrontmatter;
+  /** Optional href to the full project page. */
+  href?: string;
+}
+
+const { data, href } = Astro.props;
+---
+
+<article class="project-summary">
+  <header class="project-summary__header">
+    {
+      href ? (
+        <h2 class="project-summary__title">
+          <a href={href} class="project-summary__title-link">
+            {data.title}
+          </a>
+        </h2>
+      ) : (
+        <h2 class="project-summary__title">{data.title}</h2>
+      )
+    }
+    {data.subtitle && <p class="project-summary__subtitle">{data.subtitle}</p>}
+  </header>
+
+  <div class="project-summary__meta">
+    <StatusLabel status={data.status} />
+    {
+      data.researchThemes.length > 0 && (
+        <ul class="project-summary__themes" aria-label="Research themes">
+          {data.researchThemes.map((theme) => (
+            <li class="project-summary__theme">{theme}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+
+  {
+    data.featuredImage && (
+      <figure class="project-summary__figure">
+        <img
+          src={data.featuredImage.src}
+          alt={data.featuredImage.alt}
+          class="project-summary__image"
+          loading="lazy"
+          decoding="async"
+        />
+        {data.featuredImage.caption && (
+          <figcaption class="project-summary__caption">
+            {data.featuredImage.caption}
+          </figcaption>
+        )}
+      </figure>
+    )
+  }
+
+  <p class="project-summary__summary">{data.summary}</p>
+</article>
+
+<style>
+  .project-summary {
+    border-top: 1px solid var(--color-charcoal);
+    padding-block: var(--space-8);
+  }
+
+  .project-summary__header {
+    margin-bottom: var(--space-4);
+  }
+
+  .project-summary__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-ivory);
+    margin: 0 0 var(--space-2);
+    line-height: 1.3;
+  }
+
+  .project-summary__title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .project-summary__title-link:hover {
+    color: var(--color-sandstone);
+    text-decoration-color: var(--color-sandstone);
+  }
+
+  .project-summary__subtitle {
+    font-size: 0.9375rem;
+    color: var(--color-ash);
+    margin: 0;
+  }
+
+  .project-summary__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .project-summary__themes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .project-summary__theme {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--color-stone);
+    border: 1px solid var(--color-charcoal);
+    padding: 1px var(--space-2);
+    border-radius: var(--radius-sm);
+  }
+
+  .project-summary__figure {
+    margin: 0 0 var(--space-4);
+  }
+
+  .project-summary__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-md);
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background-color: var(--color-charcoal);
+  }
+
+  .project-summary__caption {
+    font-size: 0.8125rem;
+    color: var(--color-stone);
+    margin-top: var(--space-2);
+  }
+
+  .project-summary__summary {
+    font-size: 0.9375rem;
+    color: var(--color-ash);
+    line-height: 1.7;
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/core/PageHeader.astro';
+import PresentationEntry from '../components/presentations/PresentationEntry.astro';
+import ContentNotice from '../components/core/ContentNotice.astro';
+import { getPublicPresentations } from '../utils/content-queries';
+
+const presentations = await getPublicPresentations();
+---
+
+<BaseLayout
+  title="Presentations"
+  description="Conference presentations and talks by Joel Sotelo Flores."
+>
+  <PageHeader eyebrow="Presentations" title="Presentations" />
+
+  {
+    presentations.length > 0 ? (
+      <section class="page-section">
+        {presentations.map((pres) => (
+          <PresentationEntry data={pres.data} />
+        ))}
+      </section>
+    ) : (
+      <ContentNotice
+        message="Presentation records are being prepared from verified conference metadata. They will be added after dates, event details, and sharing permissions are confirmed."
+        linkHref="/research"
+        linkLabel="Explore research projects →"
+      />
+    )
+  }
+</BaseLayout>

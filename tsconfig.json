@@ -1,0 +1,10 @@
+{
+  "extends": "astro/tsconfigs/strictest",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "types": ["astro/client", "node"]
+  },
+  "exclude": ["dist", "node_modules"]
+}

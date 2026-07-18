@@ -1,0 +1,76 @@
+---
+/**
+ * ContactLinks — renders academic email, GitHub, and LinkedIn from the profile.
+ * Descriptive accessible labels. No client-side JavaScript.
+ */
+import { profile } from '../../data/profile';
+
+interface Props {
+  /** 'row' renders inline; 'stack' renders as a vertical list. */
+  layout?: 'row' | 'stack';
+  /** Show the email address as visible text alongside the label. */
+  showEmail?: boolean;
+}
+
+const { layout = 'row', showEmail = false } = Astro.props;
+---
+
+<ul class={`contact-links contact-links--${layout}`} aria-label="Contact links">
+  <li class="contact-links__item">
+    <a href={`mailto:${profile.academicEmail}`} class="contact-links__link">
+      {showEmail ? profile.academicEmail : 'Email'}
+    </a>
+  </li>
+  <li class="contact-links__item">
+    <a
+      href={profile.githubUrl}
+      class="contact-links__link"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      GitHub
+    </a>
+  </li>
+  <li class="contact-links__item">
+    <a
+      href={profile.linkedInUrl}
+      class="contact-links__link"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      LinkedIn
+    </a>
+  </li>
+</ul>
+
+<style>
+  .contact-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .contact-links--row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .contact-links--stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .contact-links__link {
+    font-size: 0.9375rem;
+    color: var(--color-sandstone);
+    text-decoration: none;
+  }
+
+  .contact-links__link:hover {
+    color: var(--color-ivory);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+</style>

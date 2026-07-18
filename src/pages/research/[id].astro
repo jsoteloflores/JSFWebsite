@@ -1,0 +1,167 @@
+---
+/**
+ * Project detail route.
+ * Generates one static page for every public project using its stable ID.
+ * Body is rendered from the verified Markdown content.
+ * Related public publications are rendered when relationships exist.
+ * No client-side JavaScript.
+ */
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectMeta from '../../components/projects/ProjectMeta.astro';
+import PublicationEntry from '../../components/publications/PublicationEntry.astro';
+import StatusLabel from '../../components/core/StatusLabel.astro';
+import { getPublicProjects } from '../../utils/content-queries';
+import { filterPublic } from '../../utils/content-filter';
+
+export async function getStaticPaths() {
+  const projects = await getPublicProjects();
+  const allPubs = await getCollection('publications');
+  const publicPubs = filterPublic(allPubs);
+
+  return projects.map((project) => {
+    const relatedPubs = publicPubs.filter((p) =>
+      project.data.relatedPublications?.includes(p.id),
+    );
+    return {
+      params: { id: project.id },
+      props: { project, relatedPubs },
+    };
+  });
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  relatedPubs: CollectionEntry<'publications'>[];
+}
+
+const { project, relatedPubs } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/research" class="breadcrumb__link">← Research</a>
+  </nav>
+
+  <header class="project-header">
+    <div class="project-header__status">
+      <StatusLabel status={data.status} />
+    </div>
+    <h1 class="project-header__title">{data.title}</h1>
+    <p class="project-header__subtitle">{data.subtitle}</p>
+    <p class="project-header__summary">{data.summary}</p>
+  </header>
+
+  <div class="project-layout">
+    <aside class="project-sidebar">
+      <ProjectMeta data={data} />
+    </aside>
+
+    <div class="project-body">
+      <div class="prose">
+        <Content />
+      </div>
+
+      {
+        relatedPubs.length > 0 && (
+          <section class="related-outputs">
+            <h2 class="related-outputs__heading">Related publications</h2>
+            {relatedPubs.map((pub) => (
+              <PublicationEntry data={pub.data} />
+            ))}
+          </section>
+        )
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .breadcrumb {
+    margin-bottom: var(--space-8);
+  }
+
+  .breadcrumb__link {
+    font-size: 0.875rem;
+    color: var(--color-stone);
+    text-decoration: none;
+  }
+
+  .breadcrumb__link:hover {
+    color: var(--color-ash);
+  }
+
+  .project-header {
+    margin-bottom: var(--space-10);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-charcoal);
+  }
+
+  .project-header__status {
+    margin-bottom: var(--space-3);
+  }
+
+  .project-header__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 600;
+    color: var(--color-ivory);
+    line-height: 1.2;
+    margin: 0 0 var(--space-3);
+  }
+
+  .project-header__subtitle {
+    font-size: 1.0625rem;
+    color: var(--color-ash);
+    margin: 0 0 var(--space-4);
+    line-height: 1.5;
+  }
+
+  .project-header__summary {
+    font-size: 0.9375rem;
+    color: var(--color-stone);
+    line-height: 1.7;
+    max-width: 68ch;
+    margin: 0;
+  }
+
+  .project-layout {
+    display: grid;
+    grid-template-columns: 24rem 1fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .project-layout {
+      grid-template-columns: 1fr;
+    }
+    .project-sidebar {
+      order: 1;
+    }
+    .project-body {
+      order: 0;
+    }
+  }
+
+  .project-sidebar {
+    position: sticky;
+    top: var(--space-8);
+  }
+
+  .related-outputs {
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-charcoal);
+  }
+
+  .related-outputs__heading {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-ivory);
+    margin: 0 0 var(--space-4);
+  }
+</style>

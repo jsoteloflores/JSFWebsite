@@ -1,0 +1,55 @@
+---
+/**
+ * PageHeader — consistent heading block used at the top of each top-level page.
+ * Eyebrow, h1 title, and optional description.
+ * No client-side JavaScript.
+ */
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+}
+
+const { eyebrow, title, description } = Astro.props;
+---
+
+<header class="page-header">
+  {eyebrow && <p class="page-header__eyebrow">{eyebrow}</p>}
+  <h1 class="page-header__title">{title}</h1>
+  {description && <p class="page-header__description">{description}</p>}
+</header>
+
+<style>
+  .page-header {
+    padding-block: var(--space-12) var(--space-8);
+    border-bottom: 1px solid var(--color-charcoal);
+    margin-bottom: var(--space-12);
+  }
+
+  .page-header__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-sandstone);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3);
+  }
+
+  .page-header__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 600;
+    color: var(--color-ivory);
+    line-height: 1.2;
+    margin: 0 0 var(--space-4);
+  }
+
+  .page-header__description {
+    font-size: 1.0625rem;
+    color: var(--color-ash);
+    line-height: 1.7;
+    max-width: 60ch;
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,174 @@
+---
+/**
+ * PublicationEntry — renders a single publication record.
+ * Published and unpublished work must remain clearly distinguishable.
+ * Missing fields produce no blank punctuation.
+ * Raw enum values are never shown to visitors.
+ * No client-side JavaScript.
+ */
+import type { PublicationFrontmatter } from '../../types/content-schemas';
+import AuthorList from '../core/AuthorList.astro';
+import StatusLabel from '../core/StatusLabel.astro';
+import { PUBLICATION_TYPE_LABELS } from '../../utils/content-labels';
+import { buildVenueLine, buildDoiUrl } from '../../utils/content-display';
+
+interface Props {
+  data: PublicationFrontmatter;
+  /** Optional href to a full publication detail page. */
+  href?: string;
+}
+
+const { data, href } = Astro.props;
+
+const venueLine = buildVenueLine(data);
+const doiUrl = buildDoiUrl(data.doi);
+const typeLabel = PUBLICATION_TYPE_LABELS[data.type];
+---
+
+<article class="publication-entry">
+  <header class="publication-entry__header">
+    {
+      href ? (
+        <h3 class="publication-entry__title">
+          <a href={href} class="publication-entry__title-link">
+            {data.title}
+          </a>
+        </h3>
+      ) : (
+        <h3 class="publication-entry__title">{data.title}</h3>
+      )
+    }
+  </header>
+
+  <p class="publication-entry__authors">
+    <AuthorList authors={data.authors} />
+  </p>
+
+  <div class="publication-entry__meta">
+    <span class="publication-entry__year">{data.year}</span>
+    <span class="publication-entry__separator" aria-hidden="true">·</span>
+    <span class="publication-entry__type">{typeLabel}</span>
+    <span class="publication-entry__separator" aria-hidden="true">·</span>
+    <StatusLabel status={data.status} />
+  </div>
+
+  {venueLine && <p class="publication-entry__venue">{venueLine}</p>}
+
+  {
+    (doiUrl ?? data.url ?? data.pdf) && (
+      <nav class="publication-entry__links" aria-label="Publication links">
+        {doiUrl && (
+          <a
+            href={doiUrl}
+            class="publication-entry__link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            DOI
+          </a>
+        )}
+        {data.url && !doiUrl && (
+          <a
+            href={data.url}
+            class="publication-entry__link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            View
+          </a>
+        )}
+        {data.pdf && (
+          <a href={data.pdf} class="publication-entry__link">
+            PDF
+          </a>
+        )}
+      </nav>
+    )
+  }
+</article>
+
+<style>
+  .publication-entry {
+    border-top: 1px solid var(--color-charcoal);
+    padding-block: var(--space-6);
+  }
+
+  .publication-entry__header {
+    margin-bottom: var(--space-2);
+  }
+
+  .publication-entry__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-ivory);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .publication-entry__title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .publication-entry__title-link:hover {
+    color: var(--color-sandstone);
+  }
+
+  .publication-entry__authors {
+    font-size: 0.9375rem;
+    color: var(--color-ash);
+    margin: 0 0 var(--space-2);
+  }
+
+  .publication-entry__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-stone);
+    margin-bottom: var(--space-2);
+  }
+
+  .publication-entry__separator {
+    color: var(--color-charcoal);
+  }
+
+  .publication-entry__year {
+    font-family: var(--font-mono);
+  }
+
+  .publication-entry__type {
+    font-size: 0.8125rem;
+  }
+
+  .publication-entry__venue {
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--color-stone);
+    margin: 0 0 var(--space-2);
+  }
+
+  .publication-entry__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .publication-entry__link {
+    font-size: 0.8125rem;
+    font-family: var(--font-mono);
+    color: var(--color-sandstone);
+    text-decoration: none;
+    border: 1px solid var(--color-charcoal);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-duration) var(--transition-easing);
+  }
+
+  .publication-entry__link:hover {
+    border-color: var(--color-sandstone);
+    color: var(--color-ivory);
+  }
+</style>

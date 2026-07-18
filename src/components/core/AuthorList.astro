@@ -1,0 +1,66 @@
+---
+/**
+ * AuthorList — renders an ordered academic author list.
+ * Joel's name is semantically distinguished with <strong>.
+ * Author order is preserved exactly as entered.
+ * No client-side JavaScript.
+ */
+import type { Author } from '../../types/content-schemas';
+import { processAuthors } from '../../utils/content-display';
+
+interface Props {
+  authors: Author[];
+  /** When true, render the affiliation inline after the name. */
+  showAffiliations?: boolean;
+}
+
+const { authors, showAffiliations = false } = Astro.props;
+const processed = processAuthors(authors, showAffiliations);
+---
+
+{
+  processed.length > 0 && (
+    <span class="author-list">
+      {processed.map((author, i) => (
+        <>
+          {author.isJoel ? (
+            <strong class="author-list__name author-list__name--joel">
+              {author.name}
+            </strong>
+          ) : (
+            <span class="author-list__name">{author.name}</span>
+          )}
+          {author.affiliation && (
+            <span class="author-list__affiliation"> ({author.affiliation})</span>
+          )}
+          {i < processed.length - 2 && <span aria-hidden="true">, </span>}
+          {i === processed.length - 2 && (
+            <span aria-hidden="true">{processed.length > 2 ? ',' : ''} and </span>
+          )}
+        </>
+      ))}
+    </span>
+  )
+}
+
+<style>
+  .author-list {
+    display: inline;
+    font-size: inherit;
+    color: inherit;
+  }
+
+  .author-list__name {
+    font-weight: inherit;
+  }
+
+  .author-list__name--joel {
+    font-weight: 600;
+    color: var(--color-ivory);
+  }
+
+  .author-list__affiliation {
+    font-size: 0.875em;
+    color: var(--color-ash);
+  }
+</style>

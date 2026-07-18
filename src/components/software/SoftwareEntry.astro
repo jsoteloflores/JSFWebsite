@@ -1,0 +1,201 @@
+---
+/**
+ * SoftwareEntry — renders a scientific software record.
+ * Missing repositories are not displayed as errors.
+ * Private status is accurately communicated.
+ * No client-side JavaScript.
+ */
+import type { SoftwareFrontmatter } from '../../types/content-schemas';
+import StatusLabel from '../core/StatusLabel.astro';
+
+interface Props {
+  data: SoftwareFrontmatter;
+  href?: string;
+}
+
+const { data, href } = Astro.props;
+
+const hasLinks =
+  data.repository ??
+  data.documentation ??
+  (data.externalLinks && data.externalLinks.length > 0);
+const isPrivate = data.status === 'private' || data.visibility !== 'public';
+---
+
+<article class="software-entry">
+  <header class="software-entry__header">
+    {
+      href ? (
+        <h3 class="software-entry__name">
+          <a href={href} class="software-entry__name-link">
+            {data.name}
+          </a>
+        </h3>
+      ) : (
+        <h3 class="software-entry__name">{data.name}</h3>
+      )
+    }
+    <StatusLabel status={data.status} />
+  </header>
+
+  <p class="software-entry__problem">
+    <span class="software-entry__problem-label">Scientific problem: </span>
+    {data.scientificProblem}
+  </p>
+
+  <p class="software-entry__summary">{data.summary}</p>
+
+  {
+    data.capabilities && data.capabilities.length > 0 && (
+      <ul class="software-entry__capabilities" aria-label="Capabilities">
+        {data.capabilities.map((cap) => (
+          <li class="software-entry__capability">{cap}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    (data.languages ?? data.frameworks) && (
+      <p class="software-entry__stack">
+        {[...(data.languages ?? []), ...(data.frameworks ?? [])].join(', ')}
+      </p>
+    )
+  }
+
+  {
+    hasLinks && (
+      <nav class="software-entry__links" aria-label="Software links">
+        {data.repository && (
+          <a
+            href={data.repository}
+            class="software-entry__link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Repository
+          </a>
+        )}
+        {data.documentation && (
+          <a
+            href={data.documentation}
+            class="software-entry__link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Documentation
+          </a>
+        )}
+        {data.externalLinks?.map((link) => (
+          <a
+            href={link.url}
+            class="software-entry__link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+
+  {
+    isPrivate && !data.repository && (
+      <p class="software-entry__private-note">Repository not publicly available.</p>
+    )
+  }
+</article>
+
+<style>
+  .software-entry {
+    border-top: 1px solid var(--color-charcoal);
+    padding-block: var(--space-6);
+  }
+
+  .software-entry__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .software-entry__name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-ivory);
+    margin: 0;
+  }
+
+  .software-entry__name-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .software-entry__name-link:hover {
+    color: var(--color-sandstone);
+  }
+
+  .software-entry__problem {
+    font-size: 0.875rem;
+    color: var(--color-stone);
+    margin: 0 0 var(--space-3);
+  }
+
+  .software-entry__problem-label {
+    font-weight: 600;
+    color: var(--color-ash);
+  }
+
+  .software-entry__summary {
+    font-size: 0.9375rem;
+    color: var(--color-ash);
+    line-height: 1.7;
+    margin: 0 0 var(--space-3);
+  }
+
+  .software-entry__capabilities {
+    list-style: disc inside;
+    padding: 0;
+    margin: 0 0 var(--space-3);
+    color: var(--color-ash);
+    font-size: 0.875rem;
+  }
+
+  .software-entry__stack {
+    font-size: 0.8125rem;
+    font-family: var(--font-mono);
+    color: var(--color-stone);
+    margin: 0 0 var(--space-3);
+  }
+
+  .software-entry__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .software-entry__link {
+    font-size: 0.8125rem;
+    font-family: var(--font-mono);
+    color: var(--color-sandstone);
+    text-decoration: none;
+    border: 1px solid var(--color-charcoal);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-duration) var(--transition-easing);
+  }
+
+  .software-entry__link:hover {
+    border-color: var(--color-sandstone);
+    color: var(--color-ivory);
+  }
+
+  .software-entry__private-note {
+    font-size: 0.8125rem;
+    color: var(--color-stone);
+    font-style: italic;
+    margin: var(--space-2) 0 0;
+  }
+</style>

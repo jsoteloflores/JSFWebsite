@@ -1,0 +1,45 @@
+---
+/**
+ * StatusLabel — renders a human-readable label for any controlled vocabulary status.
+ * Uses content-labels.ts as the single source of label truth.
+ * Exposes data-status for CSS targeting.
+ * No client-side JavaScript.
+ */
+import { getLabel, type LabelableStatus } from '../../utils/content-labels';
+
+interface Props {
+  status: LabelableStatus;
+}
+
+const { status } = Astro.props;
+const label = getLabel(status);
+---
+
+<span class="status-label" data-status={status}>{label}</span>
+
+<style>
+  .status-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--color-ash);
+    letter-spacing: 0.03em;
+    text-transform: none;
+  }
+
+  /* Distinguish clearly published work from in-progress */
+  [data-status='published'] {
+    color: var(--color-sandstone);
+  }
+
+  [data-status='in-preparation'],
+  [data-status='submitted'],
+  [data-status='in-review'] {
+    color: var(--color-stone);
+  }
+
+  [data-status='accepted'] {
+    color: var(--color-sandstone);
+    opacity: 0.85;
+  }
+</style>

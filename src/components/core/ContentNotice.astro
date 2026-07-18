@@ -1,0 +1,49 @@
+---
+/**
+ * ContentNotice — factual notice rendered when a collection has no public entries.
+ * Factual tone. No "coming soon." No disabled controls. No fake loading state.
+ * No client-side JavaScript.
+ */
+
+interface Props {
+  message: string;
+  /** Optional link to a related page. */
+  linkHref?: string;
+  linkLabel?: string;
+}
+
+const { message, linkHref, linkLabel } = Astro.props;
+---
+
+<div class="content-notice" role="note">
+  <p class="content-notice__message">{message}</p>
+  {
+    linkHref && linkLabel && (
+      <p class="content-notice__link">
+        <a href={linkHref}>{linkLabel}</a>
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .content-notice {
+    padding: var(--space-8);
+    border: 1px solid var(--color-charcoal);
+    border-left: 3px solid var(--color-stone);
+    border-radius: var(--radius-md);
+    max-width: 55ch;
+  }
+
+  .content-notice__message {
+    font-size: 0.9375rem;
+    color: var(--color-ash);
+    line-height: 1.7;
+    margin: 0 0 var(--space-4);
+  }
+
+  .content-notice__link {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+</style>
