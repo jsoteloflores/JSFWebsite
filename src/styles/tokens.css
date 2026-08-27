@@ -1,70 +1,108 @@
 :root {
-  /* ----------------------------- */
-  /* Color tokens                  */
-  /* ----------------------------- */
-  --color-obsidian: #08090a;
-  --color-basalt: #141619;
-  --color-charcoal: #1d2023;
-  --color-ivory: #f3efe7;
-  --color-ash: #aaa69e;
-  --color-stone: #595b5d;
+  /* ============================================ */
+  /* Semantic color palette — light editorial     */
+  /* ============================================ */
+
+  /* Primary canvas — warm off-white */
+  --color-page: #f6f2f3;
+
+  /* Panels, figure surfaces, publication cards */
+  --color-surface: #ffffff;
+
+  /* Hover surfaces, callouts, soft emphasis */
+  --color-surface-soft: #dbc5ca;
+
+  /* Primary text — dark burgundy-black */
+  --color-text: #270c0f;
+
+  /* Secondary / muted text — warm medium gray */
+  /* Contrast on --color-page: ~5.7:1 (WCAG AA ✓) */
+  --color-text-muted: #6b5f62;
+
+  /* Principal accent — wine */
   --color-wine: #79242f;
-  --color-oxidized-red: #b64a3a;
-  --color-sandstone: #aa9767;
-  --color-sulfur: #d6b85e;
+  --color-accent: #79242f;
 
-  /* ----------------------------- */
-  /* Readable muted text           */
-  /* ----------------------------- */
-  /* Meets WCAG AA (4.5:1) on both obsidian and basalt surfaces.            */
-  /* --color-stone is reserved for borders, dividers, and decorative rules. */
-  --color-muted-text: #85827a;
+  /* Brighter red for hover/active interaction */
+  /* Contrast on --color-page: ~5.2:1 (WCAG AA ✓) */
+  --color-accent-hover: #b63a46;
 
-  /* ----------------------------- */
-  /* Typography                    */
-  /* ----------------------------- */
-  --font-display: system-ui, 'Helvetica Neue', Arial, sans-serif;
-  --font-body: system-ui, 'Helvetica Neue', Arial, sans-serif;
+  /* Borders */
+  --color-border: #dfd5d8;
+  --color-border-strong: #270c0f;
+
+  /* Focus outline — wine */
+  --color-focus: #79242f;
+
+  /* ============================================ */
+  /* Legacy aliases — migration compatibility     */
+  /* Maps old dark-theme token names to new values */
+  /* ============================================ */
+  --color-obsidian: var(--color-page);
+  --color-basalt: var(--color-surface);
+  --color-charcoal: var(--color-border);
+  --color-ivory: var(--color-text);
+  --color-ash: var(--color-text-muted);
+  --color-stone: var(--color-border);
+  --color-sandstone: var(--color-wine);
+  --color-oxidized-red: var(--color-accent-hover);
+  --color-sulfur: var(--color-accent);
+  --color-muted-text: var(--color-text-muted);
+
+  /* ============================================ */
+  /* Typography                                   */
+  /* ============================================ */
+
+  /* Editorial serif for titles, Joel's name, section headings */
+  --font-display: 'Lora', 'Georgia', 'Times New Roman', serif;
+
+  /* Clean sans-serif for body, navigation, metadata, captions */
+  --font-body: 'Inter', system-ui, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Mono — technical metadata only */
   --font-mono:
     ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono',
     monospace;
 
-  /* ----------------------------- */
-  /* Layout                        */
-  /* ----------------------------- */
+  /* ============================================ */
+  /* Layout                                       */
+  /* ============================================ */
   --content-max-width: 72rem;
   --content-padding-inline: 1.5rem;
 
-  /* ----------------------------- */
-  /* Spacing                       */
-  /* ----------------------------- */
+  /* ============================================ */
+  /* Spacing                                      */
+  /* ============================================ */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
   --space-4: 1rem;
+  --space-5: 1.25rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
   --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
 
-  /* ----------------------------- */
-  /* Shape                         */
-  /* ----------------------------- */
-  --radius-sm: 0.125rem;
-  --radius-md: 0.25rem;
-  --radius-lg: 0.5rem;
+  /* ============================================ */
+  /* Shape — editorial, slightly rounded          */
+  /* ============================================ */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
 
-  /* ----------------------------- */
-  /* Motion                        */
-  /* ----------------------------- */
-  --transition-duration: 150ms;
+  /* ============================================ */
+  /* Motion                                       */
+  /* ============================================ */
+  --transition-duration: 175ms;
   --transition-easing: ease;
 
-  /* ----------------------------- */
-  /* Focus                         */
-  /* ----------------------------- */
+  /* ============================================ */
+  /* Focus                                        */
+  /* ============================================ */
   --focus-outline-width: 2px;
   --focus-outline-offset: 3px;
-  --focus-outline-color: var(--color-sandstone);
+  --focus-outline-color: var(--color-focus);
 }

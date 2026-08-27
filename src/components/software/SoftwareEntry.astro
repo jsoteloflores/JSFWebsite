@@ -109,7 +109,7 @@ const isPrivate = data.status === 'private' || data.visibility !== 'public';
 
 <style>
   .software-entry {
-    border-top: 1px solid var(--color-charcoal);
+    border-top: 1px solid var(--color-border);
     padding-block: var(--space-6);
   }
 
@@ -124,7 +124,7 @@ const isPrivate = data.status === 'private' || data.visibility !== 'public';
   .software-entry__name {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-ivory);
+    color: var(--color-text);
     margin: 0;
   }
 
@@ -134,7 +134,7 @@ const isPrivate = data.status === 'private' || data.visibility !== 'public';
   }
 
   .software-entry__name-link:hover {
-    color: var(--color-sandstone);
+    color: var(--color-wine);
   }
 
   .software-entry__problem {
@@ -145,12 +145,12 @@ const isPrivate = data.status === 'private' || data.visibility !== 'public';
 
   .software-entry__problem-label {
     font-weight: 600;
-    color: var(--color-ash);
+    color: var(--color-text);
   }
 
   .software-entry__summary {
     font-size: 0.9375rem;
-    color: var(--color-ash);
+    color: var(--color-text);
     line-height: 1.7;
     margin: 0 0 var(--space-3);
   }
@@ -159,7 +159,7 @@ const isPrivate = data.status === 'private' || data.visibility !== 'public';
     list-style: disc inside;
     padding: 0;
     margin: 0 0 var(--space-3);
-    color: var(--color-ash);
+    color: var(--color-text);
     font-size: 0.875rem;
   }
 
@@ -179,17 +179,17 @@ const isPrivate = data.status === 'private' || data.visibility !== 'public';
   .software-entry__link {
     font-size: 0.8125rem;
     font-family: var(--font-mono);
-    color: var(--color-sandstone);
+    color: var(--color-wine);
     text-decoration: none;
-    border: 1px solid var(--color-charcoal);
+    border: 1px solid var(--color-border);
     padding: var(--space-1) var(--space-3);
     border-radius: var(--radius-sm);
     transition: border-color var(--transition-duration) var(--transition-easing);
   }
 
   .software-entry__link:hover {
-    border-color: var(--color-sandstone);
-    color: var(--color-ivory);
+    border-color: var(--color-wine);
+    color: var(--color-text);
   }
 
   .software-entry__private-note {

@@ -3,10 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PublicationEntry from '../components/publications/PublicationEntry.astro';
 import ContactLinks from '../components/core/ContactLinks.astro';
 import ScientificImagePair from '../components/media/ScientificImagePair.astro';
+import ScientificFigure from '../components/media/ScientificFigure.astro';
+import EditorialProjectLink from '../components/projects/EditorialProjectLink.astro';
 import { profile } from '../data/profile';
 import { getFeaturedProjects, getPublicPublications } from '../utils/content-queries';
 import { projectUrl } from '../utils/site';
-import { kilauea_daytime_pair, ijen_sem_pair } from '../data/media';
+import { kilauea_daytime_pair, joel_kilauea_portrait } from '../data/media';
 
 const featuredProjects = await getFeaturedProjects();
 const kilauea = featuredProjects.find(
@@ -21,11 +23,11 @@ const selectedPublication = publications[0];
   title="Computational Volcanology"
   description=`${profile.displayName} — computational and physical volcanology researcher at Washington and Lee University.`
 >
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero__text">
+  <!-- 1. Identity-first hero -->
+  <section class="hero" data-section="hero">
+    <div class="hero__identity">
       <p class="hero__eyebrow">Computational &amp; Physical Volcanology</p>
-      <h1 class="hero__heading">{profile.displayName}</h1>
+      <h1 class="hero__name">{profile.displayName}</h1>
       <p class="hero__statement">
         I develop computer-vision and scientific-software workflows that turn volcanic
         imagery and micro-CT data into quantitative measurements of eruptive processes
@@ -38,113 +40,110 @@ const selectedPublication = publications[0];
         <li>Expected June 2027</li>
         <li>{profile.location}</li>
       </ul>
-      <div class="hero__ctas">
-        <a href="/research" class="hero__cta hero__cta--primary">Explore research</a>
-        <a href="/about" class="hero__cta">About Joel</a>
-        <a
-          href={`mailto:${profile.academicEmail}`}
-          class="hero__cta hero__cta--contact"
-        >
-          Get in touch
-        </a>
+      <div class="hero__actions">
+        <a href="/research" class="btn-primary">Explore Research</a>
+        <a href="/about" class="btn-secondary">About Joel</a>
       </div>
     </div>
-    <div class="hero__media">
+  </section>
+
+  <!-- 2. Primary scientific visual -->
+  <section class="primary-figure page-section" data-section="primary-figure">
+    <p class="primary-figure__eyebrow">Observation → Segmentation</p>
+    <div class="primary-figure__panel">
       <ScientificImagePair pair={kilauea_daytime_pair} loading="eager" />
     </div>
   </section>
 
-  <!-- Featured projects -->
+  <!-- 3 & 4. Featured research — Kīlauea + Ijen -->
   {
     kilauea && (
-      <section class="page-section feature-section">
-        <div class="feature-section__media">
-          <ScientificImagePair pair={kilauea_daytime_pair} loading="lazy" />
-        </div>
-        <div class="feature-section__content">
-          <h2 class="feature-section__title">
-            <a href={projectUrl(kilauea.id)} class="feature-section__link">
-              {kilauea.data.title}
-            </a>
-          </h2>
-          <p class="feature-section__summary">{kilauea.data.summary}</p>
-          <ul class="feature-section__themes">
-            {kilauea.data.researchThemes.slice(0, 3).map((t) => (
-              <li>{t}</li>
-            ))}
-          </ul>
-          <a href={projectUrl(kilauea.id)} class="feature-section__cta">
-            View project →
-          </a>
-        </div>
+      <section class="page-section" data-section="featured-kilauea">
+        <EditorialProjectLink
+          data={kilauea.data}
+          id={kilauea.id}
+          href={projectUrl(kilauea.id)}
+          index={1}
+        />
       </section>
     )
   }
 
   {
     ijen && (
-      <section class="page-section feature-section feature-section--reverse">
-        <div class="feature-section__media">
-          <ScientificImagePair pair={ijen_sem_pair} loading="lazy" />
-        </div>
-        <div class="feature-section__content">
-          <h2 class="feature-section__title">
-            <a href={projectUrl(ijen.id)} class="feature-section__link">
-              {ijen.data.title}
-            </a>
-          </h2>
-          <p class="feature-section__summary">{ijen.data.summary}</p>
-          <ul class="feature-section__themes">
-            {ijen.data.researchThemes.slice(0, 3).map((t) => (
-              <li>{t}</li>
-            ))}
-          </ul>
-          <a href={projectUrl(ijen.id)} class="feature-section__cta">
-            View project →
-          </a>
-        </div>
+      <section class="page-section" data-section="featured-ijen">
+        <EditorialProjectLink
+          data={ijen.data}
+          id={ijen.id}
+          href={projectUrl(ijen.id)}
+          index={2}
+        />
       </section>
     )
   }
 
-  <!-- Research approach -->
-  <section class="page-section">
+  <!-- 5. Research approach -->
+  <section class="approach page-section" data-section="approach">
     <h2 class="section-heading">Research approach</h2>
-    <div class="approach-grid">
-      <div class="approach-stage">
-        <p class="approach-stage__number" aria-hidden="true">01</p>
-        <h3 class="approach-stage__title">Observe</h3>
-        <p class="approach-stage__body">
-          Field footage, scientific imagery, micro-CT volumes, and laboratory
-          measurements provide the raw record of physical systems.
-        </p>
+    <ol class="approach__list">
+      <li class="approach__step">
+        <span class="approach__num">01</span>
+        <div class="approach__content">
+          <h3 class="approach__title">Observe</h3>
+          <p class="approach__body">
+            Field footage, scientific imagery, micro-CT volumes, and laboratory
+            measurements provide the raw record of physical systems.
+          </p>
+        </div>
+      </li>
+      <li class="approach__step">
+        <span class="approach__num">02</span>
+        <div class="approach__content">
+          <h3 class="approach__title">Segment</h3>
+          <p class="approach__body">
+            Computer vision and machine-learning workflows identify structures of
+            interest consistently across complex, variable-condition imagery.
+          </p>
+        </div>
+      </li>
+      <li class="approach__step">
+        <span class="approach__num">03</span>
+        <div class="approach__content">
+          <h3 class="approach__title">Quantify</h3>
+          <p class="approach__body">
+            Scientific software converts segmented imagery into reproducible
+            measurements of geometry, texture, pore structure, and physical behavior.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 6. About preview with one field image -->
+  <section class="about-preview page-section" data-section="about-preview">
+    <div class="about-preview__inner">
+      <div class="about-preview__image">
+        <ScientificFigure image={joel_kilauea_portrait} loading="lazy" />
       </div>
-      <div class="approach-stage">
-        <p class="approach-stage__number" aria-hidden="true">02</p>
-        <h3 class="approach-stage__title">Segment</h3>
-        <p class="approach-stage__body">
-          Computer vision and machine-learning workflows identify structures of interest
-          consistently across complex, variable-condition imagery.
+      <div class="about-preview__text">
+        <p class="about-preview__label">About Joel</p>
+        <h2 class="about-preview__heading">Field research and computation</h2>
+        <p class="about-preview__body">
+          An undergraduate researcher combining physics, Earth science, and machine
+          learning to build scientific-software workflows for volcanology research.
         </p>
-      </div>
-      <div class="approach-stage">
-        <p class="approach-stage__number" aria-hidden="true">03</p>
-        <h3 class="approach-stage__title">Quantify</h3>
-        <p class="approach-stage__body">
-          Scientific software converts segmented imagery into reproducible measurements
-          of geometry, texture, pore structure, and physical behavior.
-        </p>
+        <a href="/about" class="about-preview__link">Read about Joel →</a>
       </div>
     </div>
   </section>
 
-  <!-- Selected publication -->
+  <!-- 7. Selected publication -->
   {
     selectedPublication && (
-      <section class="page-section">
+      <section class="page-section" data-section="selected-publication">
         <h2 class="section-heading">Selected publication</h2>
         <p class="section-context">
-          Joel's published research spans multiple quantitative scientific domains.
+          Joel's published research spans quantitative scientific domains.
         </p>
         <PublicationEntry data={selectedPublication.data} />
         <p class="section-more">
@@ -154,8 +153,8 @@ const selectedPublication = publications[0];
     )
   }
 
-  <!-- Contact -->
-  <section class="page-section">
+  <!-- 8. Contact -->
+  <section class="page-section" data-section="contact">
     <h2 class="section-heading">Get in touch</h2>
     <p class="contact-statement">
       Questions about computational volcanology, scientific image analysis, or research
@@ -166,215 +165,197 @@ const selectedPublication = publications[0];
 </BaseLayout>
 
 <style>
-  /* Hero layout */
+  /* Hero */
   .hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-12);
-    align-items: start;
-    padding-block: var(--space-12) var(--space-12);
-    border-bottom: 1px solid var(--color-charcoal);
+    padding-block: var(--space-20) var(--space-16);
+    border-bottom: 1px solid var(--color-border);
     margin-bottom: var(--space-16);
-  }
-
-  @media (max-width: 800px) {
-    .hero {
-      grid-template-columns: 1fr;
-    }
-    .hero__media {
-      order: -1;
-    }
+    max-width: 56ch;
   }
 
   .hero__eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-sandstone);
+    font-size: 0.6875rem;
+    color: var(--color-wine);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-4);
+  }
+
+  .hero__name {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.1;
+    margin: 0 0 var(--space-6);
+    letter-spacing: -0.02em;
+  }
+
+  .hero__statement {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    color: var(--color-text);
+    line-height: 1.7;
+    max-width: 52ch;
+    margin: 0 0 var(--space-8);
+  }
+
+  .hero__meta {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-10);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  /* Primary figure */
+  .primary-figure {
+    margin-bottom: var(--space-16);
+  }
+
+  .primary-figure__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-wine);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin: 0 0 var(--space-4);
   }
-  .hero__heading {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 600;
-    color: var(--color-ivory);
-    line-height: 1.1;
-    margin: 0 0 var(--space-6);
-    letter-spacing: -0.01em;
-  }
-  .hero__statement {
-    font-size: 1rem;
-    color: var(--color-ash);
-    line-height: 1.7;
-    max-width: 50ch;
-    margin: 0 0 var(--space-6);
-  }
-  .hero__meta {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    list-style: none;
-    margin: 0 0 var(--space-8);
-    padding: 0;
-    font-size: 0.8125rem;
-    color: var(--color-muted-text);
-  }
-  .hero__ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-  }
-  .hero__cta {
-    display: inline-block;
-    font-size: 0.9375rem;
-    text-decoration: none;
-    padding: var(--space-2) var(--space-5);
-    border: 1px solid var(--color-stone);
-    border-radius: var(--radius-sm);
-    color: var(--color-ash);
-    transition:
-      border-color var(--transition-duration),
-      color var(--transition-duration);
-  }
-  .hero__cta:hover {
-    border-color: var(--color-sandstone);
-    color: var(--color-ivory);
-    text-decoration: none;
-  }
-  .hero__cta--primary {
-    background-color: var(--color-wine);
-    border-color: var(--color-wine);
-    color: var(--color-ivory);
-  }
-  .hero__cta--primary:hover {
-    background-color: var(--color-oxidized-red);
-    border-color: var(--color-oxidized-red);
-  }
-  .hero__cta--contact {
-    font-size: 0.875rem;
-    color: var(--color-muted-text);
-  }
 
-  /* Feature sections */
-  .feature-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-10);
-    align-items: start;
-    padding-block: var(--space-8);
-    border-top: 1px solid var(--color-charcoal);
-  }
-
-  .feature-section--reverse .feature-section__media {
-    order: 1;
-  }
-  .feature-section--reverse .feature-section__content {
-    order: 0;
-  }
-
-  @media (max-width: 800px) {
-    .feature-section {
-      grid-template-columns: 1fr;
-    }
-    .feature-section--reverse .feature-section__media {
-      order: 0;
-    }
-  }
-
-  .feature-section__title {
-    font-family: var(--font-display);
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--color-ivory);
-    margin: 0 0 var(--space-4);
-    line-height: 1.3;
-  }
-  .feature-section__link {
-    color: inherit;
-    text-decoration: none;
-  }
-  .feature-section__link:hover {
-    color: var(--color-sandstone);
-  }
-  .feature-section__summary {
-    font-size: 0.9375rem;
-    color: var(--color-ash);
-    line-height: 1.7;
-    margin: 0 0 var(--space-4);
-  }
-  .feature-section__themes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    list-style: none;
-    margin: 0 0 var(--space-4);
-    padding: 0;
-  }
-  .feature-section__themes li {
-    font-size: 0.75rem;
-    font-family: var(--font-mono);
-    color: var(--color-stone);
-    border: 1px solid var(--color-charcoal);
-    padding: 1px var(--space-2);
-    border-radius: var(--radius-sm);
-  }
-  .feature-section__cta {
-    font-size: 0.875rem;
-    color: var(--color-sandstone);
-    text-decoration: none;
-  }
-  .feature-section__cta:hover {
-    color: var(--color-ivory);
+  .primary-figure__panel {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
   }
 
   /* Research approach */
-  .approach-grid {
+  .approach__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .approach__step {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-8);
+    grid-template-columns: 2.5rem 1fr;
+    gap: var(--space-4);
+    align-items: start;
+    padding-block: var(--space-6);
+    border-top: 1px solid var(--color-border);
   }
-  @media (max-width: 700px) {
-    .approach-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-6);
-    }
+
+  .approach__step:last-child {
+    border-bottom: 1px solid var(--color-border);
   }
-  .approach-stage {
-    border-top: 2px solid var(--color-charcoal);
-    padding-top: var(--space-4);
-  }
-  .approach-stage__number {
+
+  .approach__num {
     font-family: var(--font-mono);
     font-size: 0.6875rem;
-    color: var(--color-muted-text);
-    margin: 0 0 var(--space-3);
+    color: var(--color-wine);
+    letter-spacing: 0.05em;
+    padding-top: 0.25rem;
   }
-  .approach-stage__title {
+
+  .approach__title {
     font-family: var(--font-display);
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-weight: 600;
-    color: var(--color-ivory);
-    margin: 0 0 var(--space-3);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
   }
-  .approach-stage__body {
-    font-size: 0.875rem;
-    color: var(--color-ash);
+
+  .approach__body {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
     line-height: 1.7;
     margin: 0;
+    max-width: 55ch;
   }
+
+  /* About preview */
+  .about-preview__inner {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-10);
+    align-items: center;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    overflow: hidden;
+  }
+
+  @media (max-width: 700px) {
+    .about-preview__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .about-preview__label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-wine);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-2);
+  }
+
+  .about-preview__heading {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 var(--space-4);
+    line-height: 1.3;
+  }
+
+  .about-preview__body {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin: 0 0 var(--space-4);
+  }
+
+  .about-preview__link {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-wine);
+    text-decoration: none;
+  }
+
+  .about-preview__link:hover {
+    color: var(--color-accent-hover);
+  }
+
+  /* Section helpers */
   .section-context {
     font-size: 0.875rem;
-    color: var(--color-muted-text);
+    color: var(--color-text-muted);
     margin: calc(-1 * var(--space-4)) 0 var(--space-6);
   }
+
   .section-more {
     margin-top: var(--space-6);
     font-size: 0.875rem;
   }
+
   .contact-statement {
     font-size: 0.9375rem;
-    color: var(--color-ash);
+    color: var(--color-text-muted);
     max-width: 55ch;
     margin: 0 0 var(--space-6);
   }

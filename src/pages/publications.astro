@@ -21,9 +21,11 @@ const publications = await getPublicPublications();
     publications.length > 0 && (
       <section class="page-section">
         <h2 class="section-heading">Peer-reviewed publications</h2>
-        {publications.map((pub) => (
-          <PublicationEntry data={pub.data} />
-        ))}
+        <div class="publication-list">
+          {publications.map((pub) => (
+            <PublicationEntry data={pub.data} />
+          ))}
+        </div>
       </section>
     )
   }
@@ -36,8 +38,13 @@ const publications = await getPublicPublications();
 </BaseLayout>
 
 <style>
+  .publication-list {
+    display: flex;
+    flex-direction: column;
+  }
+
   .empty-notice {
     font-size: 0.9375rem;
-    color: var(--color-muted-text);
+    color: var(--color-text-muted);
   }
 </style>

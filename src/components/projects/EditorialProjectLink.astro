@@ -1,0 +1,187 @@
+---
+/**
+ * EditorialProjectLink — a whole-card clickable project row.
+ *
+ * Uses the CSS stretched-link technique so the entire surface is clickable
+ * with no invalid nested anchors. The primary <a> covers the card via
+ * a pseudo-element.
+ *
+ * Only use when the card contains no other interactive elements.
+ * For cards with nested links (e.g., DOI links), use ProjectSummary instead.
+ * No client-side JavaScript.
+ */
+import StatusLabel from '../core/StatusLabel.astro';
+import type { ProjectFrontmatter } from '../../types/content-schemas';
+
+interface Props {
+  data: ProjectFrontmatter;
+  id: string;
+  href: string;
+  /** Optional 1-based index for numbering active projects. */
+  index?: number;
+}
+
+const { data, href, index } = Astro.props;
+---
+
+<article class="editorial-project-link">
+  <a href={href} class="editorial-project-link__anchor" tabindex="0">
+    <span class="sr-only">View project: {data.title}</span>
+  </a>
+
+  <div class="editorial-project-link__meta">
+    {
+      index !== undefined && (
+        <span class="editorial-project-link__index" aria-hidden="true">
+          {String(index).padStart(2, '0')}
+        </span>
+      )
+    }
+    <StatusLabel status={data.status} />
+  </div>
+
+  <h3 class="editorial-project-link__title">{data.title}</h3>
+
+  {data.subtitle && <p class="editorial-project-link__subtitle">{data.subtitle}</p>}
+
+  <p class="editorial-project-link__summary">{data.summary}</p>
+
+  {
+    data.researchThemes.length > 0 && (
+      <ul class="editorial-project-link__themes" aria-label="Research themes">
+        {data.researchThemes.slice(0, 3).map((t) => (
+          <li>{t}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  <span class="editorial-project-link__arrow" aria-hidden="true">→</span>
+</article>
+
+<style>
+  .editorial-project-link {
+    position: relative;
+    padding: var(--space-6) var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface);
+    cursor: pointer;
+    transition:
+      background-color var(--transition-duration) var(--transition-easing),
+      border-color var(--transition-duration) var(--transition-easing),
+      box-shadow var(--transition-duration) var(--transition-easing);
+  }
+
+  .editorial-project-link:hover {
+    background-color: var(--color-surface-soft);
+    border-color: var(--color-wine);
+    box-shadow: 0 2px 12px rgba(121, 36, 47, 0.1);
+  }
+
+  .editorial-project-link:has(.editorial-project-link__anchor:focus-visible) {
+    outline: var(--focus-outline-width) solid var(--color-focus);
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  /* Stretched link — covers the entire card */
+  .editorial-project-link__anchor {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    text-decoration: none;
+    background: none;
+  }
+
+  .editorial-project-link__anchor:focus-visible {
+    outline: none; /* handled by parent :has() */
+  }
+
+  .editorial-project-link__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .editorial-project-link__index {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .editorial-project-link__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
+    line-height: 1.3;
+    transition: color var(--transition-duration) var(--transition-easing);
+  }
+
+  .editorial-project-link:hover .editorial-project-link__title {
+    color: var(--color-accent-hover);
+  }
+
+  .editorial-project-link__subtitle {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-3);
+    line-height: 1.4;
+  }
+
+  .editorial-project-link__summary {
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    line-height: 1.7;
+    margin: 0 0 var(--space-4);
+    max-width: 60ch;
+  }
+
+  .editorial-project-link__themes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0 0 var(--space-4);
+    padding: 0;
+  }
+
+  .editorial-project-link__themes li {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    background-color: var(--color-page);
+    border: 1px solid var(--color-border);
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+  }
+
+  .editorial-project-link__arrow {
+    font-size: 1rem;
+    color: var(--color-wine);
+    display: inline-block;
+    transition: transform var(--transition-duration) var(--transition-easing);
+  }
+
+  .editorial-project-link:hover .editorial-project-link__arrow {
+    transform: translateX(4px);
+    color: var(--color-accent-hover);
+  }
+
+  /* Compact variant for completed projects */
+  .editorial-project-link--compact {
+    padding: var(--space-4) var(--space-6);
+  }
+
+  .editorial-project-link--compact .editorial-project-link__title {
+    font-size: 1.0625rem;
+  }
+
+  @media (max-width: 600px) {
+    .editorial-project-link {
+      padding: var(--space-4) var(--space-4);
+    }
+  }
+</style>

@@ -50,9 +50,17 @@ const ALL_EXPECTED = [...TOP_LEVEL_PAGES, ...PROJECT_PAGES];
 // ------------------------------------------------------------------ //
 
 const CONTENT_CHECKS: [string, string[]][] = [
-  ['index.html', ['Joel Sotelo Flores', 'Computational']],
-  ['about/index.html', ['Washington and Lee University', 'Physics']],
-  ['research/index.html', ['Current volcanology research', 'Kī']],
+  [
+    'index.html',
+    [
+      'Joel Sotelo Flores',
+      'Computational',
+      'data-section="hero"',
+      '/media/projects/kilauea/',
+    ],
+  ],
+  ['about/index.html', ['Washington and Lee University', 'Physics', 'Mauna Loa']],
+  ['research/index.html', ['Current research', 'Kī']],
   ['publications/index.html', ['Peer-reviewed publications']],
   ['presentations/index.html', ['verified conference metadata']],
   ['software/index.html', ['canonical names']],
@@ -223,7 +231,7 @@ console.log('');
 console.log('[verify] Checking media paths in built pages…\n');
 
 const mediaChecks: [string, string[]][] = [
-  ['index.html', ['/media/projects/kilauea/', '/media/projects/ijen/']],
+  ['index.html', ['/media/projects/kilauea/']],
   ['about/index.html', ['/media/about/joel-mauna-loa.webp']],
   [
     'research/kilauea-lava-fountain-computer-vision/index.html',
@@ -253,6 +261,28 @@ for (const [page, paths] of mediaChecks) {
     }
   }
 }
+
+// 5. CSS blue-color audit — no blue UI accents in authored stylesheets
+console.log('\n[verify] Auditing authored CSS for blue UI colors…\n');
+
+import { readdirSync as _rd2 } from 'node:fs';
+const CSS_FILES = [
+  join(ROOT, 'src/styles/tokens.css'),
+  join(ROOT, 'src/styles/global.css'),
+];
+const BLUE_PATTERNS = [/\b#0000ff\b/i, /\brgb\(\s*0\s*,\s*0\s*,\s*255/i, /\bblue\b/];
+let blueFound = false;
+for (const cssFile of CSS_FILES) {
+  if (!existsSync(cssFile)) continue;
+  const css = readFileSync(cssFile, 'utf-8');
+  for (const pattern of BLUE_PATTERNS) {
+    if (pattern.test(css)) {
+      fail(`Blue UI color literal found in ${cssFile}`);
+      blueFound = true;
+    }
+  }
+}
+if (!blueFound) pass('No blue UI color literals in authored CSS');
 
 // Summary
 if (errors === 0) {

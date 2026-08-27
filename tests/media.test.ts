@@ -181,40 +181,40 @@ function contrastRatio(foreground: string, background: string): number {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-const OBSIDIAN = '#08090a';
-const BASALT = '#141619';
+const PAGE_BG = '#f6f2f3'; // --color-page (light canvas)
+const SURFACE = '#ffffff'; // --color-surface (white panels)
 const WCAG_AA_NORMAL = 4.5;
 
-describe('contrast ratios (WCAG AA)', () => {
-  // Tokens that carry readable text
+describe('contrast ratios (WCAG AA) — light editorial system', () => {
+  // Text tokens that must pass AA on the light canvas
   const textTokens: [string, string][] = [
-    ['--color-ivory (#f3efe7)', '#f3efe7'],
-    ['--color-ash (#aaa69e)', '#aaa69e'],
-    ['--color-muted-text (#85827a)', '#85827a'],
-    ['--color-sandstone (#aa9767)', '#aa9767'],
+    ['--color-text (#270c0f)', '#270c0f'],
+    ['--color-text-muted (#6b5f62)', '#6b5f62'],
+    ['--color-wine (#79242f)', '#79242f'],
+    ['--color-accent-hover (#b63a46)', '#b63a46'],
   ];
 
   for (const [name, hex] of textTokens) {
-    it(`${name} on obsidian meets WCAG AA (4.5:1)`, () => {
-      const ratio = contrastRatio(hex, OBSIDIAN);
+    it(`${name} on page background meets WCAG AA (4.5:1)`, () => {
+      const ratio = contrastRatio(hex, PAGE_BG);
       expect(
         ratio,
-        `${name} on obsidian: ${ratio.toFixed(2)}:1 < 4.5:1`,
+        `${name} on page: ${ratio.toFixed(2)}:1 < 4.5:1`,
       ).toBeGreaterThanOrEqual(WCAG_AA_NORMAL);
     });
 
-    it(`${name} on basalt meets WCAG AA (4.5:1)`, () => {
-      const ratio = contrastRatio(hex, BASALT);
+    it(`${name} on white surface meets WCAG AA (4.5:1)`, () => {
+      const ratio = contrastRatio(hex, SURFACE);
       expect(
         ratio,
-        `${name} on basalt: ${ratio.toFixed(2)}:1 < 4.5:1`,
+        `${name} on white: ${ratio.toFixed(2)}:1 < 4.5:1`,
       ).toBeGreaterThanOrEqual(WCAG_AA_NORMAL);
     });
   }
 
-  it('--color-stone (#595b5d) is NOT relied on for normal text (decorative only)', () => {
-    // stone fails AA for normal text — this test confirms we know it
-    const ratio = contrastRatio('#595b5d', OBSIDIAN);
+  it('--color-border (#dfd5d8) is decorative — not used as normal text', () => {
+    // border color intentionally fails AA for text — not used for text
+    const ratio = contrastRatio('#dfd5d8', SURFACE);
     expect(ratio).toBeLessThan(WCAG_AA_NORMAL);
   });
 });

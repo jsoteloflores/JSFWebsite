@@ -69,7 +69,7 @@ const { data, href } = Astro.props;
 
 <style>
   .project-summary {
-    border-top: 1px solid var(--color-charcoal);
+    border-top: 1px solid var(--color-border);
     padding-block: var(--space-8);
   }
 
@@ -81,7 +81,7 @@ const { data, href } = Astro.props;
     font-family: var(--font-display);
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--color-ivory);
+    color: var(--color-text);
     margin: 0 0 var(--space-2);
     line-height: 1.3;
   }
@@ -92,13 +92,13 @@ const { data, href } = Astro.props;
   }
 
   .project-summary__title-link:hover {
-    color: var(--color-sandstone);
-    text-decoration-color: var(--color-sandstone);
+    color: var(--color-wine);
+    text-decoration-color: var(--color-wine);
   }
 
   .project-summary__subtitle {
     font-size: 0.9375rem;
-    color: var(--color-ash);
+    color: var(--color-text-muted);
     margin: 0;
   }
 
@@ -123,7 +123,7 @@ const { data, href } = Astro.props;
     font-size: 0.75rem;
     font-family: var(--font-mono);
     color: var(--color-muted-text);
-    border: 1px solid var(--color-charcoal);
+    border: 1px solid var(--color-border);
     padding: 1px var(--space-2);
     border-radius: var(--radius-sm);
   }
@@ -140,7 +140,7 @@ const { data, href } = Astro.props;
     /* Scientific images use contain to preserve boundaries.
        Pages may override with object-fit: cover for editorial photographs. */
     object-fit: contain;
-    background-color: var(--color-charcoal);
+    background-color: var(--color-surface);
   }
 
   .project-summary__caption {
@@ -151,7 +151,7 @@ const { data, href } = Astro.props;
 
   .project-summary__summary {
     font-size: 0.9375rem;
-    color: var(--color-ash);
+    color: var(--color-text-muted);
     line-height: 1.7;
     margin: 0;
   }

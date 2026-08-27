@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHeader from '../components/core/PageHeader.astro';
 import ContactLinks from '../components/core/ContactLinks.astro';
 import ScientificFigure from '../components/media/ScientificFigure.astro';
+import EditorialProjectLink from '../components/projects/EditorialProjectLink.astro';
 import { profile } from '../data/profile';
 import { getFeaturedProjects } from '../utils/content-queries';
 import { projectUrl } from '../utils/site';
@@ -15,13 +15,24 @@ const activeProjects = (await getFeaturedProjects()).filter(
 
 <BaseLayout
   title="About"
-  description={`About ${profile.displayName} — undergraduate researcher in computational and physical volcanology at Washington and Lee University.`}
+  description=`About ${profile.displayName} — undergraduate researcher in computational and physical volcanology at Washington and Lee University.`
 >
-  <PageHeader
-    eyebrow="About"
-    title={profile.displayName}
-    description="Undergraduate researcher in computational and physical volcanology at Washington and Lee University."
-  />
+  <!-- Page opening — editorial layout with portrait -->
+  <header class="about-header">
+    <div class="about-header__text">
+      <p class="about-header__eyebrow">About</p>
+      <h1 class="about-header__name">{profile.displayName}</h1>
+      <p class="about-header__intro">
+        Undergraduate researcher in computational and physical volcanology at Washington
+        and Lee University. I build computer-vision and scientific-software workflows
+        that turn volcanic imagery and micro-CT data into reproducible quantitative
+        measurements.
+      </p>
+    </div>
+    <div class="about-header__portrait">
+      <ScientificFigure image={joel_mauna_loa} loading="lazy" />
+    </div>
+  </header>
 
   <div class="about-layout">
     <main class="about-main">
@@ -56,16 +67,11 @@ const activeProjects = (await getFeaturedProjects()).filter(
         activeProjects.length > 0 && (
           <section class="page-section">
             <h2 class="section-heading">Current work</h2>
-            <ul class="current-projects">
+            <div class="current-projects">
               {activeProjects.map((p) => (
-                <li class="current-projects__item">
-                  <a href={projectUrl(p.id)} class="current-projects__link">
-                    <span class="current-projects__title">{p.data.title}</span>
-                    <span class="current-projects__subtitle">{p.data.subtitle}</span>
-                  </a>
-                </li>
+                <EditorialProjectLink data={p.data} id={p.id} href={projectUrl(p.id)} />
               ))}
-            </ul>
+            </div>
           </section>
         )
       }
@@ -78,9 +84,6 @@ const activeProjects = (await getFeaturedProjects()).filter(
     </main>
 
     <aside class="about-aside">
-      <div class="about-portrait">
-        <ScientificFigure image={joel_mauna_loa} loading="lazy" />
-      </div>
       <div class="education-card">
         <h2 class="education-card__heading">Education</h2>
         <dl class="education-card__body">
@@ -117,9 +120,58 @@ const activeProjects = (await getFeaturedProjects()).filter(
 </BaseLayout>
 
 <style>
+  /* About header */
+  .about-header {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: var(--space-12);
+    align-items: start;
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-12);
+  }
+
+  @media (max-width: 800px) {
+    .about-header {
+      grid-template-columns: 1fr;
+    }
+    .about-header__portrait {
+      order: -1;
+      max-width: 280px;
+    }
+  }
+
+  .about-header__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-wine);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3);
+  }
+
+  .about-header__name {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.15;
+    margin: 0 0 var(--space-6);
+    letter-spacing: -0.015em;
+  }
+
+  .about-header__intro {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    max-width: 52ch;
+    margin: 0;
+  }
+
+  /* Main layout */
   .about-layout {
     display: grid;
-    grid-template-columns: 1fr 20rem;
+    grid-template-columns: 1fr 22rem;
     gap: var(--space-12);
     align-items: start;
   }
@@ -135,7 +187,7 @@ const activeProjects = (await getFeaturedProjects()).filter(
 
   .about-prose {
     font-size: 0.9375rem;
-    color: var(--color-ash);
+    color: var(--color-text);
     line-height: 1.8;
     max-width: 65ch;
     margin: 0 0 var(--space-4);
@@ -143,7 +195,7 @@ const activeProjects = (await getFeaturedProjects()).filter(
 
   .about-location {
     font-size: 0.875rem;
-    color: var(--color-muted-text);
+    color: var(--color-text-muted);
     margin: 0 0 var(--space-4);
   }
 
@@ -152,85 +204,57 @@ const activeProjects = (await getFeaturedProjects()).filter(
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
   }
 
   .theme-list__item {
     font-size: 0.9375rem;
-    color: var(--color-ash);
-    padding: var(--space-2) 0;
-    border-bottom: 1px solid var(--color-charcoal);
+    color: var(--color-text);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
   }
 
   .theme-list__item:first-child {
-    border-top: 1px solid var(--color-charcoal);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .theme-list__item::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background-color: var(--color-wine);
+    border-radius: 50%;
+    flex-shrink: 0;
   }
 
   /* Current projects */
   .current-projects {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .current-projects__item {
-    border-top: 1px solid var(--color-charcoal);
-  }
-
-  .current-projects__item:last-child {
-    border-bottom: 1px solid var(--color-charcoal);
-  }
-
-  .current-projects__link {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
-    padding: var(--space-4) 0;
-    text-decoration: none;
-  }
-
-  .current-projects__title {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--color-ivory);
-  }
-
-  .current-projects__subtitle {
-    font-size: 0.8125rem;
-    color: var(--color-muted-text);
-  }
-
-  .current-projects__link:hover .current-projects__title {
-    color: var(--color-sandstone);
-  }
-
-  /* Portrait */
-  .about-portrait {
-    margin-bottom: var(--space-6);
-    border-radius: var(--radius-md);
-    overflow: hidden;
+    gap: var(--space-3);
   }
 
   /* Education card */
   .education-card {
-    background-color: var(--color-basalt);
-    border: 1px solid var(--color-charcoal);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
     position: sticky;
-    top: var(--space-8);
+    top: calc(3.5rem + var(--space-4));
   }
 
   .education-card__heading {
     font-family: var(--font-display);
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 600;
-    color: var(--color-ivory);
+    color: var(--color-text);
     margin: 0 0 var(--space-6);
     padding-bottom: var(--space-3);
-    border-bottom: 1px solid var(--color-charcoal);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .education-card__body {
@@ -249,7 +273,7 @@ const activeProjects = (await getFeaturedProjects()).filter(
   }
 
   .education-card__row dt {
-    color: var(--color-muted-text);
+    color: var(--color-text-muted);
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     text-transform: uppercase;
@@ -257,7 +281,7 @@ const activeProjects = (await getFeaturedProjects()).filter(
   }
 
   .education-card__row dd {
-    color: var(--color-ash);
+    color: var(--color-text);
     margin: 0;
   }
 
@@ -273,13 +297,13 @@ const activeProjects = (await getFeaturedProjects()).filter(
   .education-card__thesis {
     font-size: 0.8125rem;
     line-height: 1.5;
-    color: var(--color-ash);
+    color: var(--color-text);
   }
 
   .education-card__thesis-note {
     display: block;
     font-size: 0.75rem;
-    color: var(--color-muted-text);
+    color: var(--color-text-muted);
     font-style: normal;
     margin-top: 2px;
   }
