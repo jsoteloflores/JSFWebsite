@@ -386,6 +386,18 @@ async function main(): Promise<void> {
     report,
   );
 
+  // ── Homepage: Kīlauea sunset hero (IMG_3639.jpeg) ────────────────────
+  await processImage(
+    {
+      source: src('IMG_3639.jpeg'),
+      dest: join(DEST_HOME, 'kilauea-sunset-hero.webp'),
+      width: 2560,
+      format: 'webp',
+      quality: 84,
+    },
+    report,
+  );
+
   // ── Homepage night-sky banner ────────────────────────────────────────
   await processImage(
     {

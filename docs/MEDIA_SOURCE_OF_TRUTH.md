@@ -288,25 +288,42 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ### HOME-IMG-01 — Night-sky Kīlauea banner
 
-| Field                     | Value                                                                              |
-| ------------------------- | ---------------------------------------------------------------------------------- |
-| Source filename           | `nightsky.JPG`                                                                     |
-| Source dimensions         | 4032×2268                                                                          |
-| Source size               | 4.7 MB                                                                             |
-| Source format             | JPEG (MPO)                                                                         |
-| Description               | Night-sky photograph above Kīlauea with volcanic glow visible near the right edge. |
-| Status                    | Approved                                                                           |
-| Role                      | Homepage landing banner                                                            |
-| Suggested public filename | `nightsky-banner.webp`                                                             |
-| Public derivative         | `public/media/home/nightsky-banner.webp`                                           |
-| Derivative dimensions     | 2400×1350                                                                          |
-| Derivative size           | 251 KB                                                                             |
-| Derivative format         | WebP (quality 82)                                                                  |
-| Credit                    | Not documented — do not fabricate                                                  |
+| Field                 | Value                                                                                   |
+| --------------------- | --------------------------------------------------------------------------------------- |
+| Source filename       | `nightsky.JPG`                                                                          |
+| Source dimensions     | 4032×2268                                                                               |
+| Source size           | 4.7 MB                                                                                  |
+| Source format         | JPEG (MPO)                                                                              |
+| Description           | Night-sky photograph above Kīlauea with volcanic glow visible near the right edge.      |
+| Status                | Approved                                                                                |
+| Role                  | Reserved — was homepage hero (Ticket 007); replaced by Kīlauea sunset hero (Ticket 008) |
+| Public derivative     | `public/media/home/nightsky-banner.webp`                                                |
+| Derivative dimensions | 2400×1350                                                                               |
+| Derivative size       | 251 KB                                                                                  |
+| Credit                | Not documented — do not fabricate                                                       |
+
+---
+
+### HOME-IMG-02 — Kīlauea sunset hero
+
+| Field                 | Value                                                                                                   |
+| --------------------- | ------------------------------------------------------------------------------------------------------- |
+| Source filename       | `IMG_3639.jpeg`                                                                                         |
+| Source dimensions     | 8064×4536                                                                                               |
+| Source size           | 2.8 MB                                                                                                  |
+| Source format         | JPEG (MPO)                                                                                              |
+| Description           | Sunset over Kīlauea with caldera foreground, volcanic plume, Mauna Loa silhouette, and orange-pink sky. |
+| Status                | Approved                                                                                                |
+| Role                  | Homepage hero (Ticket 008 onward)                                                                       |
+| Public derivative     | `public/media/home/kilauea-sunset-hero.webp`                                                            |
+| Derivative dimensions | 2560×1440                                                                                               |
+| Derivative size       | 100 KB                                                                                                  |
+| Derivative format     | WebP (quality 84)                                                                                       |
+| Credit                | Not documented — do not fabricate                                                                       |
 
 **Draft alt text**
 
-> Night sky above Kīlauea with volcanic glow visible near the right edge.
+> Sunset over Kīlauea with the caldera in the foreground, a volcanic plume rising, Mauna Loa visible on the horizon, and an orange-pink sky.
 
 ---
 

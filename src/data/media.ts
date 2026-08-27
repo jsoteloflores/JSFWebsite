@@ -281,6 +281,15 @@ export const joel_delicate_arch: PublicImage = {
 // Homepage banner                                                     //
 // ------------------------------------------------------------------ //
 
+export const kilauea_sunset_hero: PublicImage = {
+  id: 'kilauea-sunset-hero',
+  kind: 'image',
+  src: '/media/home/kilauea-sunset-hero.webp',
+  alt: 'Sunset over Kīlauea with caldera foreground, volcanic plume, Mauna Loa silhouette, and orange-pink sky.',
+  width: 2560,
+  height: 1440,
+};
+
 export const nightsky_banner: PublicImage = {
   id: 'nightsky-banner',
   kind: 'image',
@@ -316,6 +325,7 @@ export const mediaRegistry: Record<string, import('../types/media').MediaItem> =
   [pyro_foams_screenshot.id]: pyro_foams_screenshot,
   [joel_mauna_loa.id]: joel_mauna_loa,
   [joel_delicate_arch.id]: joel_delicate_arch,
+  [kilauea_sunset_hero.id]: kilauea_sunset_hero,
   [nightsky_banner.id]: nightsky_banner,
 };
 

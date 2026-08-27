@@ -1,0 +1,180 @@
+---
+/**
+ * FeaturedResearchStory — bespoke homepage editorial feature for a flagship project.
+ *
+ * Not a generic card. Used only on the homepage for the two active volcanology projects.
+ * No outer border or rounded box. Asymmetric media/text layout on wide screens.
+ * No client-side JavaScript.
+ */
+import type { ProjectFrontmatter } from '../../types/content-schemas';
+import type { ImagePair } from '../../types/media';
+import ScientificImagePair from '../media/ScientificImagePair.astro';
+
+interface Props {
+  /** 1-based display index for editorial numbering */
+  index: number;
+  data: ProjectFrontmatter;
+  href: string;
+  /** The scientific image pair to feature */
+  pair: ImagePair;
+  /** media-first: pair on left, text on right; text-first: reversed */
+  orientation?: 'media-first' | 'text-first';
+}
+
+const { index, data, href, pair, orientation = 'media-first' } = Astro.props;
+
+const indexStr = String(index).padStart(2, '0');
+
+// Build editorial metadata from research themes (max 3, uppercase, slash-separated)
+const metaLine = data.researchThemes
+  .slice(0, 3)
+  .map((t) => t.toUpperCase())
+  .join(' / ');
+---
+
+<article class={`featured-story featured-story--${orientation}`}>
+  <div class="featured-story__media">
+    <ScientificImagePair {pair} loading="lazy" />
+  </div>
+
+  <div class="featured-story__text">
+    <p class="featured-story__index" aria-hidden="true">
+      <span class="featured-story__index-num">{indexStr}</span>
+      <span class="featured-story__index-label">/ CURRENT RESEARCH</span>
+    </p>
+
+    <h2 class="featured-story__title">
+      <a href={href} class="featured-story__title-link">{data.title}</a>
+    </h2>
+
+    <p class="featured-story__summary">{data.summary}</p>
+
+    {
+      metaLine && (
+        <p class="featured-story__meta" aria-label="Research themes">
+          {metaLine}
+        </p>
+      )
+    }
+
+    <a href={href} class="featured-story__cta" aria-hidden="true" tabindex="-1">
+      View Project →
+    </a>
+  </div>
+</article>
+
+<style>
+  .featured-story {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
+    align-items: start;
+    padding-block: var(--space-12);
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Reversed orientation — text first, then media */
+  .featured-story--text-first {
+    direction: rtl;
+  }
+
+  .featured-story--text-first > * {
+    direction: ltr;
+  }
+
+  @media (max-width: 860px) {
+    .featured-story,
+    .featured-story--text-first {
+      grid-template-columns: 1fr;
+      direction: ltr;
+    }
+
+    .featured-story--text-first > * {
+      direction: ltr;
+    }
+  }
+
+  /* Index label */
+  .featured-story__index {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-4);
+  }
+
+  .featured-story__index-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-wine);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .featured-story__index-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* Project title */
+  .featured-story__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 0 0 var(--space-5);
+  }
+
+  .featured-story__title-link {
+    color: inherit;
+    text-decoration: none;
+    background: none;
+  }
+
+  .featured-story__title-link:hover {
+    color: var(--color-wine);
+    background: none;
+  }
+
+  /* Summary */
+  .featured-story__summary {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin: 0 0 var(--space-5);
+    max-width: 52ch;
+  }
+
+  /* Editorial metadata line */
+  .featured-story__meta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.06em;
+    margin: 0 0 var(--space-6);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-3);
+  }
+
+  /* View Project CTA */
+  .featured-story__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-wine);
+    text-decoration: none;
+    background: none;
+    transition: color var(--transition-duration) var(--transition-easing);
+  }
+
+  .featured-story__cta:hover {
+    color: var(--color-accent-hover);
+    background: none;
+  }
+</style>

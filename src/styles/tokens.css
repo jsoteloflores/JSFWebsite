@@ -65,10 +65,17 @@
     monospace;
 
   /* ============================================ */
-  /* Layout                                       */
+  /* Layout widths                               */
   /* ============================================ */
-  --content-max-width: 72rem;
-  --content-padding-inline: 1.5rem;
+  /* Reading — long prose, publications          */
+  --width-reading: 46rem;
+  /* Content — standard page content (default)  */
+  --width-content: 72rem;
+  /* Wide — scientific figures, editorial feat.  */
+  --width-wide: 88rem;
+
+  --content-max-width: var(--width-content);
+  --content-padding-inline: clamp(1rem, 3vw, 3rem);
 
   /* ============================================ */
   /* Spacing                                      */

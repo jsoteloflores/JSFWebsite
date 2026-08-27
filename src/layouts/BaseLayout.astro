@@ -6,9 +6,14 @@ import { profile } from '../data/profile';
 interface Props {
   title: string;
   description: string;
+  /**
+   * contained (default): slot is wrapped in .layout-content (72rem max-width)
+   * fluid: slot is placed directly in <main>; page manages its own widths
+   */
+  contentMode?: 'contained' | 'fluid';
 }
 
-const { title, description } = Astro.props;
+const { title, description, contentMode = 'contained' } = Astro.props;
 const currentPath = Astro.url.pathname;
 const year = new Date().getFullYear();
 
@@ -37,7 +42,7 @@ function isActive(href: string, path: string): boolean {
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <header class="site-header">
-      <div class="content-wrapper site-header__inner">
+      <div class="layout-wide site-header__inner">
         <a href="/" class="site-header__branding">{profile.displayName}</a>
         <nav aria-label="Primary navigation">
           <ul class="site-nav__list">
@@ -59,14 +64,23 @@ function isActive(href: string, path: string): boolean {
       </div>
     </header>
 
-    <main id="main-content" class="site-main">
-      <div class="content-wrapper">
-        <slot />
-      </div>
+    <main
+      id="main-content"
+      class={`site-main${contentMode === 'fluid' ? ' site-main--fluid' : ''}`}
+    >
+      {
+        contentMode === 'contained' ? (
+          <div class="layout-content">
+            <slot />
+          </div>
+        ) : (
+          <slot />
+        )
+      }
     </main>
 
     <footer class="site-footer">
-      <div class="content-wrapper site-footer__inner">
+      <div class="layout-wide site-footer__inner">
         <div class="site-footer__identity">
           <p class="site-footer__name">{profile.displayName}</p>
           <p class="site-footer__tagline">
