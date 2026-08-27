@@ -105,6 +105,12 @@ a:hover {
   color: var(--color-accent-hover);
   text-decoration-color: currentColor;
   background-color: var(--color-surface-soft);
+}
+
+/* Editorial inline text links — restricted to prose and section contexts */
+.prose a:hover,
+.section-more a:hover,
+.inline-link:hover {
   border-radius: 2px;
 }
 
@@ -186,12 +192,14 @@ a:hover {
   color: var(--color-accent-hover);
   background-color: var(--color-surface-soft);
   text-decoration: none;
+  border-radius: var(--radius-md);
 }
 
 .site-nav__link[aria-current='page'] {
   color: var(--color-wine);
   background-color: var(--color-surface-soft);
   font-weight: 600;
+  border-radius: var(--radius-md);
 }
 
 /* ================================================ */

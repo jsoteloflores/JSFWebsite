@@ -28,6 +28,7 @@ const SRC = join(ROOT, 'docs', 'media');
 const DEST_KILAUEA = join(ROOT, 'public', 'media', 'projects', 'kilauea');
 const DEST_IJEN = join(ROOT, 'public', 'media', 'projects', 'ijen');
 const DEST_ABOUT = join(ROOT, 'public', 'media', 'about');
+const DEST_HOME = join(ROOT, 'public', 'media', 'home');
 
 // ------------------------------------------------------------------ //
 // Helpers                                                             //
@@ -240,6 +241,7 @@ async function main(): Promise<void> {
   ensureDir(DEST_KILAUEA);
   ensureDir(DEST_IJEN);
   ensureDir(DEST_ABOUT);
+  ensureDir(DEST_HOME);
 
   // ── Kīlauea daytime pair (source: 1500×2000, 3:4) ──────────────────
   await processPair(
@@ -380,6 +382,18 @@ async function main(): Promise<void> {
       width: 1200,
       format: 'webp',
       quality: 85,
+    },
+    report,
+  );
+
+  // ── Homepage night-sky banner ────────────────────────────────────────
+  await processImage(
+    {
+      source: src('nightsky.JPG'),
+      dest: join(DEST_HOME, 'nightsky-banner.webp'),
+      width: 2400,
+      format: 'webp',
+      quality: 82,
     },
     report,
   );

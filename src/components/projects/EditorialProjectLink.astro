@@ -25,9 +25,11 @@ const { data, href, index } = Astro.props;
 ---
 
 <article class="editorial-project-link">
-  <a href={href} class="editorial-project-link__anchor" tabindex="0">
-    <span class="sr-only">View project: {data.title}</span>
-  </a>
+  <a
+    href={href}
+    class="editorial-project-link__anchor"
+    tabindex="0"
+    aria-label={`View project: ${data.title}`}></a>
 
   <div class="editorial-project-link__meta">
     {
@@ -56,12 +58,17 @@ const { data, href, index } = Astro.props;
     )
   }
 
-  <span class="editorial-project-link__arrow" aria-hidden="true">→</span>
+  <div class="editorial-project-link__footer" aria-hidden="true">
+    <span class="editorial-project-link__cta">View Project</span>
+    <span class="editorial-project-link__arrow">→</span>
+  </div>
 </article>
 
 <style>
   .editorial-project-link {
     position: relative;
+    display: flex;
+    flex-direction: column;
     padding: var(--space-6) var(--space-8);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
@@ -145,7 +152,7 @@ const { data, href, index } = Astro.props;
     flex-wrap: wrap;
     gap: var(--space-2);
     list-style: none;
-    margin: 0 0 var(--space-4);
+    margin: 0 0 0;
     padding: 0;
   }
 
@@ -158,11 +165,33 @@ const { data, href, index } = Astro.props;
     border-radius: var(--radius-sm);
   }
 
+  /* Footer — "View Project →" anchored to card bottom */
+  .editorial-project-link__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-4);
+  }
+
+  .editorial-project-link__cta {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-wine);
+    transition: color var(--transition-duration) var(--transition-easing);
+  }
+
+  .editorial-project-link:hover .editorial-project-link__cta {
+    color: var(--color-accent-hover);
+  }
+
   .editorial-project-link__arrow {
-    font-size: 1rem;
+    font-size: 0.9375rem;
     color: var(--color-wine);
     display: inline-block;
-    transition: transform var(--transition-duration) var(--transition-easing);
+    transition:
+      transform var(--transition-duration) var(--transition-easing),
+      color var(--transition-duration) var(--transition-easing);
   }
 
   .editorial-project-link:hover .editorial-project-link__arrow {

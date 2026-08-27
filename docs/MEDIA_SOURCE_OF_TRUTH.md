@@ -284,6 +284,32 @@ All assets begin as **Candidate** unless marked otherwise.
 
 ---
 
+## 2.3.5 Homepage night-sky banner
+
+### HOME-IMG-01 — Night-sky Kīlauea banner
+
+| Field                     | Value                                                                              |
+| ------------------------- | ---------------------------------------------------------------------------------- |
+| Source filename           | `nightsky.JPG`                                                                     |
+| Source dimensions         | 4032×2268                                                                          |
+| Source size               | 4.7 MB                                                                             |
+| Source format             | JPEG (MPO)                                                                         |
+| Description               | Night-sky photograph above Kīlauea with volcanic glow visible near the right edge. |
+| Status                    | Approved                                                                           |
+| Role                      | Homepage landing banner                                                            |
+| Suggested public filename | `nightsky-banner.webp`                                                             |
+| Public derivative         | `public/media/home/nightsky-banner.webp`                                           |
+| Derivative dimensions     | 2400×1350                                                                          |
+| Derivative size           | 251 KB                                                                             |
+| Derivative format         | WebP (quality 82)                                                                  |
+| Credit                    | Not documented — do not fabricate                                                  |
+
+**Draft alt text**
+
+> Night sky above Kīlauea with volcanic glow visible near the right edge.
+
+---
+
 ## 2.4 Personal and field photographs
 
 ### BIO-IMG-01 — Delicate Arch

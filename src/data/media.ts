@@ -278,6 +278,19 @@ export const joel_delicate_arch: PublicImage = {
 };
 
 // ------------------------------------------------------------------ //
+// Homepage banner                                                     //
+// ------------------------------------------------------------------ //
+
+export const nightsky_banner: PublicImage = {
+  id: 'nightsky-banner',
+  kind: 'image',
+  src: '/media/home/nightsky-banner.webp',
+  alt: 'Night sky above Kīlauea with volcanic glow visible near the right edge.',
+  width: 2400,
+  height: 1350,
+};
+
+// ------------------------------------------------------------------ //
 // Registry lookup map                                                 //
 // ------------------------------------------------------------------ //
 
@@ -303,6 +316,7 @@ export const mediaRegistry: Record<string, import('../types/media').MediaItem> =
   [pyro_foams_screenshot.id]: pyro_foams_screenshot,
   [joel_mauna_loa.id]: joel_mauna_loa,
   [joel_delicate_arch.id]: joel_delicate_arch,
+  [nightsky_banner.id]: nightsky_banner,
 };
 
 // ------------------------------------------------------------------ //

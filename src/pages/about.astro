@@ -123,7 +123,7 @@ const activeProjects = (await getFeaturedProjects()).filter(
   /* About header */
   .about-header {
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr minmax(400px, 440px);
     gap: var(--space-12);
     align-items: start;
     padding-bottom: var(--space-12);
@@ -131,13 +131,13 @@ const activeProjects = (await getFeaturedProjects()).filter(
     margin-bottom: var(--space-12);
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     .about-header {
       grid-template-columns: 1fr;
     }
     .about-header__portrait {
       order: -1;
-      max-width: 280px;
+      max-width: 100%;
     }
   }
 

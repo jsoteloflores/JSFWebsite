@@ -57,6 +57,10 @@ const CONTENT_CHECKS: [string, string[]][] = [
       'Computational',
       'data-section="hero"',
       '/media/projects/kilauea/',
+      // nightsky banner is served as a CSS background-image and
+      // appears in the _astro/ CSS bundle, not in the HTML body;
+      // verify its presence via the banner section class instead.
+      'data-section="primary-figure"',
     ],
   ],
   ['about/index.html', ['Washington and Lee University', 'Physics', 'Mauna Loa']],
@@ -259,6 +263,20 @@ for (const [page, paths] of mediaChecks) {
     } else {
       fail(`${page} missing expected media path: ${p}`);
     }
+  }
+}
+
+// 4b. Verify nightsky banner URL appears in the bundled CSS
+const astroDir = join(DIST, '_astro');
+if (existsSync(astroDir)) {
+  const cssFiles = readdirSync(astroDir).filter((f) => f.endsWith('.css'));
+  const bannerInCss = cssFiles.some((f) =>
+    readFileSync(join(astroDir, f), 'utf-8').includes('nightsky-banner.webp'),
+  );
+  if (bannerInCss) {
+    pass('nightsky-banner.webp found in bundled CSS (_astro/)');
+  } else {
+    fail('nightsky-banner.webp not found in any bundled CSS file');
   }
 }
 

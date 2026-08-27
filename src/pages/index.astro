@@ -23,31 +23,34 @@ const selectedPublication = publications[0];
   title="Computational Volcanology"
   description=`${profile.displayName} — computational and physical volcanology researcher at Washington and Lee University.`
 >
-  <!-- 1. Identity-first hero -->
-  <section class="hero" data-section="hero">
-    <div class="hero__identity">
-      <p class="hero__eyebrow">Computational &amp; Physical Volcanology</p>
-      <h1 class="hero__name">{profile.displayName}</h1>
-      <p class="hero__statement">
+  <!-- 1. Night-sky banner with identity overlay -->
+  <section class="banner" data-section="hero">
+    <div class="banner__bg"></div>
+    <div class="banner__overlay"></div>
+    <div class="banner__content content-wrapper">
+      <p class="banner__eyebrow">Computational &amp; Physical Volcanology</p>
+      <h1 class="banner__name">{profile.displayName}</h1>
+      <p class="banner__statement">
         I develop computer-vision and scientific-software workflows that turn volcanic
         imagery and micro-CT data into quantitative measurements of eruptive processes
         and pyroclast structure.
       </p>
-      <ul class="hero__meta" aria-label="Academic details">
+      <ul class="banner__meta" aria-label="Academic details">
         <li>{profile.institution}</li>
         <li>B.S. Physics</li>
         <li>B.S. Earth and Environmental Geoscience</li>
         <li>Expected June 2027</li>
         <li>{profile.location}</li>
       </ul>
-      <div class="hero__actions">
-        <a href="/research" class="btn-primary">Explore Research</a>
-        <a href="/about" class="btn-secondary">About Joel</a>
+      <div class="banner__actions">
+        <a href="/research" class="banner__btn banner__btn--primary">Explore Research</a
+        >
+        <a href="/about" class="banner__btn banner__btn--secondary">About Joel</a>
       </div>
     </div>
   </section>
 
-  <!-- 2. Primary scientific visual -->
+  <!-- 2. Scientific transformation: observation → segmentation -->
   <section class="primary-figure page-section" data-section="primary-figure">
     <p class="primary-figure__eyebrow">Observation → Segmentation</p>
     <div class="primary-figure__panel">
@@ -165,57 +168,155 @@ const selectedPublication = publications[0];
 </BaseLayout>
 
 <style>
-  /* Hero */
-  .hero {
-    padding-block: var(--space-20) var(--space-16);
-    border-bottom: 1px solid var(--color-border);
+  /* ================================================ */
+  /* Night-sky banner                                 */
+  /* ================================================ */
+
+  .banner {
+    position: relative;
+    min-height: 580px;
+    display: flex;
+    align-items: center;
     margin-bottom: var(--space-16);
-    max-width: 56ch;
+    overflow: hidden;
   }
 
-  .hero__eyebrow {
+  @media (max-width: 768px) {
+    .banner {
+      min-height: 480px;
+    }
+  }
+
+  @media (max-width: 375px) {
+    .banner {
+      min-height: 420px;
+    }
+  }
+
+  .banner__bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('/media/home/nightsky-banner.webp');
+    background-size: cover;
+    background-position: 65% center;
+    z-index: 0;
+  }
+
+  @media (max-width: 600px) {
+    .banner__bg {
+      background-position: 75% center;
+    }
+  }
+
+  .banner__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(20, 7, 9, 0.88) 0%,
+      rgba(20, 7, 9, 0.7) 40%,
+      rgba(20, 7, 9, 0.18) 75%,
+      rgba(20, 7, 9, 0) 100%
+    );
+    z-index: 1;
+  }
+
+  @media (max-width: 600px) {
+    .banner__overlay {
+      background: rgba(20, 7, 9, 0.72);
+    }
+  }
+
+  .banner__content {
+    position: relative;
+    z-index: 2;
+    padding-block: var(--space-16);
+    max-width: 54ch;
+  }
+
+  .banner__eyebrow {
     font-family: var(--font-mono);
     font-size: 0.6875rem;
-    color: var(--color-wine);
+    color: var(--color-surface-soft);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     margin: 0 0 var(--space-4);
   }
 
-  .hero__name {
+  .banner__name {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
     font-weight: 600;
-    color: var(--color-text);
+    color: #f6f2f3;
     line-height: 1.1;
-    margin: 0 0 var(--space-6);
+    margin: 0 0 var(--space-5);
     letter-spacing: -0.02em;
   }
 
-  .hero__statement {
-    font-size: clamp(1rem, 2vw, 1.125rem);
-    color: var(--color-text);
+  .banner__statement {
+    font-size: clamp(0.9375rem, 1.8vw, 1.0625rem);
+    color: #e8e0e2;
     line-height: 1.7;
-    max-width: 52ch;
-    margin: 0 0 var(--space-8);
+    max-width: 50ch;
+    margin: 0 0 var(--space-6);
   }
 
-  .hero__meta {
+  .banner__meta {
     list-style: none;
     padding: 0;
-    margin: 0 0 var(--space-10);
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
+    margin: 0 0 var(--space-8);
+    font-size: 0.8125rem;
+    color: var(--color-surface-soft);
     display: flex;
     flex-direction: column;
     gap: 3px;
   }
 
-  .hero__actions {
+  .banner__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
     align-items: center;
+  }
+
+  .banner__btn {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    transition:
+      background-color var(--transition-duration) var(--transition-easing),
+      border-color var(--transition-duration) var(--transition-easing),
+      box-shadow var(--transition-duration) var(--transition-easing);
+  }
+
+  .banner__btn--primary {
+    background-color: var(--color-wine);
+    border: 1.5px solid var(--color-wine);
+    color: #ffffff;
+  }
+
+  .banner__btn--primary:hover {
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(182, 58, 70, 0.4);
+  }
+
+  .banner__btn--secondary {
+    background-color: rgba(246, 242, 243, 0.12);
+    border: 1.5px solid rgba(246, 242, 243, 0.45);
+    color: #f6f2f3;
+    backdrop-filter: blur(2px);
+  }
+
+  .banner__btn--secondary:hover {
+    background-color: rgba(246, 242, 243, 0.22);
+    border-color: rgba(246, 242, 243, 0.7);
+    color: #ffffff;
   }
 
   /* Primary figure */
