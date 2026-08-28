@@ -39,16 +39,10 @@ const selectedPublication = publications[0];
         measurements from volcanic imagery and micro-CT data, with interests in eruption
         dynamics, pyroclast textures, and image-based analysis.
       </p>
-      <div class="hero__meta-grid" aria-label="Academic details">
-        <div class="hero__meta-col">
-          <p>{profile.institution}</p>
-          <p>B.S. Physics</p>
-          <p>B.S. Earth and Environmental Geoscience</p>
-        </div>
-        <div class="hero__meta-col">
-          <p>Expected June 2027</p>
-          <p>{profile.location}</p>
-        </div>
+      <div class="hero__meta" aria-label="Academic details">
+        <p>{profile.institution}</p>
+        <p>B.S. Physics · B.S. Earth and Environmental Geoscience</p>
+        <p>Expected June 2027 · {profile.location}</p>
       </div>
       <div class="hero__actions">
         <a href="/research" class="hero__btn hero__btn--primary">Explore Research</a>
@@ -189,8 +183,7 @@ const selectedPublication = publications[0];
     position: relative;
     min-height: clamp(560px, 72vh, 820px);
     display: flex;
-    align-items: flex-end;
-    padding-bottom: var(--space-16);
+    align-items: center;
   }
 
   .hero__bg {
@@ -239,7 +232,6 @@ const selectedPublication = publications[0];
     z-index: 2;
     width: 100%;
     max-width: var(--width-wide);
-    padding-top: var(--space-24);
   }
 
   .hero__name {
@@ -270,7 +262,7 @@ const selectedPublication = publications[0];
     color: var(--color-surface-soft);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-6);
   }
 
   .hero__statement {
@@ -287,26 +279,20 @@ const selectedPublication = publications[0];
     }
   }
 
-  .hero__meta-grid {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: var(--space-2) var(--space-12);
-    align-items: start;
+  .hero__meta {
+    max-width: 60ch;
     font-size: 0.8125rem;
     color: var(--color-surface-soft);
-    margin: 0 0 var(--space-8);
+    margin: 0 0 var(--space-6);
   }
 
-  .hero__meta-grid p {
+  .hero__meta p {
     margin: 0;
     line-height: 1.6;
   }
 
-  @media (max-width: 767px) {
-    .hero__meta-grid {
-      grid-template-columns: 1fr;
-      gap: 3px;
-    }
+  .hero__meta p + p {
+    margin-top: 3px;
   }
 
   .hero__actions {
