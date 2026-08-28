@@ -14,6 +14,43 @@ The CV system is designed to:
 
 ---
 
+# 0. Source Integrity Policy
+
+**Critical Rule:**
+
+The web CV is a formatted representation of the approved PDF CV. CV-specific prose must not be paraphrased, summarized, expanded, inferred, or "improved" by an implementation agent.
+
+**Primary authoritative source:**
+
+```text
+public/cv/Joel_Sotelo_Flores_CV.pdf
+```
+
+**Permitted web-only transformations:**
+
+- Line wrapping
+- Heading hierarchy
+- Date typography
+- Punctuation normalization
+- Fixing obvious PDF extraction artifacts
+- Adding internal research links
+- Adding download link
+
+**Not permitted:**
+
+- Rewriting CV content
+- Factual enrichment from other sources
+- Acronym expansion
+- Inferred metadata (institutions, advisors, dates)
+- Shortened citation titles
+- Inferred presentation types
+- Paraphrasing bullet points
+- Summarizing research contributions
+
+When updating CV data in `src/data/cv.ts`, verify every field against the approved PDF CV. Do not infer content from project pages, repository documentation, memory, or general knowledge when the PDF supplies the relevant information.
+
+---
+
 # 1. Data Sources
 
 The CV page (`src/pages/cv.astro`) assembles information from four primary sources:

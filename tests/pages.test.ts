@@ -291,6 +291,75 @@ describe('CV page (Ticket 011)', () => {
 });
 
 // ------------------------------------------------------------------ //
+// CV Source Integrity (Ticket 012)                                   //
+// ------------------------------------------------------------------ //
+
+describe('CV source integrity (Ticket 012)', () => {
+  const cvDataSource = readFileSync(join(ROOT, 'src', 'data', 'cv.ts'), 'utf-8');
+
+  it('contains correct institutions from PDF', () => {
+    expect(cvDataSource).toContain('University of Hawaiʻi at Mānoa');
+    expect(cvDataSource).toContain('Washington and Lee University');
+    expect(cvDataSource).toContain('Green Bank Observatory');
+    expect(cvDataSource).toContain('Facility for Rare Isotope Beams');
+  });
+
+  it('contains correct advisor names from PDF', () => {
+    expect(cvDataSource).toContain('Natalia Gauer Pasqualon');
+    expect(cvDataSource).toContain('Nicholas Barber');
+    expect(cvDataSource).toContain('David W. Sukow');
+    expect(cvDataSource).toContain('Irina Mazilu');
+    expect(cvDataSource).toContain('Carrie Finch-Smith');
+  });
+
+  it('contains correct dates from PDF', () => {
+    expect(cvDataSource).toContain('2026-06'); // Kīlauea REU start
+    expect(cvDataSource).toContain('2023-06'); // AIM start (not 2022)
+    expect(cvDataSource).toContain('2023-08'); // AIM end (not 2022)
+  });
+
+  it('does NOT contain American Institute of Mathematics hallucination', () => {
+    expect(cvDataSource).not.toContain('American Institute of Mathematics');
+    expect(cvDataSource).not.toContain('Pasadena');
+  });
+
+  it('does NOT contain hallucinated advisor names', () => {
+    expect(cvDataSource).not.toContain('James Davis');
+    expect(cvDataSource).not.toContain('Nial Barber');
+  });
+
+  it('does NOT contain hallucinated institution names', () => {
+    expect(cvDataSource).not.toContain('National Superconducting Cyclotron Laboratory');
+    expect(cvDataSource).not.toContain('National Radio Astronomy Observatory');
+  });
+
+  it('does NOT contain fabricated quantitative data', () => {
+    expect(cvDataSource).not.toContain('2,300+');
+    expect(cvDataSource).not.toContain('2300');
+  });
+
+  it('Kīlauea manuscript uses correct title from PDF', () => {
+    expect(cvDataSource).toContain(
+      'Computer Vision Segmentation of Kīlauea Lava Fountain Video for Physical Eruption Parameter Extraction',
+    );
+  });
+
+  it('Kīlauea manuscript does NOT use invented title', () => {
+    expect(cvDataSource).not.toContain(
+      'Automated lava-fountain measurement from video: A computer-vision approach',
+    );
+  });
+
+  it('AGU 2025 presentation includes full author list from PDF', () => {
+    expect(cvDataSource).toContain('Berlo, K.');
+    expect(cvDataSource).toContain('Handini, E.');
+    expect(cvDataSource).toContain('Buono, G.');
+    expect(cvDataSource).toContain('Pappalardo, L.');
+    expect(cvDataSource).toContain('van Hinsberg, V.');
+  });
+});
+
+// ------------------------------------------------------------------ //
 // Navigation                                                          //
 // ------------------------------------------------------------------ //
 

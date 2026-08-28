@@ -262,9 +262,8 @@ const peerReviewedPub = publicPubs.find((p) => p.data.status === 'published');
               {submittedConferenceAbstracts.map((abs) => (
                 <div class="cv-abstract">
                   <p class="cv-abstract__citation">
-                    {abs.authors.join(', ')}. "{abs.title}"{' '}
-                    {abs.type === 'poster' ? 'Poster' : 'Oral presentation'} abstract
-                    submitted to {abs.conference}.
+                    {abs.authors.join(', ')}. "{abs.title}" Abstract submitted to{' '}
+                    {abs.conference}.
                   </p>
                   <span class="cv-abstract__status">Abstract submitted</span>
                 </div>
