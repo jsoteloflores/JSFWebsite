@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="JSF monogram">
+  <rect width="512" height="512" rx="104" fill="#651f35"/>
+  <rect x="18" y="18" width="476" height="476" rx="88" fill="none" stroke="#f6ebdd" stroke-width="16"/>
+  <text x="256" y="337" text-anchor="middle" fill="#f6ebdd"
+        font-family="New York, Georgia, serif" font-size="218" font-weight="600" letter-spacing="-10">JSF</text>
+</svg>
