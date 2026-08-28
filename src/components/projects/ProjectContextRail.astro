@@ -1,0 +1,175 @@
+---
+/**
+ * ProjectContextRail — editorial context rail for project detail pages.
+ * Replaces the bordered metadata card with a clean editorial structure.
+ * Uses thin rules, generous spacing, and text-based research themes.
+ * No client-side JavaScript.
+ */
+import type { ProjectFrontmatter } from '../../types/content-schemas';
+import StatusLabel from '../core/StatusLabel.astro';
+
+interface Props {
+  data: ProjectFrontmatter;
+}
+
+const { data } = Astro.props;
+
+const MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+function formatDate(d: string): string {
+  const parts = d.split('-');
+  if (parts.length >= 2) {
+    const monthIdx = parseInt(parts[1] ?? '1', 10) - 1;
+    const month = MONTHS[monthIdx] ?? '';
+    return month ? `${month} ${parts[0]}` : (parts[0] ?? d);
+  }
+  return d;
+}
+
+const period = data.startDate
+  ? `${formatDate(data.startDate)} – ${data.endDate ? formatDate(data.endDate) : 'present'}`
+  : null;
+---
+
+<aside class="context-rail" aria-label="Project context">
+  <h2 class="context-rail__heading">Project Context</h2>
+
+  <div class="context-rail__section">
+    <h3 class="context-rail__label">Status</h3>
+    <div class="context-rail__value">
+      <StatusLabel status={data.status} />
+    </div>
+  </div>
+
+  {
+    period && (
+      <div class="context-rail__section">
+        <h3 class="context-rail__label">Period</h3>
+        <p class="context-rail__value">{period}</p>
+      </div>
+    )
+  }
+
+  {
+    data.institutions && data.institutions.length > 0 && (
+      <div class="context-rail__section">
+        <h3 class="context-rail__label">Institution</h3>
+        <p class="context-rail__value">{data.institutions.join('; ')}</p>
+      </div>
+    )
+  }
+
+  {
+    data.advisor && (
+      <div class="context-rail__section">
+        <h3 class="context-rail__label">Advisor</h3>
+        <p class="context-rail__value">{data.advisor}</p>
+      </div>
+    )
+  }
+
+  {
+    data.researchThemes.length > 0 && (
+      <div class="context-rail__section">
+        <h3 class="context-rail__label">Research Areas</h3>
+        <div class="context-rail__value context-rail__themes">
+          {data.researchThemes.map((t, i) => (
+            <Fragment>
+              {i > 0 && <br />}
+              {t}
+            </Fragment>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  {
+    data.methods && data.methods.length > 0 && (
+      <div class="context-rail__section">
+        <h3 class="context-rail__label">Methods</h3>
+        <div class="context-rail__value">
+          {data.methods.map((m, i) => (
+            <Fragment>
+              {i > 0 && <br />}
+              {m}
+            </Fragment>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  {
+    data.tools && data.tools.length > 0 && (
+      <div class="context-rail__section">
+        <h3 class="context-rail__label">Tools</h3>
+        <p class="context-rail__value">{data.tools.join(', ')}</p>
+      </div>
+    )
+  }
+</aside>
+
+<style>
+  .context-rail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .context-rail__heading {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--color-wine);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .context-rail__section {
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid rgba(223, 213, 216, 0.5);
+  }
+
+  .context-rail__section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .context-rail__label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 var(--space-2);
+  }
+
+  .context-rail__value {
+    font-size: 0.875rem;
+    color: var(--color-text);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .context-rail__themes {
+    line-height: 1.7;
+  }
+</style>

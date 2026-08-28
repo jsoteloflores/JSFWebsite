@@ -306,3 +306,95 @@ describe('ScientificFigure structural assertions', () => {
     expect(source).toContain('loading');
   });
 });
+
+// ------------------------------------------------------------------ //
+// Derived graphics validation (Ticket 010)                            //
+// ------------------------------------------------------------------ //
+
+describe('derived graphics integrity', () => {
+  const derivedGraphics = Object.values(mediaRegistry).filter(
+    (item) => item.kind === 'derived-graphic',
+  );
+
+  it('has derived graphics registered', () => {
+    expect(derivedGraphics.length).toBeGreaterThan(0);
+  });
+
+  for (const graphic of derivedGraphics) {
+    if (graphic.kind !== 'derived-graphic') continue;
+
+    describe(`derived graphic: ${graphic.id}`, () => {
+      it('has valid source media ID that exists in registry', () => {
+        expect(mediaRegistry[graphic.sourceMediaId]).toBeDefined();
+      });
+
+      it('has project ID', () => {
+        expect(graphic.projectId).toBeTruthy();
+      });
+
+      it('SVG file exists', () => {
+        const filepath = join(ROOT, 'public', graphic.src);
+        expect(existsSync(filepath), `SVG not found: ${graphic.src}`).toBe(true);
+      });
+
+      it('SVG file is under 50 KB', () => {
+        const filepath = join(ROOT, 'public', graphic.src);
+        if (existsSync(filepath)) {
+          const stats = readFileSync(filepath);
+          const sizeKB = stats.length / 1024;
+          expect(sizeKB, `SVG too large: ${sizeKB.toFixed(1)} KB`).toBeLessThan(50);
+        }
+      });
+
+      it('SVG contains valid viewBox', () => {
+        const filepath = join(ROOT, 'public', graphic.src);
+        if (existsSync(filepath)) {
+          const content = readFileSync(filepath, 'utf-8');
+          expect(content).toContain('viewBox');
+        }
+      });
+
+      it('SVG is marked aria-hidden (decorative)', () => {
+        const filepath = join(ROOT, 'public', graphic.src);
+        if (existsSync(filepath)) {
+          const content = readFileSync(filepath, 'utf-8');
+          if (graphic.purpose === 'decorative') {
+            expect(content).toContain('aria-hidden="true"');
+          }
+        }
+      });
+
+      it('SVG contains no embedded raster data', () => {
+        const filepath = join(ROOT, 'public', graphic.src);
+        if (existsSync(filepath)) {
+          const content = readFileSync(filepath, 'utf-8');
+          expect(content).not.toContain('<image');
+          expect(content).not.toContain('data:image/');
+        }
+      });
+    });
+  }
+});
+
+describe('workflow notation', () => {
+  const projectPageSource = readFileSync(
+    join(ROOT, 'src/pages/research/[id].astro'),
+    'utf-8',
+  );
+
+  it('defines workflows for flagship projects', () => {
+    expect(projectPageSource).toContain("'kilauea-lava-fountain-computer-vision'");
+    expect(projectPageSource).toContain('Field Video');
+    expect(projectPageSource).toContain('Segmentation');
+  });
+
+  it('renders workflow notation HTML', () => {
+    expect(projectPageSource).toContain('workflow-notation');
+    expect(projectPageSource).toContain('workflow-notation__stage');
+  });
+
+  it('uses accessible arrow separator', () => {
+    expect(projectPageSource).toContain('workflow-notation__arrow');
+    expect(projectPageSource).toContain('aria-hidden="true"');
+  });
+});

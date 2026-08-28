@@ -194,5 +194,7 @@ function extractPaths(item: MediaItem): string[] {
       return [item.left.src, item.right.src];
     case 'video-pair':
       return [item.left.src, item.right.src, item.left.poster, item.right.poster];
+    case 'derived-graphic':
+      return [item.src];
   }
 }

@@ -1,0 +1,94 @@
+---
+/**
+ * Scientific marginalia — editorial project context in a restrained side-note treatment.
+ * Uses verified project metadata only. No fabricated dataset numbers or acquisition details.
+ *
+ * Visual style: thin rules, uppercase, generous spacing, wine accent.
+ * Conceptually: field notebook or publication marginalia, not UI badges.
+ */
+
+interface Props {
+  /** Array of context labels to display */
+  labels: string[];
+  /** Optional orientation: 'vertical' (default) or 'horizontal' */
+  orientation?: 'vertical' | 'horizontal';
+}
+
+const { labels, orientation = 'vertical' } = Astro.props;
+---
+
+<aside
+  class:list={['marginalia', `marginalia--${orientation}`]}
+  aria-label="Project context"
+>
+  {
+    labels.map((label) => (
+      <div class="marginalia__item">
+        <span class="marginalia__text">{label}</span>
+      </div>
+    ))
+  }
+</aside>
+
+<style>
+  .marginalia {
+    display: flex;
+    gap: var(--space-4);
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-wine);
+  }
+
+  .marginalia--vertical {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .marginalia--horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+
+  .marginalia__item {
+    position: relative;
+    padding-left: var(--space-4);
+  }
+
+  .marginalia--vertical .marginalia__item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.25em;
+    bottom: 0.25em;
+    width: 2px;
+    background-color: currentColor;
+    opacity: 0.4;
+  }
+
+  .marginalia--horizontal .marginalia__item {
+    padding-left: 0;
+  }
+
+  .marginalia--horizontal .marginalia__item:not(:last-child)::after {
+    content: '·';
+    position: absolute;
+    right: calc(-1 * var(--space-3));
+    opacity: 0.5;
+  }
+
+  .marginalia__text {
+    display: block;
+    line-height: 1.4;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .marginalia * {
+      transition: none;
+    }
+  }
+</style>

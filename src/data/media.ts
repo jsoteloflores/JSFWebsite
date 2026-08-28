@@ -16,6 +16,7 @@ import type {
   PublicVideo,
   ImagePair,
   VideoPair,
+  DerivedGraphic,
   ProjectMediaMap,
 } from '../types/media';
 
@@ -300,6 +301,28 @@ export const nightsky_banner: PublicImage = {
 };
 
 // ------------------------------------------------------------------ //
+// Derived graphics — visual identity elements from real research     //
+// ------------------------------------------------------------------ //
+
+export const kilauea_fountain_contour: DerivedGraphic = {
+  id: 'kilauea-fountain-contour',
+  kind: 'derived-graphic',
+  src: '/media/graphics/kilauea-fountain-contour.svg',
+  sourceMediaId: 'kilauea-daytime-mask',
+  purpose: 'decorative',
+  projectId: 'kilauea-lava-fountain-computer-vision',
+};
+
+export const ijen_vesicle_contours: DerivedGraphic = {
+  id: 'ijen-vesicle-contours',
+  kind: 'derived-graphic',
+  src: '/media/graphics/ijen-vesicle-contours.svg',
+  sourceMediaId: 'ijen-sem-mask',
+  purpose: 'decorative',
+  projectId: 'ijen-pyroclast-microct-analysis',
+};
+
+// ------------------------------------------------------------------ //
 // Registry lookup map                                                 //
 // ------------------------------------------------------------------ //
 
@@ -327,6 +350,8 @@ export const mediaRegistry: Record<string, import('../types/media').MediaItem> =
   [joel_delicate_arch.id]: joel_delicate_arch,
   [kilauea_sunset_hero.id]: kilauea_sunset_hero,
   [nightsky_banner.id]: nightsky_banner,
+  [kilauea_fountain_contour.id]: kilauea_fountain_contour,
+  [ijen_vesicle_contours.id]: ijen_vesicle_contours,
 };
 
 // ------------------------------------------------------------------ //
@@ -345,10 +370,22 @@ export const projectMedia: ProjectMediaMap = {
       'joel-at-kilauea',
       'fieldwork-group',
     ],
+    mediaPlacements: {
+      afterSection: {
+        'Data and materials': ['kilauea-fountain-photo'],
+        Methods: ['kilauea-night-pair', 'kilauea-video-pair'],
+        'My contribution': ['fountainlabeller-interface'],
+      },
+    },
   },
   'ijen-pyroclast-microct-analysis': {
     heroPair: 'ijen-sem-pair',
     imagePairs: ['ijen-sem-pair'],
     screenshots: ['pyro-foams-interface'],
+    mediaPlacements: {
+      afterSection: {
+        Methods: ['pyro-foams-interface'],
+      },
+    },
   },
 };

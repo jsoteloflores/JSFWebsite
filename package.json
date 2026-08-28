@@ -17,6 +17,7 @@
     "content:validate": "tsx scripts/validate-content.ts",
     "media:process": "tsx scripts/process-media.ts",
     "media:validate": "tsx scripts/validate-media.ts",
+    "graphics:generate": "tsx scripts/process-research-graphics.ts",
     "site:verify": "tsx scripts/verify-site.ts",
     "validate": "npm run format:check && npm run lint && npm run typecheck && npm run content:validate && npm run media:validate && npm run test && npm run build && npm run site:verify"
   },
