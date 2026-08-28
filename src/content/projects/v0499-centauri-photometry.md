@@ -59,4 +59,4 @@ What is the pulsation period of V0499 Centauri, and what photometric distance ca
 
 ## Research outputs
 
-An associated manuscript has been submitted for review. See the unresolved questions document for current status details.
+An associated manuscript has been submitted for review.

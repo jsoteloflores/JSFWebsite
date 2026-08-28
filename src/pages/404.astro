@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/core/PageHeader.astro';
+---
+
+<BaseLayout title="Page not found" description="The requested page could not be found.">
+  <PageHeader eyebrow="404" title="Page not found">
+    <p>The page you're looking for doesn't exist or has been moved.</p>
+  </PageHeader>
+
+  <div class="not-found-actions">
+    <a href="/" class="not-found-link">Return home →</a>
+    <a href="/research" class="not-found-link">Research →</a>
+    <a href="/publications" class="not-found-link">Publications →</a>
+    <a href="/cv" class="not-found-link">CV →</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-block-start: 2rem;
+  }
+
+  .not-found-link {
+    color: var(--color-wine);
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-wine);
+    border-radius: 0.25rem;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+
+  .not-found-link:hover,
+  .not-found-link:focus {
+    background-color: var(--color-wine);
+    color: var(--color-ivory);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .not-found-link {
+      transition: none;
+    }
+  }
+</style>

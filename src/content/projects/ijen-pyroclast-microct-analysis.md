@@ -77,4 +77,4 @@ The work enables quantitative analysis of connected pore networks, porosity, per
 
 ## Research outputs
 
-Associated manuscripts and software are in preparation. See the unresolved questions document for current status details.
+Associated manuscripts and software are in preparation.

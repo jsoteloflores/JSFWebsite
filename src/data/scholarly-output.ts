@@ -217,7 +217,7 @@ export const submittedConferenceAbstracts: SubmittedConferenceAbstract[] = [
   },
   {
     title:
-      'PyRo-FOAMS: An open-source workflow for automated vesicle segmentation and stereological analysis',
+      'Deep Learning Segmentation and Pore-Network Characterization of Pyroclastic Micro-CT Volumes',
     authors: ['Sotelo Flores, J.', 'Barber, N. D.', 'Handini, E.', 'Berlo, K.'],
     conference: 'American Geophysical Union Fall Meeting',
     date: '2026-12',

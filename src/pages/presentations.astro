@@ -6,11 +6,6 @@ import {
   submittedConferenceAbstracts,
 } from '../data/scholarly-output';
 
-// Helper to emphasize Joel's name
-function emphasizeAuthor(author: string): string {
-  return author === 'Sotelo Flores, J.' ? `<strong>${author}</strong>` : author;
-}
-
 // Sort presentations by date (most recent first)
 const sortedPresentations = [...completedPresentations].sort((a, b) =>
   b.date.localeCompare(a.date),
@@ -42,7 +37,13 @@ const sortedPresentations = [...completedPresentations].sort((a, b) =>
                 <p class="pres-entry__authors">
                   {pres.authors.map((author, i) => (
                     <Fragment>
-                      <span set:html={emphasizeAuthor(author)} />
+                      {author === 'Sotelo Flores, J.' ? (
+                        <span>
+                          <strong>{author}</strong>
+                        </span>
+                      ) : (
+                        <span>{author}</span>
+                      )}
                       {i < pres.authors.length - 1 && ', '}
                     </Fragment>
                   ))}
@@ -76,7 +77,13 @@ const sortedPresentations = [...completedPresentations].sort((a, b) =>
               <p class="pres-entry__authors">
                 {abstract.authors.map((author, i) => (
                   <Fragment>
-                    <span set:html={emphasizeAuthor(author)} />
+                    {author === 'Sotelo Flores, J.' ? (
+                      <span>
+                        <strong>{author}</strong>
+                      </span>
+                    ) : (
+                      <span>{author}</span>
+                    )}
                     {i < abstract.authors.length - 1 && ', '}
                   </Fragment>
                 ))}

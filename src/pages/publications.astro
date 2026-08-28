@@ -10,11 +10,6 @@ import {
 } from '../data/scholarly-output';
 
 const publications = await getPublicPublications();
-
-// Helper to emphasize Joel's name
-function emphasizeAuthor(author: string): string {
-  return author === 'Sotelo Flores, J.' ? `<strong>${author}</strong>` : author;
-}
 ---
 
 <BaseLayout
@@ -52,7 +47,13 @@ function emphasizeAuthor(author: string): string {
               <p class="pub-entry__citation">
                 {manuscript.authors.map((author, i) => (
                   <Fragment>
-                    <span set:html={emphasizeAuthor(author)} />
+                    {author === 'Sotelo Flores, J.' ? (
+                      <span>
+                        <strong>{author}</strong>
+                      </span>
+                    ) : (
+                      <span>{author}</span>
+                    )}
                     {i < manuscript.authors.length - 1 && ', '}
                   </Fragment>
                 ))}
@@ -84,7 +85,13 @@ function emphasizeAuthor(author: string): string {
               <p class="pub-entry__citation">
                 {manuscript.authors.map((author, i) => (
                   <Fragment>
-                    <span set:html={emphasizeAuthor(author)} />
+                    {author === 'Sotelo Flores, J.' ? (
+                      <span>
+                        <strong>{author}</strong>
+                      </span>
+                    ) : (
+                      <span>{author}</span>
+                    )}
                     {i < manuscript.authors.length - 1 && ', '}
                   </Fragment>
                 ))}

@@ -600,3 +600,123 @@ describe('shared scholarly data architecture', () => {
     expect(matches).toBeNull();
   });
 });
+
+// ------------------------------------------------------------------ //
+// TICKET 014: Launch-readiness regression tests                      //
+// ------------------------------------------------------------------ //
+
+describe('Ticket 014: Navigation order', () => {
+  it('CV appears before About in navigation', () => {
+    const navOrder = [
+      'Home',
+      'Research',
+      'Publications',
+      'Presentations',
+      'Software',
+      'CV',
+      'About',
+    ];
+    const cvIndex = navOrder.indexOf('CV');
+    const aboutIndex = navOrder.indexOf('About');
+    expect(cvIndex).toBeGreaterThan(-1);
+    expect(aboutIndex).toBeGreaterThan(-1);
+    expect(cvIndex).toBeLessThan(aboutIndex);
+  });
+});
+
+describe('Ticket 014: Critical scholarly content titles', () => {
+  let scholarlyOutput: string;
+  beforeAll(() => {
+    scholarlyOutput = readFileSync(
+      join(ROOT, 'src', 'data', 'scholarly-output.ts'),
+      'utf-8',
+    );
+  });
+
+  it('includes V0499 Centauri manuscript title', () => {
+    expect(scholarlyOutput).toContain(
+      'BViz Photometric Distance to the RR Lyrae Star V0499 Centauri',
+    );
+  });
+
+  it('includes PyRo-FOAMS manuscript title (not abstract)', () => {
+    expect(scholarlyOutput).toContain(
+      'PyRo-FOAMS: An open-source workflow for automated vesicle segmentation and stereological analysis',
+    );
+  });
+
+  it('includes Kīlauea abstract title (first submitted)', () => {
+    expect(scholarlyOutput).toContain(
+      'Computer Vision Segmentation of Kīlauea Lava Fountain Video for Physical Eruption Parameter Extraction',
+    );
+  });
+
+  it('includes Ijen oral presentation title', () => {
+    expect(scholarlyOutput).toContain(
+      'A field-based and 2D/3D stereological analysis of pyroclasts from the Ijen Caldera Complex: new insights into eruptive history and processes',
+    );
+  });
+
+  it('includes Deep Learning abstract title (second submitted)', () => {
+    expect(scholarlyOutput).toContain(
+      'Deep Learning Segmentation and Pore-Network Characterization of Pyroclastic Micro-CT Volumes',
+    );
+  });
+});
+
+describe('Ticket 014: Negative regression tests', () => {
+  let allContent: string;
+  beforeAll(() => {
+    const scholarlyOutput = readFileSync(
+      join(ROOT, 'src', 'data', 'scholarly-output.ts'),
+      'utf-8',
+    );
+    const kilauea = readFileSync(
+      join(
+        ROOT,
+        'src',
+        'content',
+        'projects',
+        'kilauea-lava-fountain-computer-vision.md',
+      ),
+      'utf-8',
+    );
+    const ijen = readFileSync(
+      join(ROOT, 'src', 'content', 'projects', 'ijen-pyroclast-microct-analysis.md'),
+      'utf-8',
+    );
+    const v0499 = readFileSync(
+      join(ROOT, 'src', 'content', 'projects', 'v0499-centauri-photometry.md'),
+      'utf-8',
+    );
+    allContent = [scholarlyOutput, kilauea, ijen, v0499].join('\n');
+  });
+
+  it('does not contain "American Institute of Mathematics"', () => {
+    expect(allContent).not.toContain('American Institute of Mathematics');
+  });
+
+  it('does not contain "James Davis"', () => {
+    expect(allContent).not.toContain('James Davis');
+  });
+
+  it('does not contain "Nial Barber"', () => {
+    expect(allContent).not.toContain('Nial Barber');
+  });
+
+  it('does not contain "2,300+"', () => {
+    expect(allContent).not.toContain('2,300+');
+  });
+
+  it('does not reference "unresolved questions document"', () => {
+    expect(allContent).not.toContain('unresolved questions document');
+  });
+
+  it('does not contain "records are being prepared"', () => {
+    expect(allContent).not.toContain('records are being prepared');
+  });
+
+  it('does not contain "records are being withheld"', () => {
+    expect(allContent).not.toContain('records are being withheld');
+  });
+});

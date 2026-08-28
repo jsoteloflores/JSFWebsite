@@ -67,4 +67,4 @@ U-Net models have been trained to identify lava-fountain regions across changing
 
 ## Research outputs
 
-Associated publications and software are in preparation. See the unresolved questions document for current status details.
+Associated publications and software are in preparation.
