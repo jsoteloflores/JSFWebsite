@@ -39,13 +39,17 @@ const selectedPublication = publications[0];
         measurements from volcanic imagery and micro-CT data, with interests in eruption
         dynamics, pyroclast textures, and image-based analysis.
       </p>
-      <ul class="hero__meta" aria-label="Academic details">
-        <li>{profile.institution}</li>
-        <li>B.S. Physics</li>
-        <li>B.S. Earth and Environmental Geoscience</li>
-        <li>Expected June 2027</li>
-        <li>{profile.location}</li>
-      </ul>
+      <div class="hero__meta-grid" aria-label="Academic details">
+        <div class="hero__meta-col">
+          <p>{profile.institution}</p>
+          <p>B.S. Physics</p>
+          <p>B.S. Earth and Environmental Geoscience</p>
+        </div>
+        <div class="hero__meta-col">
+          <p>Expected June 2027</p>
+          <p>{profile.location}</p>
+        </div>
+      </div>
       <div class="hero__actions">
         <a href="/research" class="hero__btn hero__btn--primary">Explore Research</a>
         <a href="/about" class="hero__btn hero__btn--secondary">About Joel</a>
@@ -53,37 +57,44 @@ const selectedPublication = publications[0];
     </div>
   </section>
 
-  <!-- ===== 2. KĪLAUEA FEATURED RESEARCH ===== -->
-  {
-    kilauea && (
-      <section class="layout-wide" data-section="featured-kilauea">
-        <FeaturedResearchStory
-          index={1}
-          data={kilauea.data}
-          href={projectUrl(kilauea.id)}
-          pair={kilauea_daytime_pair}
-          orientation="media-first"
-        />
-      </section>
-    )
-  }
+  <!-- ===== 2. CURRENT RESEARCH SECTION ===== -->
+  <div class="research-section" data-section="current-research">
+    <div class="layout-wide">
+      <p class="research-section__label">Current Research</p>
+    </div>
 
-  <!-- ===== 3. IJEN FEATURED RESEARCH (reversed) ===== -->
-  {
-    ijen && (
-      <section class="layout-wide" data-section="featured-ijen">
-        <FeaturedResearchStory
-          index={2}
-          data={ijen.data}
-          href={projectUrl(ijen.id)}
-          pair={ijen_sem_pair}
-          orientation="text-first"
-        />
-      </section>
-    )
-  }
+    <!-- Kīlauea Featured Research -->
+    {
+      kilauea && (
+        <section class="layout-wide research-feature">
+          <FeaturedResearchStory
+            index={1}
+            data={kilauea.data}
+            href={projectUrl(kilauea.id)}
+            pair={kilauea_daytime_pair}
+            orientation="media-first"
+          />
+        </section>
+      )
+    }
 
-  <!-- ===== 4. RESEARCH INTERESTS ===== -->
+    <!-- Ijen Featured Research (reversed) -->
+    {
+      ijen && (
+        <section class="layout-wide research-feature">
+          <FeaturedResearchStory
+            index={2}
+            data={ijen.data}
+            href={projectUrl(ijen.id)}
+            pair={ijen_sem_pair}
+            orientation="text-first"
+          />
+        </section>
+      )
+    }
+  </div>
+
+  <!-- ===== 3. RESEARCH INTERESTS ===== -->
   <section class="interests-section" data-section="research-interests">
     <div class="layout-wide">
       <h2 class="interests-section__heading">Research interests</h2>
@@ -123,7 +134,7 @@ const selectedPublication = publications[0];
     </div>
   </section>
 
-  <!-- ===== 5. ABOUT PREVIEW — editorial, no card border ===== -->
+  <!-- ===== 4. ABOUT PREVIEW — editorial, no card border ===== -->
   <section class="about-preview" data-section="about-preview">
     <div class="layout-wide about-preview__inner">
       <div class="about-preview__image">
@@ -144,7 +155,7 @@ const selectedPublication = publications[0];
     </div>
   </section>
 
-  <!-- ===== 6. PUBLICATION — reading width ===== -->
+  <!-- ===== 5. PUBLICATION — reading width ===== -->
   {
     selectedPublication && (
       <section class="pub-section" data-section="selected-publication">
@@ -159,7 +170,7 @@ const selectedPublication = publications[0];
     )
   }
 
-  <!-- ===== 7. CONTACT ===== -->
+  <!-- ===== 6. CONTACT ===== -->
   <section class="contact-section" data-section="contact">
     <div class="layout-content">
       <h2 class="section-heading">Get in touch</h2>
@@ -226,18 +237,36 @@ const selectedPublication = publications[0];
   .hero__content {
     position: relative;
     z-index: 2;
-    max-width: 52ch;
+    max-width: 72ch;
     padding-top: var(--space-24);
+  }
+
+  @media (max-width: 1199px) {
+    .hero__content {
+      max-width: 62ch;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero__content {
+      max-width: 52ch;
+    }
   }
 
   .hero__name {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: clamp(3rem, 5vw, 5.5rem);
     font-weight: 600;
     color: #f6f2f3;
     line-height: 1.05;
     margin: 0 0 var(--space-3);
     letter-spacing: -0.025em;
+  }
+
+  @media (max-width: 767px) {
+    .hero__name {
+      font-size: clamp(2.5rem, 8vw, 3.5rem);
+    }
   }
 
   .hero__discipline {
@@ -253,19 +282,36 @@ const selectedPublication = publications[0];
     font-size: clamp(0.9375rem, 1.8vw, 1.0625rem);
     color: rgba(246, 242, 243, 0.88);
     line-height: 1.7;
-    max-width: 48ch;
+    max-width: 62ch;
     margin: 0 0 var(--space-6);
   }
 
-  .hero__meta {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 var(--space-8);
+  @media (max-width: 767px) {
+    .hero__statement {
+      max-width: 48ch;
+    }
+  }
+
+  .hero__meta-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: var(--space-2) var(--space-12);
+    align-items: start;
     font-size: 0.8125rem;
     color: var(--color-surface-soft);
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+    margin: 0 0 var(--space-8);
+  }
+
+  .hero__meta-grid p {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 767px) {
+    .hero__meta-grid {
+      grid-template-columns: 1fr;
+      gap: 3px;
+    }
   }
 
   .hero__actions {
@@ -313,10 +359,27 @@ const selectedPublication = publications[0];
     color: #fff;
   }
 
-  /* ─── Featured research sections ───────────────────────────── */
-  [data-section='featured-kilauea'],
-  [data-section='featured-ijen'] {
+  /* ─── Current Research section ──────────────────────────────── */
+  .research-section {
+    padding-block: var(--space-20) var(--space-16);
+  }
+
+  .research-section__label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-wine);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-12);
     padding-inline: var(--content-padding-inline);
+  }
+
+  .research-feature {
+    padding-inline: var(--content-padding-inline);
+  }
+
+  .research-feature + .research-feature {
+    margin-top: var(--space-16);
   }
 
   /* ─── Research interests ────────────────────────────────────── */
