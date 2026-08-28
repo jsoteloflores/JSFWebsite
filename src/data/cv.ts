@@ -275,7 +275,17 @@ export const manuscriptsInPreparation: CvManuscript[] = [
   {
     title:
       'Computer Vision Segmentation of Kīlauea Lava Fountain Video for Physical Eruption Parameter Extraction',
-    authors: ['Sotelo Flores, J.', 'Pasqualon, N. G.'],
+    authors: [
+      'Sotelo Flores, J.',
+      'Gauer Pasqualon, N.',
+      'Patrick, M. R.',
+      'Anderson, K.',
+      'Tisdale, C. M.',
+      'Forshaw, R. E. L.',
+      'Houghton, B. F.',
+      'Llewellin, E. W.',
+      'Santos, I.',
+    ],
     targetJournal: 'Journal of Applied Volcanology',
     status: 'in-preparation',
     projectId: 'kilauea-lava-fountain-computer-vision',
@@ -325,15 +335,18 @@ export const completedPresentations: CvPresentation[] = [
   },
   {
     title:
-      'Textural and Chemical Reconstructions of the 1817 Kawah Ijen Eruption: 3D Deep Learning Segmentation and Chemical Depictions of Pyroclasts',
+      'A field-based and 2D/3D stereological analysis of pyroclasts from the Ijen Caldera Complex: new insights into eruptive history and processes.',
     authors: [
-      'Sotelo Flores, J.',
       'Barber, N. D.',
-      'Berlo, K.',
+      'Sotelo Flores, J.',
+      'Surya, G. P.',
       'Handini, E.',
+      'Berlo, K.',
+      'van Hinsberg, V.',
       'Buono, G.',
       'Pappalardo, L.',
-      'van Hinsberg, V.',
+      'Ratdomopurbo, A.',
+      'Ayuningtyas, T. R.',
     ],
     venue: 'Palais des congrès de Montréal',
     location: 'Montréal, Canada',
@@ -346,7 +359,17 @@ export const submittedConferenceAbstracts: CvConferenceAbstract[] = [
   {
     title:
       'Computer Vision Segmentation of Kīlauea Lava Fountain Video for Physical Eruption Parameter Extraction',
-    authors: ['Sotelo Flores, J.', 'Pasqualon, N. G.'],
+    authors: [
+      'Sotelo Flores, J.',
+      'Gauer Pasqualon, N.',
+      'Patrick, M. R.',
+      'Anderson, K.',
+      'Tisdale, C. M.',
+      'Forshaw, R. E. L.',
+      'Houghton, B. F.',
+      'Llewellin, E. W.',
+      'Santos, I.',
+    ],
     conference: 'American Geophysical Union Fall Meeting',
     date: '2026-12',
   },
@@ -402,8 +425,8 @@ export const training: CvTraining[] = [
       'Facility for Rare Isotope Beams, Michigan State University, East Lansing, MI',
     date: '2025-05',
     bullets: [
-      'Participated in an intensive program covering nuclear structure, reactions, and astrophysics.',
-      'Gained hands-on experience with particle-detection instrumentation and experimental techniques.',
+      'Participated in nuclear science workshops focused on rare isotope research, nuclear physics techniques, and data analysis.',
+      'Gained exposure to experimental methods and computational workflows used in isotope experiments.',
     ],
   },
 ];
