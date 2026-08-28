@@ -125,12 +125,8 @@ export interface CvTeaching {
 export interface CvEducation {
   /** Honors thesis title */
   honorsThesisTitle: string;
-  /** Study abroad program */
-  studyAbroadProgram: string;
-  /** Study abroad location */
-  studyAbroadLocation: string;
-  /** Study abroad date */
-  studyAbroadDate: string;
+  /** Study abroad program description */
+  studyAbroad: string;
   /** Relevant coursework */
   relevantCoursework: string[];
 }
@@ -142,10 +138,8 @@ export interface CvEducation {
 export const education: CvEducation = {
   honorsThesisTitle:
     'PyRo-FOAMS: An open-source workflow for automated vesicle segmentation and stereological analysis.',
-  studyAbroadProgram:
-    'Big Science in 21st Century Europe, including CERN and VIRGO Gravitational Wave Detector; Korean language study at Yonsei University',
-  studyAbroadLocation: 'Switzerland, Italy, South Korea',
-  studyAbroadDate: '2024-05',
+  studyAbroad:
+    'Big Science in 21st Century Europe, including CERN and VIRGO Gravitational Wave Detector; Korean language study at Yonsei University.',
   relevantCoursework: [
     'Volcanology',
     'Modeling and Simulation of Physical Systems',
@@ -189,11 +183,11 @@ export const researchExperience: CvResearchExperience[] = [
     startDate: '2025-06',
     endDate: null,
     bullets: [
-      'Developing PyRo-FOAMS, an open-source Python workflow for automated vesicle segmentation and stereological analysis from micro-CT scans of volcanic pyroclasts.',
-      'Training deep learning models to segment vesicles in 3D micro-CT volumes and implementing stereological methods to quantify vesicularity, bubble-size distributions, and pore connectivity.',
-      'Validating segmentation results against manual measurements and published datasets to ensure accuracy and reproducibility.',
-      'Applying PyRo-FOAMS to pyroclasts from the 1817 eruption of Kawah Ijen, Indonesia, to reconstruct vesicle textures and assess magma degassing dynamics.',
-      'Collaborating with an international research team to interpret vesicle data in the context of eruption intensity, conduit processes, and volatile behavior.',
+      'Conduct computational volcanology research on pyroclastic micro-CT volumes to quantify vesicularity, pore connectivity, permeability, and eruption-related textural characteristics of the 1817 Kawah Ijen eruption to reconstruct eruptive history.',
+      'Train and evaluate U-Net-based deep learning models for 3D pore-space segmentation of volcanic clasts, enabling quantitative analysis of connected pore networks.',
+      'Built PyRO-FOAMS, a Python-based stereometric analysis program inspired by Shea et al. (2010), to support automated vesicle analysis from 2D thin-section imagery through classical and machine learning computation.',
+      'Used Dragonfly and OpenPNM to quantify porosity, permeability, pore connectivity, and anisotropy from segmented pyroclast volumes.',
+      'Integrated electron microprobe and scanning electron microscope data to connect textural observations with mineral chemistry, fractionation trends, and pressure-temperature constraints.',
     ],
     projectId: 'ijen-pyroclast-microct-analysis',
   },
@@ -205,10 +199,10 @@ export const researchExperience: CvResearchExperience[] = [
     startDate: '2025-03',
     endDate: '2026-04',
     bullets: [
-      'Collected photometric observations of the RR Lyrae variable star V0499 Centauri using CCD imaging and standard filters.',
-      'Analyzed light curves to determine pulsation period, phase, and amplitude, and calculated a photometric distance estimate.',
-      'Applied statistical methods to assess measurement uncertainties and validate results against published catalogs.',
-      'Co-authored a manuscript submitted to the Journal of the American Association of Variable Star Observers.',
+      'Conducted multi-band observational analysis of the RR Lyrae variable star V0499 Centauri.',
+      'Analyzed robotic telescope data from the Las Cumbres Observatory global telescope network to construct folded light curves and measure pulsation behavior.',
+      'Contributed to period determination using multiple algorithms, including phase dispersion minimization, string length minimization, harmonic analysis of variance, and Lomb-Scargle periodograms.',
+      'Supported photometric distance analysis using period-luminosity-metallicity relations, extinction corrections, and comparison with Gaia DR3 parallax measurements.',
     ],
     projectId: 'v0499-centauri-photometry',
   },
@@ -220,10 +214,9 @@ export const researchExperience: CvResearchExperience[] = [
     startDate: '2024-10',
     endDate: '2025-04',
     bullets: [
-      'Performed astrometric measurements of the visual binary star WDS 03575-0110 using CCD imaging and AstroImageJ software.',
-      'Calculated separation, position angle, and orbital motion from multi-epoch observations.',
-      'Fit orbital models using Desmos graphing tools and validated results against published astrometric data.',
-      'Published peer-reviewed astrometry results in the Journal of Double Star Observations.',
+      'Conducted astrometric analysis of the binary star system WDS 03575-0110 using robotic telescope observations from Las Cumbres Observatory.',
+      'Used AstroImageJ to measure separation and position angle from observational image data.',
+      'Compared new measurements with historical observations and Gaia DR3 data to evaluate common proper motion and refine orbital parameter estimates through novel techniques.',
     ],
     projectId: 'wds-03575-0110-astrometry',
   },
@@ -235,9 +228,9 @@ export const researchExperience: CvResearchExperience[] = [
     startDate: '2024-01',
     endDate: '2024-03',
     bullets: [
-      'Studied dipole-dipole interactions and self-assembly behavior of magnetic nanoparticles under external fields.',
-      'Investigated how particle properties, field strength, and initial configurations influence the formation of ordered structures.',
-      'Analyzed energy landscapes and configuration stability to understand transition pathways in nanoparticle systems.',
+      'Assisted with laboratory research on electric-field-driven self-assembly of nanoparticles and magnetic dipole systems.',
+      'Investigated how dipoles interact, align, and form larger-scale structures under applied electric fields.',
+      'Designed experimental apparatuses to observe, measure, and record magnetic dipole interactions.',
     ],
     projectId: 'nanoparticle-dipole-self-assembly',
   },
@@ -426,9 +419,9 @@ export const teaching: CvTeaching[] = [
     startDate: '2024-09',
     endDate: '2025-12',
     bullets: [
-      'Assisted with laboratory instruction and guided students through experimental procedures and data analysis.',
-      'Held regular office hours to support students with problem sets, conceptual questions, and exam preparation.',
-      'Graded assignments and provided detailed feedback on scientific reasoning and mathematical methods.',
+      'Assisted students in observational astronomy and introductory physics laboratories through hands-on support with data collection, analysis, and interpretation.',
+      'Guided students in the use of the Skynet Robotic Telescope Network and Afterglow image-processing software.',
+      'Helped students connect astronomical image processing, telescope observations, and physical interpretation of laboratory results.',
     ],
   },
   {
