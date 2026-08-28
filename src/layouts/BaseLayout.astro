@@ -11,11 +11,76 @@ interface Props {
    * fluid: slot is placed directly in <main>; page manages its own widths
    */
   contentMode?: 'contained' | 'fluid';
+  /**
+   * Canonical URL (relative or absolute). If not provided, uses current URL.
+   */
+  canonical?: string;
+  /**
+   * Open Graph image path (relative to public/). Defaults to social preview image.
+   */
+  ogImage?: string;
+  /**
+   * Open Graph type. Defaults to 'website'.
+   */
+  ogType?: 'website' | 'article';
+  /**
+   * If true, adds noindex meta tag.
+   */
+  noindex?: boolean;
+  /**
+   * If true, adds JSON-LD Person structured data (homepage only).
+   */
+  includeStructuredData?: boolean;
 }
 
-const { title, description, contentMode = 'contained' } = Astro.props;
+const {
+  title,
+  description,
+  contentMode = 'contained',
+  canonical,
+  ogImage = '/social/joel-sotelo-flores-og.jpg',
+  ogType = 'website',
+  noindex = false,
+  includeStructuredData = false,
+} = Astro.props;
+
 const currentPath = Astro.url.pathname;
 const year = new Date().getFullYear();
+const site = Astro.site || new URL('https://joelsoteloflores.rocks');
+
+// Homepage gets special title treatment (no suffix)
+const isHomepage = currentPath === '/';
+const fullTitle = isHomepage ? title : `${title} | ${profile.displayName}`;
+
+// Construct canonical URL
+const canonicalUrl = canonical
+  ? canonical.startsWith('http')
+    ? canonical
+    : new URL(canonical, site).toString()
+  : new URL(currentPath, site).toString();
+
+// Construct Open Graph image URL
+const ogImageUrl = new URL(ogImage, site).toString();
+
+// Construct Open Graph URL (same as canonical)
+const ogUrl = canonicalUrl;
+
+// JSON-LD structured data for Person (homepage only)
+const structuredData = includeStructuredData
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: profile.displayName,
+      url: site.toString(),
+      sameAs: [profile.githubUrl, profile.linkedInUrl],
+      affiliation: {
+        '@type': 'CollegeOrUniversity',
+        name: profile.institution,
+      },
+      description:
+        'Undergraduate researcher in computational and physical volcanology.',
+    }
+  : null;
 
 function isActive(href: string, path: string): boolean {
   if (href === '/') return path === '/';
@@ -28,8 +93,31 @@ function isActive(href: string, path: string): boolean {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} | {profile.displayName}</title>
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content={profile.displayName} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    {
+      structuredData && (
+        <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+      )
+    }
+
     <!-- Editorial serif + clean sans-serif web fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

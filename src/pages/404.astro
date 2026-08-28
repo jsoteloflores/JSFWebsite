@@ -3,7 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/core/PageHeader.astro';
 ---
 
-<BaseLayout title="Page not found" description="The requested page could not be found.">
+<BaseLayout
+  title="Page not found"
+  description="The requested page could not be found."
+  noindex={true}
+>
   <PageHeader eyebrow="404" title="Page not found">
     <p>The page you're looking for doesn't exist or has been moved.</p>
   </PageHeader>
