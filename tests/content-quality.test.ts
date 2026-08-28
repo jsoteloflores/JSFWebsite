@@ -78,9 +78,10 @@ describe('profile', () => {
     expect(profile.location.trim().length).toBeGreaterThan(0);
   });
 
-  it('does not contain a cvPath field', () => {
-    // CV path omitted pending updates to manuscript titles and DOIs (Q3).
-    expect('cvPath' in profile).toBe(false);
+  it('contains a cvPath field pointing to the approved CV PDF', () => {
+    // CV implemented in Ticket 011 — Dedicated Web CV
+    expect('cvPath' in profile).toBe(true);
+    expect(profile.cvPath).toBe('/cv/Joel_Sotelo_Flores_CV.pdf');
   });
 });
 

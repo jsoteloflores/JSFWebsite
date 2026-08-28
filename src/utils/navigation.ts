@@ -9,5 +9,6 @@ export const navigation: NavItem[] = [
   { label: 'Publications', href: '/publications' },
   { label: 'Presentations', href: '/presentations' },
   { label: 'Software', href: '/software' },
+  { label: 'CV', href: '/cv' },
   { label: 'About', href: '/about' },
 ];

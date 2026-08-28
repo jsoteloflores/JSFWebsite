@@ -1,7 +1,7 @@
 # Page Architecture
 
-**Document status:** Ticket 005 initial page composition
-**Last updated:** July 2026
+**Document status:** Ticket 011 — Dedicated web CV
+**Last updated:** August 2026
 
 This document describes each public page, its data sources, route behavior, and extension rules.
 
@@ -17,23 +17,25 @@ This document describes each public page, its data sources, route behavior, and 
 /publications             ← Publications
 /presentations            ← Presentations (empty notice)
 /software                 ← Software (empty notice + research context)
+/cv                       ← Curriculum vitae (web-readable + PDF download)
 ```
 
-Total static pages: **12** (6 top-level + 6 project detail)
+Total static pages: **13** (7 top-level + 6 project detail)
 
 ---
 
 ## Data sources by page
 
-| Page                   | Profile | Projects                 | Publications | Presentations | Software   |
-| ---------------------- | ------- | ------------------------ | ------------ | ------------- | ---------- |
-| Homepage (`/`)         | ✓       | featured                 | first public | —             | —          |
-| About (`/about`)       | ✓       | active featured          | —            | —             | —          |
-| Research (`/research`) | —       | all public               | —            | —             | —          |
-| Project detail         | —       | one entry + related pubs | related only | —             | —          |
-| Publications           | —       | —                        | all public   | —             | —          |
-| Presentations          | —       | —                        | —            | all public    | —          |
-| Software               | —       | —                        | —            | —             | all public |
+| Page                   | Profile | Projects                 | Publications | CV Data | Presentations | Software   |
+| ---------------------- | ------- | ------------------------ | ------------ | ------- | ------------- | ---------- |
+| Homepage (`/`)         | ✓       | featured                 | first public | —       | —             | —          |
+| About (`/about`)       | ✓       | active featured          | —            | —       | —             | —          |
+| Research (`/research`) | —       | all public               | —            | —       | —             | —          |
+| Project detail         | —       | one entry + related pubs | related only | —       | —             | —          |
+| Publications           | —       | —                        | all public   | —       | —             | —          |
+| Presentations          | —       | —                        | —            | —       | all public    | —          |
+| Software               | —       | —                        | —            | —       | —             | all public |
+| CV (`/cv`)             | ✓       | referenced by ID         | published    | ✓       | —             | —          |
 
 All data is queried at **build time** using server-side utilities. No client-side fetching occurs.
 
@@ -86,6 +88,38 @@ The notices are **data-driven**: when entries are added to the collection with `
 
 ---
 
+## CV page (`/cv`)
+
+**File:** `src/pages/cv.astro`
+
+**Data sources:**
+
+- **Profile:** Name, affiliation, degrees, expected graduation, contact links, CV PDF path
+- **CV Data (`src/data/cv.ts`):** Research experience, manuscripts (under review & in preparation), software, presentations, submitted abstracts, awards, training, teaching
+- **Projects collection:** Resolves project IDs to enable "View research →" links
+- **Publications collection:** Fetches published peer-reviewed publication
+
+**Status hierarchy:**
+
+The CV page explicitly distinguishes:
+
+- **Published** (from publication collection, rendered with full citation)
+- **Under review** (from `manuscriptsUnderReview`, rendered with status label)
+- **In preparation** (from `manuscriptsInPreparation`, rendered with status label)
+- **Abstract submitted** (from `submittedConferenceAbstracts`, rendered with plain text status)
+
+See [docs/CV_DATA_MODEL.md](CV_DATA_MODEL.md) for complete CV data architecture, status management, and update procedures.
+
+**Download link:**
+
+Uses `profile.cvPath` to link to the approved public PDF at `/cv/Joel_Sotelo_Flores_CV.pdf`.
+
+**No iframe/embed:**
+
+The CV page is web-native editorial HTML. The PDF is not embedded.
+
+---
+
 ## Page metadata rules
 
 - Every page has a unique `<title>` in the format `Page Name | Joel Sotelo Flores`
@@ -98,12 +132,25 @@ The notices are **data-driven**: when entries are added to the collection with `
 
 ## Public CV rule
 
-No CV link exists on any public page. The CV is withheld pending updates to manuscript titles and DOIs. When the updated CV is approved:
+---
 
-1. Place the file at `public/cv/joel-sotelo-flores-cv.pdf`
-2. Add `cvPath` to `src/data/profile.ts`
-3. Add a CV link in `BaseLayout.astro` footer or the contact section of relevant pages
-4. Close Q3 in `docs/CONTENT_QUESTIONS.md`
+## CV PDF and download
+
+The approved public CV PDF is stored at:
+
+```text
+public/cv/Joel_Sotelo_Flores_CV.pdf
+```
+
+This file is:
+
+- Available at public URL `/cv/Joel_Sotelo_Flores_CV.pdf`
+- Referenced via `profile.cvPath` in `src/data/profile.ts`
+- Linked from the dedicated CV page (`/cv`) via a "Download PDF" button
+- **Not embedded** in an iframe or PDF viewer
+- **Not linked** from other site pages (CV tab in navigation is the entry point)
+
+When the PDF is updated, replace the file at `public/cv/Joel_Sotelo_Flores_CV.pdf` and rebuild. The download link will automatically reference the new version.
 
 ---
 
@@ -126,5 +173,5 @@ The `ProjectSummary` component renders no `<img>` when `featuredImage` is absent
 - **Publications:** When blocked manuscripts are unblocked, they will appear automatically since `getPublicPublications()` filters by `visibility: 'public'`
 - **Presentations:** Two presentation records (AGU 2025 poster, Montréal oral) will appear as soon as their exact ISO dates and event names are resolved
 - **Software:** PyRO-FOAMS and the Kīlauea pipeline will appear as soon as canonical names, status, and capability lists are confirmed
-- **CV link:** Add when the updated CV file is approved
 - **Images:** When optimized WebP/AVIF derivatives are available, add `featuredImage` to project frontmatter and they will render via the existing `ProjectSummary` component
+- **CV content updates:** As manuscript statuses change or new records are added, update `src/data/cv.ts` following procedures in [docs/CV_DATA_MODEL.md](CV_DATA_MODEL.md)

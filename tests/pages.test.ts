@@ -112,8 +112,11 @@ describe('project detail route', () => {
 // ------------------------------------------------------------------ //
 
 describe('all pages', () => {
-  it('no page contains a CV download link', () => {
+  it('no page (except CV) contains a CV download link', () => {
     for (const filePath of allPageFiles) {
+      // Skip CV page itself
+      if (filePath.includes('cv.astro')) continue;
+
       const content = readFileSync(filePath, 'utf-8');
       expect(content, `CV link found in ${filePath}`).not.toMatch(/href=.*cv.*\.pdf/i);
       expect(content, `CV button found in ${filePath}`).not.toMatch(
@@ -172,5 +175,166 @@ describe('projectUrl helper', () => {
     for (const id of PROJECT_IDS) {
       expect(projectUrl(id)).toMatch(/^\/research\//);
     }
+  });
+});
+
+// ------------------------------------------------------------------ //
+// CV page                                                             //
+// ------------------------------------------------------------------ //
+
+describe('CV page (Ticket 011)', () => {
+  let cvSource: string;
+
+  beforeAll(() => {
+    cvSource = readPage('cv.astro');
+  });
+
+  it('cv.astro exists', () => {
+    expect(cvSource).toBeTruthy();
+  });
+
+  it('imports CV data from src/data/cv', () => {
+    expect(cvSource).toContain("from '../data/cv'");
+  });
+
+  it('imports profile from src/data/profile', () => {
+    expect(cvSource).toContain("from '../data/profile'");
+  });
+
+  it('renders Education section', () => {
+    expect(cvSource).toContain('id="education"');
+    expect(cvSource).toContain('education.');
+  });
+
+  it('renders Research Experience section', () => {
+    expect(cvSource).toContain('id="research-experience"');
+    expect(cvSource).toContain('researchExperience');
+  });
+
+  it('renders Publications & Manuscripts section', () => {
+    expect(cvSource).toContain('id="publications"');
+    expect(cvSource).toContain('manuscriptsUnderReview');
+    expect(cvSource).toContain('manuscriptsInPreparation');
+  });
+
+  it('renders peer-reviewed publications subsection', () => {
+    expect(cvSource).toContain('Peer-Reviewed Publications');
+  });
+
+  it('renders manuscripts under review subsection', () => {
+    expect(cvSource).toContain('Manuscripts Under Review');
+    expect(cvSource).toContain('status="in-review"');
+  });
+
+  it('renders manuscripts in preparation subsection', () => {
+    expect(cvSource).toContain('Manuscripts in Preparation');
+    expect(cvSource).toContain('status="in-preparation"');
+  });
+
+  it('renders Software & Research Products section', () => {
+    expect(cvSource).toContain('id="software"');
+    expect(cvSource).toContain('software.');
+  });
+
+  it('renders Presentations section', () => {
+    expect(cvSource).toContain('id="presentations"');
+    expect(cvSource).toContain('completedPresentations');
+  });
+
+  it('renders completed presentations separately from submitted abstracts', () => {
+    expect(cvSource).toContain('Completed Presentations');
+    expect(cvSource).toContain('Conference Abstracts Submitted');
+    expect(cvSource).toContain('submittedConferenceAbstracts');
+  });
+
+  it('renders submitted abstracts with clear status', () => {
+    expect(cvSource).toContain('Abstract submitted');
+  });
+
+  it('renders Awards section', () => {
+    expect(cvSource).toContain('id="awards"');
+    expect(cvSource).toContain('awards.');
+  });
+
+  it('renders Research Training section', () => {
+    expect(cvSource).toContain('id="training"');
+    expect(cvSource).toContain('training.');
+  });
+
+  it('renders Teaching & Mentoring section', () => {
+    expect(cvSource).toContain('id="teaching"');
+    expect(cvSource).toContain('teaching.');
+  });
+
+  it('includes Download PDF button with profile.cvPath', () => {
+    expect(cvSource).toContain('profile.cvPath');
+    expect(cvSource).toContain('Download PDF');
+    expect(cvSource).toContain('download');
+  });
+
+  it('does not embed PDF via iframe', () => {
+    expect(cvSource).not.toMatch(/<iframe/i);
+  });
+
+  it('does not contain client: hydration directives', () => {
+    expect(cvSource).not.toMatch(/client:/);
+  });
+
+  it('links research experiences to project pages where projectId exists', () => {
+    expect(cvSource).toContain('/research/');
+    expect(cvSource).toContain('View research');
+  });
+
+  it('uses StatusLabel component for publication status', () => {
+    expect(cvSource).toContain('StatusLabel');
+  });
+});
+
+// ------------------------------------------------------------------ //
+// Navigation                                                          //
+// ------------------------------------------------------------------ //
+
+describe('navigation (Ticket 011)', () => {
+  it('includes CV tab', () => {
+    const navSource = readFileSync(
+      join(ROOT, 'src', 'utils', 'navigation.ts'),
+      'utf-8',
+    );
+    expect(navSource).toContain("label: 'CV'");
+    expect(navSource).toContain("href: '/cv'");
+  });
+
+  it('CV tab appears before About tab', () => {
+    const navSource = readFileSync(
+      join(ROOT, 'src', 'utils', 'navigation.ts'),
+      'utf-8',
+    );
+    const cvIndex = navSource.indexOf("label: 'CV'");
+    const aboutIndex = navSource.indexOf("label: 'About'");
+    expect(cvIndex).toBeGreaterThan(0);
+    expect(aboutIndex).toBeGreaterThan(cvIndex);
+  });
+});
+
+// ------------------------------------------------------------------ //
+// Profile CV path                                                     //
+// ------------------------------------------------------------------ //
+
+describe('profile CV path (Ticket 011)', () => {
+  it('profile contains cvPath field', () => {
+    const profileSource = readFileSync(
+      join(ROOT, 'src', 'data', 'profile.ts'),
+      'utf-8',
+    );
+    expect(profileSource).toContain('cvPath:');
+    expect(profileSource).toContain('/cv/Joel_Sotelo_Flores_CV.pdf');
+  });
+
+  it('Profile interface includes cvPath', () => {
+    const profileSource = readFileSync(
+      join(ROOT, 'src', 'data', 'profile.ts'),
+      'utf-8',
+    );
+    expect(profileSource).toMatch(/cvPath.*string/);
   });
 });

@@ -14,9 +14,7 @@
  *     in publication citations and source metadata, where the middle
  *     initial appears on the published record.
  *
- * cvPath is omitted pending updates to manuscript titles and DOIs before
- * the CV is ready for public download. A path will be added once a final
- * version is approved.
+ * cvPath now contains the approved public PDF for download.
  */
 
 export interface Profile {
@@ -38,6 +36,8 @@ export interface Profile {
   githubUrl: string;
   /** LinkedIn profile URL. */
   linkedInUrl: string;
+  /** Public CV PDF path for download. */
+  cvPath: string;
   /** Current academic stage. */
   currentAcademicStage: string;
   /** Concise research interests synthesized from CV research experience. */
@@ -54,6 +54,7 @@ export const profile: Profile = {
   academicEmail: 'jsoteloflores@mail.wlu.edu',
   githubUrl: 'https://github.com/jsoteloflores',
   linkedInUrl: 'https://www.linkedin.com/in/joelsoteloflores',
+  cvPath: '/cv/Joel_Sotelo_Flores_CV.pdf',
   currentAcademicStage: 'Undergraduate student',
   researchInterests: [
     'computational volcanology',

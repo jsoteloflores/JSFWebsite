@@ -86,9 +86,11 @@ This repository contains only:
 - [docs/TICKET_001_REPOSITORY_SCAFFOLD.md](docs/TICKET_001_REPOSITORY_SCAFFOLD.md) — scaffold ticket specification
 - [docs/TICKET_002_CONTENT_ARCHITECTURE.md](docs/TICKET_002_CONTENT_ARCHITECTURE.md) — Node 24 alignment and content architecture ticket
 - [docs/TICKET_003_CONTENT_INTEGRITY_AND_COMPONENTS.md](docs/TICKET_003_CONTENT_INTEGRITY_AND_COMPONENTS.md) — integrity validation and core components ticket
+- [docs/TICKET_011_DEDICATED_WEB_CV.md](docs/TICKET_011_DEDICATED_WEB_CV.md) — dedicated web CV and PDF download ticket
 - [docs/CONTENT_MODEL.md](docs/CONTENT_MODEL.md) — content collections, schemas, and conventions
 - [docs/CONTENT_COMPONENTS.md](docs/CONTENT_COMPONENTS.md) — reusable component reference
 - [docs/PAGE_ARCHITECTURE.md](docs/PAGE_ARCHITECTURE.md) — public page architecture and data sources
+- [docs/CV_DATA_MODEL.md](docs/CV_DATA_MODEL.md) — CV data architecture and status management
 
 ---
 

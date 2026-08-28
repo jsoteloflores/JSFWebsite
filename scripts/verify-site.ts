@@ -3,7 +3,7 @@
  * Site build verification script.
  *
  * Runs after `npm run build` to confirm:
- * - all 12 expected public HTML pages exist in dist/
+ * - all 13 expected public HTML pages exist in dist/
  * - no unexpected client-side JavaScript is emitted at page level
  * - key content is present in specific pages
  *
@@ -30,6 +30,7 @@ const TOP_LEVEL_PAGES = [
   'publications/index.html',
   'presentations/index.html',
   'software/index.html',
+  'cv/index.html',
 ];
 
 const PROJECT_IDS = [
@@ -66,6 +67,10 @@ const CONTENT_CHECKS: [string, string[]][] = [
   ['research/index.html', ['Current research', 'Kī']],
   ['publications/index.html', ['Peer-reviewed publications']],
   ['presentations/index.html', ['verified conference metadata']],
+  [
+    'cv/index.html',
+    ['Curriculum Vitae', 'Download PDF', 'Education', 'Research Experience'],
+  ],
   ['software/index.html', ['canonical names']],
   ['research/kilauea-lava-fountain-computer-vision/index.html', ['Kīlauea']],
   ['research/ijen-pyroclast-microct-analysis/index.html', ['Ijen']],
@@ -303,7 +308,7 @@ if (!blueFound) pass('No blue UI color literals in authored CSS');
 
 // Summary
 if (errors === 0) {
-  console.log(`\n[verify] All checks passed. 12 pages verified.\n`);
+  console.log(`\n[verify] All checks passed. 13 pages verified.\n`);
   process.exit(0);
 } else {
   console.error(`\n[verify] ${errors} check(s) failed.\n`);
