@@ -246,7 +246,8 @@ const peerReviewedPub = publicPubs.find((p) => p.data.status === 'published');
                   <p class="cv-presentation__citation">
                     {pres.authors.join(', ')}. "{pres.title}"{' '}
                     {pres.type === 'poster' ? 'Poster' : 'Oral presentation'},{' '}
-                    {pres.venue}, {pres.location}, {formattedDate}.
+                    {pres.venue}
+                    {pres.location && `, ${pres.location}`}, {formattedDate}.
                   </p>
                 </div>
               );

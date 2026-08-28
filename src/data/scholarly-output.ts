@@ -58,8 +58,8 @@ export interface ScholarlyPresentation {
   authors: string[];
   /** Conference or venue name */
   venue: string;
-  /** Location (city, state/country) */
-  location: string;
+  /** Location (city, state/country) - only if verified */
+  location?: string;
   /** Date (YYYY-MM format) */
   date: string;
   /** Presentation type */
@@ -165,7 +165,6 @@ export const completedPresentations: ScholarlyPresentation[] = [
       'van Hinsberg, V.',
     ],
     venue: 'American Geophysical Union Fall Meeting',
-    location: 'San Francisco, CA',
     date: '2025-12',
     type: 'poster',
     projectId: 'ijen-pyroclast-microct-analysis',
@@ -218,7 +217,7 @@ export const submittedConferenceAbstracts: SubmittedConferenceAbstract[] = [
   },
   {
     title:
-      'Deep Learning Segmentation and Pore-Network Characterization of Pyroclastic Micro-CT Volumes',
+      'PyRo-FOAMS: An open-source workflow for automated vesicle segmentation and stereological analysis',
     authors: ['Sotelo Flores, J.', 'Barber, N. D.', 'Handini, E.', 'Berlo, K.'],
     conference: 'American Geophysical Union Fall Meeting',
     date: '2026-12',

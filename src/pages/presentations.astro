@@ -49,7 +49,8 @@ const sortedPresentations = [...completedPresentations].sort((a, b) =>
                 </p>
                 <h3 class="pres-entry__title">{pres.title}</h3>
                 <p class="pres-entry__venue">
-                  {pres.venue} · {pres.location}
+                  {pres.venue}
+                  {pres.location && ` · ${pres.location}`}
                 </p>
                 {pres.projectId && (
                   <a href={`/research/${pres.projectId}`} class="pres-entry__link">

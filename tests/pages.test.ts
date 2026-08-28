@@ -518,8 +518,17 @@ describe('software page', () => {
     expect(source).toContain("from '../data/scholarly-output'");
   });
 
-  it('uses StatusLabel for software status', () => {
-    expect(source).toContain('<StatusLabel status="private"');
+  it('uses RESEARCH SOFTWARE editorial label', () => {
+    expect(source).toContain('RESEARCH SOFTWARE');
+  });
+
+  it('does not use StatusLabel component', () => {
+    expect(source).not.toContain('<StatusLabel');
+  });
+
+  it('uses editorial styling without cards', () => {
+    expect(source).not.toContain('background: var(--color-basalt)');
+    expect(source).toContain('border-top:');
   });
 
   it('includes "Related research →" links', () => {
