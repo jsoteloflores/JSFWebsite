@@ -65,13 +65,13 @@ const CONTENT_CHECKS: [string, string[]][] = [
   ],
   ['about/index.html', ['Washington and Lee University', 'Physics', 'Mauna Loa']],
   ['research/index.html', ['Current research', 'Kī']],
-  ['publications/index.html', ['Peer-reviewed publications']],
-  ['presentations/index.html', ['verified conference metadata']],
+  ['publications/index.html', ['Peer-reviewed publications', 'Manuscripts']],
+  ['presentations/index.html', ['Conference Presentations']],
   [
     'cv/index.html',
     ['Curriculum Vitae', 'Download PDF', 'Education', 'Research Experience'],
   ],
-  ['software/index.html', ['canonical names']],
+  ['software/index.html', ['Scientific software']],
   ['research/kilauea-lava-fountain-computer-vision/index.html', ['Kīlauea']],
   ['research/ijen-pyroclast-microct-analysis/index.html', ['Ijen']],
   [

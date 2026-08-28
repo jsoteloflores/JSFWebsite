@@ -2,16 +2,15 @@
  * CV-specific structured data for Joel Sotelo Flores.
  *
  * This module contains information that is genuinely CV-specific and not
- * already present in the site's typed content collections.
+ * already present in the site's typed content collections or shared
+ * scholarly output data.
  *
- * Where a project or publication already exists in content collections,
- * reference its stable ID rather than duplicating facts.
+ * Scholarly outputs (manuscripts, presentations, software) are now
+ * maintained in src/data/scholarly-output.ts and re-exported here for
+ * CV page consumption.
  *
  * Primary authoritative source:
  * public/cv/Joel_Sotelo_Flores_CV.pdf
- *
- * No CV-specific factual content may be introduced from another source
- * without explicit user approval.
  *
  * Status values must reflect actual publication/submission state:
  * - "published" — peer-reviewed and available
@@ -19,6 +18,25 @@
  * - "in-preparation" — manuscript being written
  * - "submitted" — conference abstract submitted
  */
+
+// Import shared scholarly outputs
+import {
+  manuscriptsUnderReview,
+  manuscriptsInPreparation,
+  completedPresentations,
+  submittedConferenceAbstracts,
+} from './scholarly-output';
+
+// Re-export for CV page
+export {
+  manuscriptsUnderReview,
+  manuscriptsInPreparation,
+  completedPresentations,
+  submittedConferenceAbstracts,
+};
+
+// Re-export with CV-compatible naming
+export { researchSoftware as software } from './scholarly-output';
 
 // ------------------------------------------------------------------ //
 // Types                                                              //
@@ -41,54 +59,6 @@ export interface CvResearchExperience {
   bullets: string[];
   /** Optional project ID if corresponding project exists in site */
   projectId?: string;
-}
-
-export interface CvManuscript {
-  /** Full citation-style title */
-  title: string;
-  /** Author list in citation order */
-  authors: string[];
-  /** Planned or target journal */
-  targetJournal: string;
-  /** Publication status */
-  status: 'in-review' | 'in-preparation';
-  /** Optional project ID if corresponding project exists */
-  projectId?: string;
-}
-
-export interface CvSoftware {
-  /** Software name */
-  name: string;
-  /** Brief description */
-  description: string;
-  /** Optional project ID if corresponding project exists */
-  projectId?: string;
-}
-
-export interface CvPresentation {
-  /** Presentation title */
-  title: string;
-  /** Author list */
-  authors: string[];
-  /** Conference or venue name */
-  venue: string;
-  /** Location (city, state/country) */
-  location: string;
-  /** Date (YYYY-MM format) */
-  date: string;
-  /** Presentation type */
-  type: 'poster' | 'oral';
-}
-
-export interface CvConferenceAbstract {
-  /** Abstract title */
-  title: string;
-  /** Author list */
-  authors: string[];
-  /** Conference name */
-  conference: string;
-  /** Submission date or expected presentation date */
-  date: string;
 }
 
 export interface CvAward {
@@ -246,139 +216,6 @@ export const researchExperience: CvResearchExperience[] = [
       'Applied computational methods to explore problems in number theory and mathematical pattern recognition.',
     ],
     projectId: 'riesel-sierpinski-computational-number-theory',
-  },
-];
-
-// ------------------------------------------------------------------ //
-// Manuscripts                                                        //
-// ------------------------------------------------------------------ //
-
-export const manuscriptsUnderReview: CvManuscript[] = [
-  {
-    title: 'BViz Photometric Distance to the RR Lyrae Star V0499 Centauri',
-    authors: ['Sukow, D. W.', 'Sotelo Flores, J.', 'Nagy, J.', 'Freed, R.'],
-    targetJournal: 'Journal of the American Association of Variable Star Observers',
-    status: 'in-review',
-    projectId: 'v0499-centauri-photometry',
-  },
-];
-
-export const manuscriptsInPreparation: CvManuscript[] = [
-  {
-    title:
-      'PyRo-FOAMS: An open-source workflow for automated vesicle segmentation and stereological analysis',
-    authors: ['Sotelo Flores, J.', 'Barber, N. D.'],
-    targetJournal: 'Volcanica',
-    status: 'in-preparation',
-    projectId: 'ijen-pyroclast-microct-analysis',
-  },
-  {
-    title:
-      'Computer Vision Segmentation of Kīlauea Lava Fountain Video for Physical Eruption Parameter Extraction',
-    authors: [
-      'Sotelo Flores, J.',
-      'Gauer Pasqualon, N.',
-      'Patrick, M. R.',
-      'Anderson, K.',
-      'Tisdale, C. M.',
-      'Forshaw, R. E. L.',
-      'Houghton, B. F.',
-      'Llewellin, E. W.',
-      'Santos, I.',
-    ],
-    targetJournal: 'Journal of Applied Volcanology',
-    status: 'in-preparation',
-    projectId: 'kilauea-lava-fountain-computer-vision',
-  },
-];
-
-// ------------------------------------------------------------------ //
-// Software & Research Products                                       //
-// ------------------------------------------------------------------ //
-
-export const software: CvSoftware[] = [
-  {
-    name: 'PyRo-FOAMS',
-    description:
-      "Python workflow for vesicle segmentation and stereological analysis, built as an evolution of Shea et al.'s FOAMS (2010) work.",
-    projectId: 'ijen-pyroclast-microct-analysis',
-  },
-  {
-    name: 'Kīlauea Lava Fountain Segmentation and Labeling Pipeline',
-    description:
-      'Computer-vision and labeling workflow for segmentation and quantitative analysis of Kīlauea lava-fountain video.',
-    projectId: 'kilauea-lava-fountain-computer-vision',
-  },
-];
-
-// ------------------------------------------------------------------ //
-// Presentations                                                      //
-// ------------------------------------------------------------------ //
-
-export const completedPresentations: CvPresentation[] = [
-  {
-    title:
-      'Textural and Chemical Reconstructions of the 1817 Kawah Ijen Eruption: 3D Deep Learning Segmentation and Chemical Depictions of Pyroclasts',
-    authors: [
-      'Sotelo Flores, J.',
-      'Barber, N. D.',
-      'Berlo, K.',
-      'Handini, E.',
-      'Buono, G.',
-      'Pappalardo, L.',
-      'van Hinsberg, V.',
-    ],
-    venue: 'American Geophysical Union Fall Meeting',
-    location: 'San Francisco, CA',
-    date: '2025-12',
-    type: 'poster',
-  },
-  {
-    title:
-      'A field-based and 2D/3D stereological analysis of pyroclasts from the Ijen Caldera Complex: new insights into eruptive history and processes.',
-    authors: [
-      'Barber, N. D.',
-      'Sotelo Flores, J.',
-      'Surya, G. P.',
-      'Handini, E.',
-      'Berlo, K.',
-      'van Hinsberg, V.',
-      'Buono, G.',
-      'Pappalardo, L.',
-      'Ratdomopurbo, A.',
-      'Ayuningtyas, T. R.',
-    ],
-    venue: 'Palais des congrès de Montréal',
-    location: 'Montréal, Canada',
-    date: '2026-06',
-    type: 'oral',
-  },
-];
-
-export const submittedConferenceAbstracts: CvConferenceAbstract[] = [
-  {
-    title:
-      'Computer Vision Segmentation of Kīlauea Lava Fountain Video for Physical Eruption Parameter Extraction',
-    authors: [
-      'Sotelo Flores, J.',
-      'Gauer Pasqualon, N.',
-      'Patrick, M. R.',
-      'Anderson, K.',
-      'Tisdale, C. M.',
-      'Forshaw, R. E. L.',
-      'Houghton, B. F.',
-      'Llewellin, E. W.',
-      'Santos, I.',
-    ],
-    conference: 'American Geophysical Union Fall Meeting',
-    date: '2026-12',
-  },
-  {
-    title:
-      'Deep Learning Segmentation and Pore-Network Characterization of Pyroclastic Micro-CT Volumes',
-    authors: ['Sotelo Flores, J.', 'Barber, N. D.', 'Handini, E.', 'Berlo, K.'],
-    conference: 'American Geophysical Union Fall Meeting',
-    date: '2026-12',
   },
 ];
 

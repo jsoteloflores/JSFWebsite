@@ -337,25 +337,55 @@ describe('CV source integrity (Ticket 012)', () => {
     expect(cvDataSource).not.toContain('2,300+');
     expect(cvDataSource).not.toContain('2300');
   });
+});
+
+// ------------------------------------------------------------------ //
+// Scholarly output source integrity                                   //
+// ------------------------------------------------------------------ //
+
+describe('scholarly output data integrity (Ticket 013)', () => {
+  const scholarlySource = readFileSync(
+    join(ROOT, 'src', 'data', 'scholarly-output.ts'),
+    'utf-8',
+  );
 
   it('Kīlauea manuscript uses correct title from PDF', () => {
-    expect(cvDataSource).toContain(
+    expect(scholarlySource).toContain(
       'Computer Vision Segmentation of Kīlauea Lava Fountain Video for Physical Eruption Parameter Extraction',
     );
   });
 
   it('Kīlauea manuscript does NOT use invented title', () => {
-    expect(cvDataSource).not.toContain(
+    expect(scholarlySource).not.toContain(
       'Automated lava-fountain measurement from video: A computer-vision approach',
     );
   });
 
   it('AGU 2025 presentation includes full author list from PDF', () => {
-    expect(cvDataSource).toContain('Berlo, K.');
-    expect(cvDataSource).toContain('Handini, E.');
-    expect(cvDataSource).toContain('Buono, G.');
-    expect(cvDataSource).toContain('Pappalardo, L.');
-    expect(cvDataSource).toContain('van Hinsberg, V.');
+    expect(scholarlySource).toContain('Berlo, K.');
+    expect(scholarlySource).toContain('Handini, E.');
+    expect(scholarlySource).toContain('Buono, G.');
+    expect(scholarlySource).toContain('Pappalardo, L.');
+    expect(scholarlySource).toContain('van Hinsberg, V.');
+  });
+
+  it('Montréal 2026 presentation includes full author list', () => {
+    expect(scholarlySource).toContain('Ratdomopurbo, A.');
+    expect(scholarlySource).toContain('Ayuningtyas, T. R.');
+  });
+
+  it('Kīlauea manuscript has 9 authors', () => {
+    // Match the manuscript title and count commas in author array
+    const manuscriptMatch = scholarlySource.match(
+      /title:\s*['"]Computer Vision Segmentation of Kīlauea Lava Fountain[\s\S]*?authors:\s*\[([\s\S]*?)\]/,
+    );
+    expect(manuscriptMatch).toBeTruthy();
+    expect(manuscriptMatch).toBeDefined();
+    if (manuscriptMatch && manuscriptMatch[1]) {
+      const authorsSection = manuscriptMatch[1];
+      const authorCount = (authorsSection.match(/'/g) || []).length / 2; // Count string delimiters
+      expect(authorCount).toBe(9);
+    }
   });
 });
 
@@ -405,5 +435,159 @@ describe('profile CV path (Ticket 011)', () => {
       'utf-8',
     );
     expect(profileSource).toMatch(/cvPath.*string/);
+  });
+});
+
+// ------------------------------------------------------------------ //
+// Scholarly output pages (Ticket 013)                                 //
+// ------------------------------------------------------------------ //
+
+describe('publications page', () => {
+  let source: string;
+  beforeAll(() => {
+    source = readPage('publications.astro');
+  });
+
+  it('imports from scholarly-output.ts', () => {
+    expect(source).toContain("from '../data/scholarly-output'");
+  });
+
+  it('displays manuscripts under review section', () => {
+    expect(source).toContain('Manuscripts Under Review');
+  });
+
+  it('displays manuscripts in preparation section', () => {
+    expect(source).toContain('Manuscripts in Preparation');
+  });
+
+  it('uses StatusLabel for manuscript status', () => {
+    expect(source).toContain('<StatusLabel status="in-review"');
+    expect(source).toContain('<StatusLabel status="in-preparation"');
+  });
+
+  it('includes "Related research →" links', () => {
+    expect(source).toContain('Related research →');
+  });
+
+  it('does not contain placeholder language', () => {
+    expect(source).not.toContain('being prepared');
+    expect(source).not.toContain('Additional records will be added');
+  });
+});
+
+describe('presentations page', () => {
+  let source: string;
+  beforeAll(() => {
+    source = readPage('presentations.astro');
+  });
+
+  it('imports from scholarly-output.ts', () => {
+    expect(source).toContain("from '../data/scholarly-output'");
+  });
+
+  it('displays conference presentations section', () => {
+    expect(source).toContain('Conference Presentations');
+  });
+
+  it('displays submitted abstracts section', () => {
+    expect(source).toContain('Conference Abstracts Submitted');
+  });
+
+  it('renders presentation types (oral/poster)', () => {
+    expect(source).toContain('ORAL PRESENTATION');
+    expect(source).toContain('POSTER');
+  });
+
+  it('includes "Related research →" links', () => {
+    expect(source).toContain('Related research →');
+  });
+
+  it('does not contain ContentNotice placeholder', () => {
+    expect(source).not.toContain('ContentNotice');
+    expect(source).not.toContain('being prepared');
+  });
+});
+
+describe('software page', () => {
+  let source: string;
+  beforeAll(() => {
+    source = readPage('software.astro');
+  });
+
+  it('imports from scholarly-output.ts', () => {
+    expect(source).toContain("from '../data/scholarly-output'");
+  });
+
+  it('uses StatusLabel for software status', () => {
+    expect(source).toContain('<StatusLabel status="private"');
+  });
+
+  it('includes "Related research →" links', () => {
+    expect(source).toContain('Related research →');
+  });
+
+  it('does not contain placeholder language', () => {
+    expect(source).not.toContain('being withheld');
+    expect(source).not.toContain('ContentNotice');
+    expect(source).not.toContain('being prepared');
+  });
+
+  it('does not contain old research context section', () => {
+    expect(source).not.toContain('Research context');
+    expect(source).not.toContain('software-context');
+  });
+});
+
+describe('shared scholarly data architecture', () => {
+  let scholarlySource: string;
+  let cvSource: string;
+
+  beforeAll(() => {
+    scholarlySource = readFileSync(
+      join(ROOT, 'src', 'data', 'scholarly-output.ts'),
+      'utf-8',
+    );
+    cvSource = readFileSync(join(ROOT, 'src', 'data', 'cv.ts'), 'utf-8');
+  });
+
+  it('scholarly-output.ts exists', () => {
+    expect(scholarlySource.length).toBeGreaterThan(0);
+  });
+
+  it('scholarly-output.ts exports manuscriptsUnderReview', () => {
+    expect(scholarlySource).toContain('export const manuscriptsUnderReview');
+  });
+
+  it('scholarly-output.ts exports manuscriptsInPreparation', () => {
+    expect(scholarlySource).toContain('export const manuscriptsInPreparation');
+  });
+
+  it('scholarly-output.ts exports researchSoftware', () => {
+    expect(scholarlySource).toContain('export const researchSoftware');
+  });
+
+  it('scholarly-output.ts exports completedPresentations', () => {
+    expect(scholarlySource).toContain('export const completedPresentations');
+  });
+
+  it('scholarly-output.ts exports submittedConferenceAbstracts', () => {
+    expect(scholarlySource).toContain('export const submittedConferenceAbstracts');
+  });
+
+  it('cv.ts imports from scholarly-output.ts', () => {
+    expect(cvSource).toContain("from './scholarly-output'");
+  });
+
+  it('cv.ts re-exports scholarly data', () => {
+    expect(cvSource).toContain('export {');
+    expect(cvSource).toContain('manuscriptsUnderReview');
+    expect(cvSource).toContain('completedPresentations');
+  });
+
+  it('cv.ts does not contain duplicate manuscript definitions', () => {
+    // Count how many times "export const manuscriptsUnderReview" appears
+    const matches = cvSource.match(/export const manuscriptsUnderReview/g);
+    // Should only appear in re-export statement, not as a definition
+    expect(matches).toBeNull();
   });
 });

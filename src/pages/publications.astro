@@ -2,9 +2,19 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/core/PageHeader.astro';
 import PublicationEntry from '../components/publications/PublicationEntry.astro';
+import StatusLabel from '../components/core/StatusLabel.astro';
 import { getPublicPublications } from '../utils/content-queries';
+import {
+  manuscriptsUnderReview,
+  manuscriptsInPreparation,
+} from '../data/scholarly-output';
 
 const publications = await getPublicPublications();
+
+// Helper to emphasize Joel's name
+function emphasizeAuthor(author: string): string {
+  return author === 'Sotelo Flores, J.' ? `<strong>${author}</strong>` : author;
+}
 ---
 
 <BaseLayout
@@ -14,14 +24,15 @@ const publications = await getPublicPublications();
   <PageHeader
     eyebrow="Publications"
     title="Publications"
-    description="Verified scholarly publications. Additional records will be added as manuscripts reach publicly documented stages."
+    description="Peer-reviewed publications and active manuscripts associated with current research."
   />
 
+  <!-- Peer-Reviewed Publications -->
   {
     publications.length > 0 && (
-      <section class="page-section">
-        <h2 class="section-heading">Peer-reviewed publications</h2>
-        <div class="publication-list">
+      <section class="pub-section">
+        <h2 class="pub-section__heading">Peer-Reviewed Publications</h2>
+        <div class="pub-list">
           {publications.map((pub) => (
             <PublicationEntry data={pub.data} />
           ))}
@@ -30,21 +41,128 @@ const publications = await getPublicPublications();
     )
   }
 
+  <!-- Manuscripts Under Review -->
   {
-    publications.length === 0 && (
-      <p class="empty-notice">No public publication records are currently available.</p>
+    manuscriptsUnderReview.length > 0 && (
+      <section class="pub-section">
+        <h2 class="pub-section__heading">Manuscripts Under Review</h2>
+        <div class="pub-list">
+          {manuscriptsUnderReview.map((manuscript) => (
+            <div class="pub-entry">
+              <p class="pub-entry__citation">
+                {manuscript.authors.map((author, i) => (
+                  <Fragment>
+                    <span set:html={emphasizeAuthor(author)} />
+                    {i < manuscript.authors.length - 1 && ', '}
+                  </Fragment>
+                ))}
+                . "{manuscript.title}" Submitted to <em>{manuscript.targetJournal}</em>.
+              </p>
+              <div class="pub-entry__meta">
+                <StatusLabel status="in-review" />
+                {manuscript.projectId && (
+                  <a href={`/research/${manuscript.projectId}`} class="pub-entry__link">
+                    Related research →
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Manuscripts in Preparation -->
+  {
+    manuscriptsInPreparation.length > 0 && (
+      <section class="pub-section">
+        <h2 class="pub-section__heading">Manuscripts in Preparation</h2>
+        <div class="pub-list">
+          {manuscriptsInPreparation.map((manuscript) => (
+            <div class="pub-entry">
+              <p class="pub-entry__citation">
+                {manuscript.authors.map((author, i) => (
+                  <Fragment>
+                    <span set:html={emphasizeAuthor(author)} />
+                    {i < manuscript.authors.length - 1 && ', '}
+                  </Fragment>
+                ))}
+                . "{manuscript.title}" Planned submission to{' '}
+                <em>{manuscript.targetJournal}</em>.
+              </p>
+              <div class="pub-entry__meta">
+                <StatusLabel status="in-preparation" />
+                {manuscript.projectId && (
+                  <a href={`/research/${manuscript.projectId}`} class="pub-entry__link">
+                    Related research →
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     )
   }
 </BaseLayout>
 
 <style>
-  .publication-list {
-    display: flex;
-    flex-direction: column;
+  .pub-section {
+    max-width: 75ch;
+    margin-inline: auto;
+    margin-block-end: 4rem;
   }
 
-  .empty-notice {
+  .pub-section__heading {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-block-end: 1.5rem;
+    padding-block-end: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .pub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .pub-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pub-entry__citation {
+    font-family: var(--font-serif);
     font-size: 0.9375rem;
-    color: var(--color-text-muted);
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+
+  .pub-entry__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .pub-entry__link {
+    font-size: 0.875rem;
+    color: var(--color-wine);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .pub-entry__link:hover {
+    color: var(--color-oxidized-red);
+  }
+
+  .pub-entry__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
   }
 </style>

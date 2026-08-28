@@ -1,11 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/core/PageHeader.astro';
-import PresentationEntry from '../components/presentations/PresentationEntry.astro';
-import ContentNotice from '../components/core/ContentNotice.astro';
-import { getPublicPresentations } from '../utils/content-queries';
+import {
+  completedPresentations,
+  submittedConferenceAbstracts,
+} from '../data/scholarly-output';
 
-const presentations = await getPublicPresentations();
+// Helper to emphasize Joel's name
+function emphasizeAuthor(author: string): string {
+  return author === 'Sotelo Flores, J.' ? `<strong>${author}</strong>` : author;
+}
+
+// Sort presentations by date (most recent first)
+const sortedPresentations = [...completedPresentations].sort((a, b) =>
+  b.date.localeCompare(a.date),
+);
 ---
 
 <BaseLayout
@@ -14,19 +23,176 @@ const presentations = await getPublicPresentations();
 >
   <PageHeader eyebrow="Presentations" title="Presentations" />
 
+  <!-- Conference Presentations -->
   {
-    presentations.length > 0 ? (
-      <section class="page-section">
-        {presentations.map((pres) => (
-          <PresentationEntry data={pres.data} />
-        ))}
+    sortedPresentations.length > 0 && (
+      <section class="pres-section">
+        <h2 class="pres-section__heading">Conference Presentations</h2>
+        <div class="pres-list">
+          {sortedPresentations.map((pres) => {
+            const year = pres.date.split('-')[0];
+            const typeLabel = pres.type === 'oral' ? 'ORAL PRESENTATION' : 'POSTER';
+
+            return (
+              <div class="pres-entry">
+                <div class="pres-entry__meta">
+                  <span class="pres-entry__year">{year}</span>
+                  <span class="pres-entry__type">{typeLabel}</span>
+                </div>
+                <p class="pres-entry__authors">
+                  {pres.authors.map((author, i) => (
+                    <Fragment>
+                      <span set:html={emphasizeAuthor(author)} />
+                      {i < pres.authors.length - 1 && ', '}
+                    </Fragment>
+                  ))}
+                </p>
+                <h3 class="pres-entry__title">{pres.title}</h3>
+                <p class="pres-entry__venue">
+                  {pres.venue} · {pres.location}
+                </p>
+                {pres.projectId && (
+                  <a href={`/research/${pres.projectId}`} class="pres-entry__link">
+                    Related research →
+                  </a>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </section>
-    ) : (
-      <ContentNotice
-        message="Presentation records are being prepared from verified conference metadata. They will be added after dates, event details, and sharing permissions are confirmed."
-        linkHref="/research"
-        linkLabel="Explore research projects →"
-      />
+    )
+  }
+
+  <!-- Conference Abstracts Submitted -->
+  {
+    submittedConferenceAbstracts.length > 0 && (
+      <section class="pres-section">
+        <h2 class="pres-section__heading">Conference Abstracts Submitted</h2>
+        <div class="pres-list">
+          {submittedConferenceAbstracts.map((abstract) => (
+            <div class="pres-entry pres-entry--abstract">
+              <p class="pres-entry__authors">
+                {abstract.authors.map((author, i) => (
+                  <Fragment>
+                    <span set:html={emphasizeAuthor(author)} />
+                    {i < abstract.authors.length - 1 && ', '}
+                  </Fragment>
+                ))}
+              </p>
+              <h3 class="pres-entry__title">{abstract.title}</h3>
+              <p class="pres-entry__venue">
+                Abstract submitted to {abstract.conference}.
+              </p>
+              {abstract.projectId && (
+                <a href={`/research/${abstract.projectId}`} class="pres-entry__link">
+                  Related research →
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
     )
   }
 </BaseLayout>
+
+<style>
+  .pres-section {
+    max-width: 75ch;
+    margin-inline: auto;
+    margin-block-end: 4rem;
+  }
+
+  .pres-section__heading {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-block-end: 1.5rem;
+    padding-block-end: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .pres-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .pres-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .pres-entry--abstract {
+    padding-block-start: 0.5rem;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .pres-entry__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-wine);
+  }
+
+  .pres-entry__year {
+    color: var(--color-text-muted);
+  }
+
+  .pres-entry__type {
+    color: var(--color-wine);
+  }
+
+  .pres-entry__authors {
+    font-family: var(--font-serif);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  .pres-entry__title {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .pres-entry__venue {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .pres-entry__link {
+    font-size: 0.875rem;
+    color: var(--color-wine);
+    text-decoration: none;
+    transition: color 0.2s;
+    width: fit-content;
+  }
+
+  .pres-entry__link:hover {
+    color: var(--color-oxidized-red);
+  }
+
+  .pres-entry__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .pres-entry__meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+  }
+</style>

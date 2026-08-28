@@ -1,75 +1,115 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/core/PageHeader.astro';
-import SoftwareEntry from '../components/software/SoftwareEntry.astro';
-import ContentNotice from '../components/core/ContentNotice.astro';
-import { getPublicSoftware } from '../utils/content-queries';
-
-const software = await getPublicSoftware();
+import StatusLabel from '../components/core/StatusLabel.astro';
+import { researchSoftware } from '../data/scholarly-output';
 ---
 
 <BaseLayout
   title="Software"
-  description="Scientific software and research tools developed by Joel Sotelo Flores."
+  description="Scientific software developed for physical and computational volcanology research."
 >
   <PageHeader
     eyebrow="Software"
-    title="Scientific software"
-    description="Software is central to the research workflow. Public records are being withheld until canonical names, repository visibility, and implemented capabilities are confirmed."
+    title="Software"
+    description="Scientific software developed for image-based analysis in physical and computational volcanology."
   />
 
+  <!-- Research Software -->
   {
-    software.length > 0 ? (
-      <section class="page-section">
-        {software.map((sw) => (
-          <SoftwareEntry data={sw.data} />
-        ))}
+    researchSoftware.length > 0 && (
+      <section class="sw-section">
+        <div class="sw-list">
+          {researchSoftware.map((software) => (
+            <div class="sw-entry">
+              <div class="sw-entry__header">
+                <h2 class="sw-entry__name">{software.name}</h2>
+                <StatusLabel status="private" />
+              </div>
+              <p class="sw-entry__description">{software.description}</p>
+              {software.projectId && (
+                <a href={`/research/${software.projectId}`} class="sw-entry__link">
+                  Related research →
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
       </section>
-    ) : (
-      <ContentNotice message="Public software records are being prepared. Canonical names, repository visibility, DOI and release metadata, and accurate capability descriptions are being verified before entry." />
     )
   }
-
-  <section class="page-section">
-    <h2 class="section-heading">Research context</h2>
-    <p class="software-context">
-      Current work includes lava-fountain segmentation and labeling workflows and
-      pyroclast stereometric analysis software. These tools support current research
-      workflows; their public names, repository access, release metadata, and
-      documentation are still being finalized.
-    </p>
-    <ul class="software-links">
-      <li>
-        <a href="/research/kilauea-lava-fountain-computer-vision"
-          >Kīlauea lava-fountain computer vision →</a
-        >
-      </li>
-      <li>
-        <a href="/research/ijen-pyroclast-microct-analysis"
-          >Ijen pyroclast micro-CT analysis →</a
-        >
-      </li>
-    </ul>
-  </section>
 </BaseLayout>
 
 <style>
-  .software-context {
-    font-size: 0.9375rem;
-    color: var(--color-text-muted);
-    max-width: 65ch;
-    line-height: 1.7;
-    margin: 0 0 var(--space-4);
+  .sw-section {
+    max-width: 75ch;
+    margin-inline: auto;
   }
-  .software-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+
+  .sw-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: 2.5rem;
   }
-  .software-links a {
+
+  .sw-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-basalt);
+  }
+
+  .sw-entry__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .sw-entry__name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .sw-entry__description {
+    font-family: var(--font-serif);
     font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .sw-entry__link {
+    font-size: 0.875rem;
+    color: var(--color-wine);
+    text-decoration: none;
+    transition: color 0.2s;
+    width: fit-content;
+  }
+
+  .sw-entry__link:hover {
+    color: var(--color-oxidized-red);
+  }
+
+  .sw-entry__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .sw-entry {
+      padding: 1.25rem;
+    }
+
+    .sw-entry__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 </style>
