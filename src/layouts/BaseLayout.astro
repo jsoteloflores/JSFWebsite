@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { navigation } from '../utils/navigation';
 import { profile } from '../data/profile';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title: string;
@@ -130,6 +131,7 @@ function isActive(href: string, path: string): boolean {
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
       rel="stylesheet"
     />
+    <Analytics />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
