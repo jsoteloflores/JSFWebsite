@@ -1,10 +1,10 @@
 ---
 title: 'Kīlauea Lava-Fountain Computer Vision'
-subtitle: 'Computer vision and scientific software for segmenting lava-fountain video and supporting quantitative extraction of eruption parameters.'
+subtitle: 'Automated Quantification of Lava Fountain Dynamics Using Computer Vision During the 2024-2026 Kīlauea Eruption.'
 summary: >-
-  Joel is developing a computer-vision pipeline to segment Kīlauea lava-fountain
-  video and support quantitative extraction of eruption parameters from field footage.
-  The project combines U-Net segmentation, manual labeling, dataset preparation,
+  I am developing a computer-vision pipeline to segment Kīlauea lava-fountain
+  video and support quantitative extraction of eruption parameters such as fountain height, projected areas, and eruption rates from field footage.
+  The project combines U-Net machine-learning segmentation, manual labeling, dataset preparation,
   metadata organization, and field video collection under variable lighting, viewing
   geometry, and field conditions.
 status: active
@@ -65,6 +65,6 @@ The pipeline is intended to enable quantitative extraction of eruption parameter
 
 U-Net models have been trained to identify lava-fountain regions across changing lighting, viewing geometry, and field conditions.
 
-## Research outputs
+## AGU 2026 Abstract
 
-Associated publications and software are in preparation.
+Investigating the spatial and temporal variability of lava fountains using video analysis provides important constraints on eruption dynamics and shallow conduit processes. However, extracting quantitative measurements from video records consistently and efficiently remains challenging. In this project, we aim to develop a computer vision pipeline that automatically identifies and segments the active rising regions of lava fountains in videos, enabling standardized and reproductible measurements of eruptive parameters such as fountain heights, projected areas, and instantaneous eruption rates. The 2024-2026 Kīlauea eruption offers an excellent opportunity to train a machine learning model due to its exceptionally well-documented and frequent episodic activity. For the first time, continuous 24/7 webcam coverage, timelapse imagery, and extensive 4K footage were collected simultaneously during a Kīlauea eruption. These datasets record a suite of variable conditions throughout the eruption, such as changes in fountain geometry, lighting, weather, and gas obscuration. We manually annotated over 1000 frames to train a 2.5D U-Net++ segmentation model. The trained model autonomously segments active lava fountain regions regardless of viewing conditions. By applying the model across full videos, we can extract eruptive parameters at a higher temporal resolution than is practical with manual analysis. We validate this model against manually extracted eruption parameters for Episode 27 and compare the accuracy, efficiency, and temporal resolution of the machine learning approach with manual analysis. This methodology establishes a scalable framework for converting eruption video into reproducible quantitative datasets of lava fountaining and supports future monitoring and scientific investigations at Kīlauea. 

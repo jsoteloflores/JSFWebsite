@@ -110,7 +110,7 @@ export const manuscriptsInPreparation: ScholarlyManuscript[] = [
   },
   {
     title:
-      'Computer Vision Segmentation of Kīlauea Lava Fountain Video for Physical Eruption Parameter Extraction',
+      'Automated Quantification of Lava Fountain Dynamics Using Computer Vision During the 2024-2026 Kīlauea Eruption',
     authors: [
       'Sotelo Flores, J.',
       'Gauer Pasqualon, N.',
@@ -199,7 +199,7 @@ export const completedPresentations: ScholarlyPresentation[] = [
 export const submittedConferenceAbstracts: SubmittedConferenceAbstract[] = [
   {
     title:
-      'Computer Vision Segmentation of Kīlauea Lava Fountain Video for Physical Eruption Parameter Extraction',
+      'Automated Quantification of Lava Fountain Dynamics Using Computer Vision During the 2024-2026 Kīlauea Eruption',
     authors: [
       'Sotelo Flores, J.',
       'Gauer Pasqualon, N.',
@@ -217,7 +217,7 @@ export const submittedConferenceAbstracts: SubmittedConferenceAbstract[] = [
   },
   {
     title:
-      'Deep Learning Segmentation and Pore-Network Characterization of Pyroclastic Micro-CT Volumes',
+      'PyRo-FOAMS: An open-source workflow for automated vesicle segmentation and stereological analysis',
     authors: ['Sotelo Flores, J.', 'Barber, N. D.', 'Handini, E.', 'Berlo, K.'],
     conference: 'American Geophysical Union Fall Meeting',
     date: '2026-12',

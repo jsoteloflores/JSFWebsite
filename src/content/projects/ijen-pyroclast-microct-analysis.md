@@ -1,8 +1,8 @@
 ---
-title: 'Ijen Pyroclast Micro-CT and Pore-Network Analysis'
+title: 'Kawah Ijen Pyroclast Micro-CT and Pore-Network Analysis'
 subtitle: 'Deep-learning segmentation and stereometric analysis of pyroclastic materials from the 1817 Kawah Ijen eruption.'
 summary: >-
-  Joel conducts computational volcanology research on pyroclastic micro-CT volumes
+  I conduct computational volcanology research on pyroclastic micro-CT volumes
   from the 1817 Kawah Ijen eruption. The work uses U-Net-based deep-learning
   segmentation, stereometric analysis, Dragonfly, OpenPNM, electron microprobe data,
   and scanning electron microscopy to investigate vesicularity, pore connectivity,
@@ -24,7 +24,7 @@ institutions:
 advisor: 'Nicholas Barber'
 methods:
   - U-Net-based segmentation
-  - stereometric analysis
+  - stereologic analysis
   - micro-CT analysis
   - pore-network analysis
   - electron microprobe analysis
@@ -73,8 +73,8 @@ The measured textural and chemical characteristics connect to reconstruction of 
 
 ## Current results
 
-The work enables quantitative analysis of connected pore networks, porosity, permeability, pore connectivity, anisotropy, vesicularity, and eruption-related textural characteristics.
-
+The work enables quantitative analysis of connected pore networks, porosity, permeability, pore connectivity, anisotropy, vesicularity, and eruption-related textural characteristics. 
 ## Research outputs
 
-Associated manuscripts and software are in preparation.
+We are still working on bridging the physical and chemical results, but our big product from this is PyRo-FOAMS, successor to Thomas Shea's FOAMS program.
+
