@@ -97,6 +97,8 @@ export interface CvEducation {
   honorsThesisTitle: string;
   /** Study abroad program description */
   studyAbroad: string;
+  /** Fieldwork description */
+  fieldwork: string;
   /** Relevant coursework */
   relevantCoursework: string[];
 }
@@ -123,6 +125,7 @@ export const education: CvEducation = {
     'Statistical Physics',
     'Quantum Mechanics',
   ],
+  fieldwork: 'Fieldwork conducted at Kīlauea volcano, recording episode 49 and 50 for automated eruptive parameter analysis. Geology of the American Southwest: Understanding the formation of the American southwest through field observations by rafting the Grand Canyon.',
 };
 
 // ------------------------------------------------------------------ //

@@ -75,6 +75,8 @@ export interface SubmittedConferenceAbstract {
   authors: string[];
   /** Conference name */
   conference: string;
+  /** Location (city, state/country) - only if verified */
+  location?: string;
   /** Submission date or expected presentation date */
   date: string;
   /** Optional project ID if corresponding project exists */
@@ -165,6 +167,7 @@ export const completedPresentations: ScholarlyPresentation[] = [
       'van Hinsberg, V.',
     ],
     venue: 'American Geophysical Union Fall Meeting',
+    location: 'New Orleans, LA',
     date: '2025-12',
     type: 'poster',
     projectId: 'ijen-pyroclast-microct-analysis',
@@ -184,7 +187,7 @@ export const completedPresentations: ScholarlyPresentation[] = [
       'Ratdomopurbo, A.',
       'Ayuningtyas, T. R.',
     ],
-    venue: 'Palais des congrès de Montréal',
+    venue: 'Goldschmidt Conference',
     location: 'Montréal, Canada',
     date: '2026-06',
     type: 'oral',
@@ -212,6 +215,7 @@ export const submittedConferenceAbstracts: SubmittedConferenceAbstract[] = [
       'Santos, I.',
     ],
     conference: 'American Geophysical Union Fall Meeting',
+    location: 'San Francisco, CA',
     date: '2026-12',
     projectId: 'kilauea-lava-fountain-computer-vision',
   },
@@ -220,6 +224,7 @@ export const submittedConferenceAbstracts: SubmittedConferenceAbstract[] = [
       'PyRo-FOAMS: An open-source workflow for automated vesicle segmentation and stereological analysis',
     authors: ['Sotelo Flores, J.', 'Barber, N. D.', 'Handini, E.', 'Berlo, K.'],
     conference: 'American Geophysical Union Fall Meeting',
+    location: 'San Francisco, CA',
     date: '2026-12',
     projectId: 'ijen-pyroclast-microct-analysis',
   },
